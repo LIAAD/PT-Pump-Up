@@ -1,4 +1,13 @@
-FROM node:latest-alpine
+FROM node:20-alpine
 
-# Endless loop to keep container running
-ENTRYPOINT [ "tail", "-f", "/dev/null"]
+WORKDIR /app/
+
+COPY package.json package-lock.json ./
+
+# Update npm to latest version
+RUN npm install -g npm@latest
+
+#Install dependencies
+RUN npm install
+
+ENTRYPOINT [ "npm", "start"]
