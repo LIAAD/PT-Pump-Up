@@ -1,7 +1,8 @@
 from beanie import Document, Link
-from typing import TypedDict, Optional
-from utils.Conference import Conference
-from Language import Language
+from typing_extensions import TypedDict
+from typing import Optional, List
+from pt_pump_up.orm.Conference import Conference
+from pt_pump_up.orm.Language import Language
 
 
 class Hrefs(TypedDict):
@@ -15,4 +16,4 @@ class Model(Document):
     hrefs: Hrefs
     conference: Optional[Conference]
     year: int
-    languages: list[Link[Language]]
+    languages: List[Link[Language]]

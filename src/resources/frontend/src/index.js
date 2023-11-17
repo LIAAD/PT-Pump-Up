@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Homepage from './homepage/Homepage';
+import './assets/css/index.css'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const handleInputChange = (e, setState) => {
+  const { name, value } = e.target;
+  setState((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
+};
+
 root.render(
   <React.StrictMode>
-    <App />
+    <Homepage handleInputChange={handleInputChange} />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

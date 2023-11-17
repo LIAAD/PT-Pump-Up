@@ -2,3 +2,5 @@
 .idea/
 
 src/pt_pump_up.egg-info/
+
+thrash/*
