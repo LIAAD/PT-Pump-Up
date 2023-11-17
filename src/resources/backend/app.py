@@ -22,7 +22,7 @@ async def init_orm():
         "mongodb+srv://pt-pump-up.8fhov50.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority",
         tls=True,
         tlsCertificateKeyFile=os.path.join(
-            CURRENT_PATH, "mongo.pem"),
+            CURRENT_PATH, "cert", "mongo.pem"),
     )
 
     # Initialize beanie with the Sample document class and a database
