@@ -16,4 +16,6 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt -U
 
-ENTRYPOINT ["python", "app.py"]
+ENV QUART_DEBUG=1
+
+ENTRYPOINT ["quart", "run", "--host", "0.0.0.0", "--port", "5000"]

@@ -21,11 +21,7 @@ async def hello():
     return 'hello'
 
 
-@app.route('/api/datasets', methods=['GET'])
+@app.route('/api/datasets/', methods=['GET'])
 async def get_datasets():
     datasets = await Dataset.find_all().to_list()
     return json.dumps(datasets, default=str)
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
