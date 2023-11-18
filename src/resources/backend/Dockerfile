@@ -6,9 +6,9 @@ RUN pip install virtualenv
 
 WORKDIR /envs
 
-RUN python -m venv flask
+RUN python -m venv quart
 
-RUN source ./flask/bin/activate
+RUN source ./quart/bin/activate
 
 WORKDIR /app
 
@@ -16,4 +16,6 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt -U
 
-ENTRYPOINT [ "flask", "run", "--debug", "--host=0.0.0.0", "--port=5000" ]
+ENV QUART_DEBUG=1
+
+ENTRYPOINT ["quart", "run", "--host", "0.0.0.0", "--port", "5000"]
