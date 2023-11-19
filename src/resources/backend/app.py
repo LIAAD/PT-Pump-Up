@@ -9,6 +9,7 @@ from pt_pump_up.orm.Author import Author
 from pt_pump_up.orm.DatasetStats import DatasetStats
 from beanie import WriteRules
 from bson import ObjectId
+from pt_pump_up.orm.NLPTask import NLPTask
 
 
 app = Quart(__name__)
@@ -59,7 +60,8 @@ async def post_datasets():
             hrefs=Hrefs(link_source=elem['link_source']),
             year=elem['year'],
             status=elem['status'],
-            authors=[author for author in elem['authors']]
+            authors=[author for author in elem['authors']],
+            nlp_task=elem['nlp_task']
         ).insert(link_rule=WriteRules.WRITE)
 
     # Return 200 OK
@@ -103,6 +105,19 @@ async def post_author():
             name=elem['name'],
             affiliation=elem['affiliation'],
             email=elem['email']
+        ).insert(link_rule=WriteRules.WRITE)
+
+    return Response(status=200)
+
+
+@app.route('/api/nlp_tasks/', methods=['POST'])
+async def post_nlp_task():
+    request_body = await request.get_json()
+
+    for elem in request_body:
+        await NLPTask(
+            name=elem['name'],
+            acronym=elem['acronym']
         ).insert(link_rule=WriteRules.WRITE)
 
     return Response(status=200)

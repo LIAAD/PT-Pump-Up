@@ -8,6 +8,7 @@ from pt_pump_up.orm.Dataset import Dataset
 from pt_pump_up.orm.Conference import Conference
 from pt_pump_up.orm.DatasetStats import DatasetStats
 from pt_pump_up.orm.License import License
+from pt_pump_up.orm.NLPTask import NLPTask
 
 
 async def init_orm(CURRENT_PATH):
@@ -20,4 +21,4 @@ async def init_orm(CURRENT_PATH):
 
     # Initialize beanie with the Sample document class and a database
     await init_beanie(database=client.db_name, document_models=[
-                Author, Language, Dataset, Conference, DatasetStats, License])
+        Author, Language, Dataset, Conference, DatasetStats, License, NLPTask])
