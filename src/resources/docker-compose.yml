@@ -17,6 +17,7 @@ services:
     build:
       context: ./backend
     container_name: backend
+    restart: on-failure
     ports:
       - "5000:5000"
     volumes:

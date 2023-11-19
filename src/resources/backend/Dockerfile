@@ -8,7 +8,7 @@ WORKDIR /envs
 
 RUN python -m venv quart
 
-RUN source ./quart/bin/activate
+#RUN source ./quart/bin/activate
 
 WORKDIR /app
 

@@ -1,10 +1,8 @@
-from typing_extensions import TypedDict
 from typing import Optional, List
-from beanie import Document, Link, WriteRules
+from beanie import Document, Link
 from enum import Enum
 from pydantic import BaseModel
 from pt_pump_up.orm.License import License
-from pt_pump_up.orm.Language import Language
 from pt_pump_up.orm.DatasetStats import DatasetStats
 from pt_pump_up.orm.Author import Author
 from pt_pump_up.orm.Conference import Conference
@@ -23,7 +21,7 @@ class Hrefs(BaseModel):
 
 class Dataset(Document):
     name: str
-    languages: List[Link[Language]]
+    language_stats: List[DatasetStats]
     conference: Optional[Link[Conference]] = None
     hrefs: Hrefs
     year: int
@@ -31,4 +29,4 @@ class Dataset(Document):
     status: Status
     overall_dataset_stats: Optional[DatasetStats] = None
     authors: List[Link[Author]]
-    license: Optional[Link[License]] = []
+    license: Optional[Link[License]] = None
