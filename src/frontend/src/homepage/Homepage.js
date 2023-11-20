@@ -2,29 +2,9 @@ import React, { useState, useEffect } from 'react'
 import LayoutAdmin from '../assets/admin/LayoutAdmin'
 import Grid from '@mui/material/Grid';
 import { sendGetRequest } from '../utils/requests';
-
-console.log(process.env.REACT_APP_FETCH_URL);
-
-const LanguagePlaceholder = (props) => {
-    return (<></>)
-}
+import TableDatasets from './TableDatasets';
 
 const Homepage = (props) => {
-
-
-    const [state, setState] = useState({
-        'datasets': [],
-    })
-
-    useEffect(() => {
-        sendGetRequest('/api/datasets').then((response) => {
-            console.log(response.data)
-            setState({ ...state, 'datasets': response.data })
-        }).catch((error) => {
-            console.log(error);
-        })
-    }, [])
-
 
     return (
         <LayoutAdmin
@@ -36,8 +16,7 @@ const Homepage = (props) => {
                     <Grid item sx={{ ml: 4 }}>
                         <h2>Dataset Index</h2>
                     </Grid>
-                    <Grid item sx={{ ml: 4 }}>
-                    </Grid>
+                    <TableDatasets />
                 </Grid>
             }
         />

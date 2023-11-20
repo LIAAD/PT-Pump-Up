@@ -11,6 +11,7 @@ from beanie import WriteRules
 from pt_pump_up.orm.NLPTask import NLPTask
 from beanie.operators import In
 from quart_cors import cors
+from bson.json_util import dumps
 
 
 app = Quart(__name__)
@@ -18,6 +19,13 @@ app = Quart(__name__)
 app = cors(app, allow_origin="*")
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+
+
+def findall_to_json(documents):
+    new_documents = [document.model_dump_json() for document in documents]
+    json_string = ','.join(new_documents)
+    json_string = '[' + json_string + ']'
+    return json_string
 
 
 @app.before_serving
@@ -33,7 +41,7 @@ async def hello():
 @app.route('/api/datasets/', methods=['GET'])
 async def get_datasets():
     datasets = await Dataset.find_all(fetch_links=True).to_list()
-    return json.dumps(datasets, default=str)
+    return Response(status=200, response=findall_to_json(datasets), content_type='application/json')
 
 
 @app.route('/api/datasets/create/', methods=['GET'])
