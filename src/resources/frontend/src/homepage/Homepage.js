@@ -1,62 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import LayoutAdmin from '../assets/admin/LayoutAdmin'
-import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
-import axios, { isCancel, AxiosError } from 'axios';
+import { sendGetRequest } from '../utils/requests';
 
+console.log(process.env.REACT_APP_FETCH_URL);
 
 const LanguagePlaceholder = (props) => {
     return (<></>)
 }
 
-
 const Homepage = (props) => {
 
+
     const [state, setState] = useState({
-        name: '',
-        year: '',
-        languages: []
+        'datasets': [],
     })
 
     useEffect(() => {
-        axios.get('/api/languages').then((response) => {
+        sendGetRequest('/api/datasets').then((response) => {
             console.log(response.data)
+            setState({ ...state, 'datasets': response.data })
         }).catch((error) => {
-            if (!isCancel(error)) {
-                console.log(error)
-            }
+            console.log(error);
         })
     }, [])
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log('submit')
-    }
 
     return (
         <LayoutAdmin
             main={
-                <form onSubmit={handleSubmit}>
-                    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={4}>
-                        <Divider><Chip label="General Information" /></Divider>
-                        <TextField
-                            label="Name"
-                            variant="outlined"
-                            onChange={e => props.handleInputChange(e, setState)}
-                            placeholder="HAREM"
-                            margin="normal" />
-                        <TextField
-                            label="Year"
-                            type="number"
-                            InputLabelProps={{ shrink: true }}
-                            placeholder={2023}
-                            margin="normal"
-                        />
-                        <Divider><Chip label="Languages" /></Divider>
+                <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" className="container-content">
+                    <Grid item sx={{ ml: 4 }}>
+                        <h1>PT-Pump-Up: Datasets</h1>
                     </Grid>
-                </form>
+                    <Grid item sx={{ ml: 4 }}>
+                        <h2>Dataset Index</h2>
+                    </Grid>
+                    <Grid item sx={{ ml: 4 }}>
+                    </Grid>
+                </Grid>
             }
         />
     )

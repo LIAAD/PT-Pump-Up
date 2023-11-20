@@ -1,3 +1,4 @@
 quart[dotenv]
 beanie
-pt_pump_up>=1.0.10
+pt_pump_up
+quart-corsa

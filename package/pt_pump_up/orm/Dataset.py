@@ -11,7 +11,8 @@ from pt_pump_up.orm.NLPTask import NLPTask
 
 class Status(Enum):
     BROKEN_LINK = 1
-    READY = 2
+    NOT_READY = 2
+    READY = 3
 
 # TODO: Change From BaseModel to Document
 
@@ -33,4 +34,4 @@ class Dataset(Document):
     overall_dataset_stats: Optional[DatasetStats] = None
     authors: List[Link[Author]]
     license: Optional[Link[License]] = None
-    nlp_task: Link[NLPTask]
+    nlp_task: List[Link[NLPTask]]

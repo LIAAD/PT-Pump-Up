@@ -5,9 +5,15 @@ import Box from '@mui/material/Box';
 const LayoutAdmin = (props) => {
     return (
         <Box fullWidth sx={{ m: 5 }}>
-            {props.header}
-            {props.main}
-            {props.footer}
+            <header>
+                {props.header}
+            </header>
+            <main>
+                {props.main}
+            </main>
+            <footer>
+                {props.footer}
+            </footer>
         </Box>
     )
 }
