@@ -9,11 +9,11 @@ const Homepage = (props) => {
     return (
         <LayoutAdmin
             main={
-                <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" className="container-content">
-                    <Grid item sx={{ ml: 4 }}>
-                        <h1>PT-Pump-Up: Datasets</h1>
+                <Grid container justifyContent="flex-start" alignItems="flex-start" className="container-content" sx={{ pl: 3 }}>
+                    <Grid item xs={12}>
+                        <h1>PT-Pump-Up</h1>
                     </Grid>
-                    <Grid item sx={{ ml: 4 }}>
+                    <Grid item xs={12}>
                         <h2>Dataset Index</h2>
                     </Grid>
                     <TableDatasets />

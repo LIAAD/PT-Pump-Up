@@ -49,10 +49,15 @@ const TableDatasets = (props) => {
         })
     }, [])
 
+    /*
+    */
+
 
     return Object.keys(state.datasets).map((key) => (
-        <Grid item xs={12} sx={{ mx: "auto", mb: 5, width: '85%' }}>
-            <TableContainer>
+
+        <Grid container>
+            <Grid item xs={12}><h2>{key}</h2></Grid>
+            <Grid item xs={10} lg={8} sx={{m:"auto", mb:5}}>
                 <Table stickyHeader className="table-datasets">
                     <TableHead>
                         <TableRow>
@@ -75,7 +80,7 @@ const TableDatasets = (props) => {
                         )}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </Grid>
         </Grid>
     ))
 }

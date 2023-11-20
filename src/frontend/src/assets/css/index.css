@@ -48,4 +48,5 @@ main {
 .table-datasets {
     border: gray 2px solid;
     border-radius: 3px;
+    width: auto;
 }
