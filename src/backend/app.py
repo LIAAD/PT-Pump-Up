@@ -2,10 +2,12 @@ from quart import Quart, Response, request
 from init_server import init_orm
 import os
 import json
-from pt_pump_up.orm.Dataset import Dataset, Hrefs
+from pt_pump_up.orm.Dataset import Dataset, Status
+from pt_pump_up.orm.Dataset import Hrefs as DatasetHrefs
 from pt_pump_up.orm.Conference import Conference
 from pt_pump_up.orm.Language import Language
 from pt_pump_up.orm.Author import Author
+from pt_pump_up.orm.Author import Hrefs as AuthorHrefs
 from pt_pump_up.orm.DatasetStats import DatasetStats
 from beanie import WriteRules
 from pt_pump_up.orm.NLPTask import NLPTask
@@ -80,7 +82,7 @@ async def post_datasets():
 
         languages = await Language.find(In(Language.iso_code, elem['languages'])).to_list()
 
-        authors = await Author.find(In(Author.email, elem['authors'])).to_list()
+        authors = await Author.find(In(Author.hrefs.email, elem['authors'])).to_list()
 
         nlp_task = await NLPTask.find(In(NLPTask.acronym, elem['nlp_task'])).to_list()
 
@@ -91,9 +93,12 @@ async def post_datasets():
             name=elem['name'],
             language_stats=[DatasetStats(language=language.id)
                             for language in languages],
-            hrefs=Hrefs(link_source=elem['link_source']),
+            hrefs=DatasetHrefs(link_source=elem['link_source']),
             year=elem['year'],
-            status=elem['status'],
+
+            status=Status(broken_link=elem['status']['broken_link'], author_response=elem['status']['author_response'], standard_format=elem['status']
+                          ['standard_format'], backup=elem['status']['backup'], preservation_rating=elem['status']['preservation_rating'], off_the_shelf=elem['status']['off_the_shelf']),
+
             authors=[author.id for author in authors],
             nlp_task=[nlp_task.id for nlp_task in nlp_task]
         ).insert(link_rule=WriteRules.WRITE)
@@ -138,7 +143,7 @@ async def post_author():
         await Author(
             name=elem['name'],
             affiliation=elem['affiliation'],
-            email=elem['email']
+            hrefs=AuthorHrefs(email=elem['email'])
         ).insert(link_rule=WriteRules.WRITE)
 
     return Response(status=200)

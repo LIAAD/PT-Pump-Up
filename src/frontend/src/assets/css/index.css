@@ -50,3 +50,7 @@ main {
     border-radius: 3px;
     width: auto;
 }
+
+.dataset-name{
+    font-weight: bolder !important;
+}

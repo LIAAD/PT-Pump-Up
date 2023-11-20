@@ -1,26 +1,26 @@
 from typing import Optional, List
 from beanie import Document, Link
-from enum import Enum
-from pydantic import BaseModel
 from pt_pump_up.orm.License import License
 from pt_pump_up.orm.DatasetStats import DatasetStats
 from pt_pump_up.orm.Author import Author
 from pt_pump_up.orm.Conference import Conference
 from pt_pump_up.orm.NLPTask import NLPTask
-
-
-class Status(Enum):
-    BROKEN_LINK = 1
-    NOT_READY = 2
-    READY = 3
-
-# TODO: Change From BaseModel to Document
+from pydantic import BaseModel
 
 
 class Hrefs(BaseModel):
     link_source: str
     link_hf: Optional[str] = None
     doi: Optional[str] = None
+
+
+class Status(BaseModel):
+    broken_link: bool
+    author_response: bool
+    standard_format: bool
+    backup: bool
+    preservation_rating: int
+    off_the_shelf: bool
 
 
 class Dataset(Document):
