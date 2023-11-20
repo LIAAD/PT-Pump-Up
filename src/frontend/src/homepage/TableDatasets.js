@@ -9,6 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import TableContainer from '@mui/material/TableContainer';
 import { sendGetRequest } from '../utils/requests';
 import { useEffect } from 'react';
+import MonitorIcon from '@mui/icons-material/Monitor';
+import Button from '@mui/material/Button';
+
 
 const TableDatasets = (props) => {
 
@@ -47,31 +50,34 @@ const TableDatasets = (props) => {
     }, [])
 
 
-    return (
-        <Grid item xs={12} sx={{ mx: "auto" }}>
-            <TableContainer >
-                <Table stickyHeader>
+    return Object.keys(state.datasets).map((key) => (
+        <Grid item xs={12} sx={{ mx: "auto", mb: 5, width: '85%' }}>
+            <TableContainer>
+                <Table stickyHeader className="table-datasets">
                     <TableHead>
                         <TableRow>
-                            <TableCell>
-                                Name
-                            </TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="center">Year</TableCell>
+                            <TableCell align="center">Source URL</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Object.keys(state.datasets).map((key) => (
-                            state.datasets[key].map((dataset, index) =>
-                                <TableRow key={index}>
-                                    <TableCell component="th" scope="row">
-                                        {dataset.name}
-                                    </TableCell>
-                                </TableRow>
-                            )))}
+                        {state.datasets[key].map((dataset, index) =>
+                            <TableRow key={index}>
+                                <TableCell scope="row">
+                                    {dataset.name}
+                                </TableCell>
+                                <TableCell scope="row" align="center">{dataset.year}</TableCell>
+                                <TableCell scope="row" align="center">
+                                    <Button href={dataset.hrefs.link_source}><MonitorIcon /></Button>
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
         </Grid>
-    )
+    ))
 }
 
 export default TableDatasets
