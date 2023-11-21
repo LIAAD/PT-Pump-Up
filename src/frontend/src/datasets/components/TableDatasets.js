@@ -6,8 +6,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TableContainer from '@mui/material/TableContainer';
-import { sendGetRequest } from '../utils/requests';
+import { sendGetRequest } from '../../utils/requests';
 import { useEffect } from 'react';
 import MonitorIcon from '@mui/icons-material/Monitor';
 import Button from '@mui/material/Button';
@@ -61,7 +60,7 @@ const TableDatasets = (props) => {
         <Grid container>
             <Grid item xs={12}><h2>{key}</h2></Grid>
             <Grid item xs={10} lg={10} sx={{ m: "auto", mb: 5 }}>
-                <Table stickyHeader className="table-datasets">
+                <Table stickyHeader className="table-resource">
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
@@ -77,7 +76,7 @@ const TableDatasets = (props) => {
                     <TableBody>
                         {state.datasets[key].map((dataset, index) =>
                             <TableRow key={index}>
-                                <TableCell scope="row" className="dataset-name">
+                                <TableCell scope="row" className="resource-name">
                                     {dataset.name}
                                 </TableCell>
                                 <TableCell scope="row" align="center">{dataset.year}</TableCell>

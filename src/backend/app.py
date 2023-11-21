@@ -2,18 +2,21 @@ from quart import Quart, Response, request
 from init_server import init_orm
 import os
 import json
-from pt_pump_up.orm.Dataset import Dataset, Status
+from pt_pump_up.orm.Dataset import Dataset, DatasetStats
 from pt_pump_up.orm.Dataset import Hrefs as DatasetHrefs
+from pt_pump_up.orm.Hrefs import Hrefs as ModelHrefs
 from pt_pump_up.orm.Conference import Conference
 from pt_pump_up.orm.Language import Language
 from pt_pump_up.orm.Author import Author
 from pt_pump_up.orm.Author import Hrefs as AuthorHrefs
-from pt_pump_up.orm.DatasetStats import DatasetStats
-from beanie import WriteRules
+from pt_pump_up.orm.Status import Status
 from pt_pump_up.orm.NLPTask import NLPTask
+from pt_pump_up.orm.Architecture import Architecture
+from pt_pump_up.orm.Model import Model, ModelStats, MetricResult, Benchmark
+from pt_pump_up.orm.Metric import Metric
+from beanie import WriteRules
 from beanie.operators import In
 from quart_cors import cors
-from bson.json_util import dumps
 
 
 app = Quart(__name__)
@@ -160,3 +163,76 @@ async def post_nlp_task():
         ).insert(link_rule=WriteRules.WRITE)
 
     return Response(status=200)
+
+
+@app.route('/api/architectures/', methods=['POST'])
+async def post_architecture():
+    request_body = await request.get_json()
+
+    for elem in request_body:
+        await Architecture(
+            name=elem['name'],
+        ).insert(link_rule=WriteRules.WRITE)
+
+    return Response(status=200)
+
+
+@app.route('/api/metrics/', methods=['POST'])
+async def post_metric():
+    request_body = await request.get_json()
+
+    for elem in request_body:
+        await Metric(
+            name=elem['name'],
+        ).insert(link_rule=WriteRules.WRITE)
+
+    return Response(status=200)
+
+
+@app.route('/api/models/', methods=['POST'])
+async def post_model():
+
+    async def parse_benchmarks(request_body):
+        benchmarks = []
+
+        for benchmark in request_body['benchmarks']:
+            train_dataset = await Dataset.find_one(Dataset.name == benchmark['train_dataset'])
+            test_dataset = await Dataset.find_one(Dataset.name == benchmark['test_dataset'])
+            scores = [MetricResult(metric=(await Metric.find_one(Metric.name == score['metric'])).id, value=score['value']) for score in benchmark['scores']]
+            benchmarks.append(Benchmark(
+                train_dataset=train_dataset.id, test_dataset=test_dataset.id, scores=scores))
+
+        return benchmarks
+
+    request_body = await request.get_json()
+
+    for elem in request_body:
+
+        languages = await Language.find(In(Language.iso_code, elem['languages'])).to_list()
+        authors = await Author.find(In(Author.hrefs.email, elem['authors'])).to_list()
+        nlp_tasks = await NLPTask.find(In(NLPTask.acronym, elem['nlp_task'])).to_list()
+
+        await Model(
+            name=elem['name'],
+            model_stats=ModelStats(
+                architecture=(await Architecture.find_one(Architecture.name == elem['architecture'])).id,
+                languages=[language.id for language in languages],
+            ),
+            hrefs=ModelHrefs(
+                link_source=elem['link_source'],
+            ),
+            year=elem['year'],
+            status=Status(broken_link=elem['status']['broken_link'], author_response=elem['status']['author_response'], standard_format=elem['status']
+                          ['standard_format'], backup=elem['status']['backup'], preservation_rating=elem['status']['preservation_rating'], off_the_shelf=elem['status']['off_the_shelf']),
+            authors=[author.id for author in authors],
+            benchmarks=await parse_benchmarks(elem),
+            nlp_tasks=[nlp_task.id for nlp_task in nlp_tasks]
+        ).insert(link_rule=WriteRules.WRITE)
+
+    return Response(status=200)
+
+
+@app.route('/api/models/', methods=['GET'])
+async def get_models():
+    models = await Model.find_all(fetch_links=True).to_list()
+    return Response(status=200, response=findall_to_json(models), content_type='application/json')

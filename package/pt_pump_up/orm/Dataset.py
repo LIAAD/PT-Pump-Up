@@ -1,26 +1,21 @@
 from typing import Optional, List
 from beanie import Document, Link
 from pt_pump_up.orm.License import License
-from pt_pump_up.orm.DatasetStats import DatasetStats
 from pt_pump_up.orm.Author import Author
 from pt_pump_up.orm.Conference import Conference
 from pt_pump_up.orm.NLPTask import NLPTask
+from pt_pump_up.orm.Hrefs import Hrefs
+from pt_pump_up.orm.Status import Status
+from pt_pump_up.orm.Language import Language
+
 from pydantic import BaseModel
 
 
-class Hrefs(BaseModel):
-    link_source: str
-    link_hf: Optional[str] = None
-    doi: Optional[str] = None
-
-
-class Status(BaseModel):
-    broken_link: bool
-    author_response: bool
-    standard_format: bool
-    backup: bool
-    preservation_rating: int
-    off_the_shelf: bool
+class DatasetStats(BaseModel):
+    language: Link[Language]
+    number_documents: Optional[int] = 0
+    number_tokens: Optional[int] = 0
+    number_chars: Optional[int] = 0
 
 
 class Dataset(Document):
@@ -29,7 +24,6 @@ class Dataset(Document):
     conference: Optional[Link[Conference]] = None
     hrefs: Hrefs
     year: int
-    # Status is an Enum
     status: Status
     overall_dataset_stats: Optional[DatasetStats] = None
     authors: List[Link[Author]]

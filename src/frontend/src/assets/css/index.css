@@ -38,19 +38,19 @@ main {
 .vh-75 {
     min-height: 75vh;
 }
-.table-datasets thead th{
+.table-resource thead th{
     background-color: black;
     color: white;
     font-weight: bolder;
     font-size: 1.2rem;
 }
 
-.table-datasets {
+.table-resource {
     border: gray 2px solid;
     border-radius: 3px;
     width: auto;
 }
 
-.dataset-name{
+.resource-name{
     font-weight: bolder !important;
 }
