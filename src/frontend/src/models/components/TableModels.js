@@ -5,42 +5,60 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { sendGetRequest } from '../../utils/requests';
+import { filterByNLPTask } from '../../utils/filterNLPTask';
+import StatusTableRows from '../../assets/tables/StatusTableRows';
 
 
 const TableModels = (props) => {
 
-    const state = useState({
+    const [state, setState] = useState({
         'models': [],
     })
 
-    return (
+    useEffect(() => {
+        sendGetRequest('/api/models/').then((response) => {
+            console.log(response);
+            setState({
+                ...state,
+                'models': filterByNLPTask(response),
+            })
+            console.log(state);
+        });
+    }, [])
+
+    return Object.keys(state.models).map((key) => (
         <Grid container>
-            <Grid item xs={12}>
-                <h2>Models</h2>
-            </Grid>
+            <Grid item xs={12}><h2>{key}</h2></Grid>
             <Grid item xs={10} lg={10} sx={{ m: "auto", mb: 5 }}>
                 <Table stickyHeader className="table-resource">
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="center">Year</TableCell>
+                            <TableCell align="center">Standardized</TableCell>
+                            <TableCell align="center">Off the Shelf</TableCell>
+                            <TableCell align="center">Preservation Rating</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell scope="row" className="resource-name">
-                                BERT-CRF
-                            </TableCell>
-                            <TableCell scope="row" align="center">
-                                2017
-                            </TableCell>
-                        </TableRow>
+                        {state.models[key].map((model, index) =>
+                            <TableRow key={index}>
+                                <TableCell scope="row" className="resource-name">
+                                    {model.name}
+                                </TableCell>
+                                <TableCell scope="row" align="center">
+                                    {model.year}
+                                </TableCell>
+                                <StatusTableRows status={model.status} />
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </Grid>
         </Grid>
-    )
+    ))
 }
 
 export default TableModels

@@ -12,6 +12,8 @@ import MonitorIcon from '@mui/icons-material/Monitor';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import { filterByNLPTask } from '../../utils/filterNLPTask';
+import StatusTableRows from '../../assets/tables/StatusTableRows';
 
 const TableDatasets = (props) => {
 
@@ -20,23 +22,6 @@ const TableDatasets = (props) => {
         'searchTerm': '',
     })
 
-    const filterByNLPTask = (response) => {
-        const datasetsByTask = {}
-
-        response.forEach(element => {
-            element.nlp_task.forEach(task => {
-                if (task.name in datasetsByTask) {
-                    datasetsByTask[task.name].push(element)
-                } else {
-                    datasetsByTask[task.name] = [element]
-                }
-            })
-        });
-
-        console.log(datasetsByTask);
-
-        return datasetsByTask
-    }
 
     useEffect(() => {
         sendGetRequest('/api/datasets/').then((response) => {
@@ -83,21 +68,7 @@ const TableDatasets = (props) => {
                                 <TableCell scope="row" align="center">
                                     <Button href={dataset.hrefs.link_source} target="_blank" rel="noopener noreferrer"><MonitorIcon /></Button>
                                 </TableCell>
-                                <TableCell scope="row" align="center">
-                                    {dataset.status.standardized ? <ClearIcon /> : <CheckIcon />}
-                                </TableCell>
-                                <TableCell scope="row" align="center">
-                                    {dataset.status.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
-                                </TableCell>
-                                {/*<TableCell scope="row" align="center">
-                                    {dataset.status.broken_link ? <ClearIcon /> : <CheckIcon />}
-                                </TableCell>
-                                <TableCell scope="row" align="center">
-                                    {dataset.status.backup ? <ClearIcon /> : <CheckIcon />}
-                        </TableCell>*/}
-                                <TableCell scope="row" align="center">
-                                    {dataset.status.preservation_rating}%
-                                </TableCell>
+                                <StatusTableRows status={dataset.status} />
                             </TableRow>
                         )}
                     </TableBody>

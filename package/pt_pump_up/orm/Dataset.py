@@ -28,4 +28,4 @@ class Dataset(Document):
     overall_dataset_stats: Optional[DatasetStats] = None
     authors: List[Link[Author]]
     license: Optional[Link[License]] = None
-    nlp_task: List[Link[NLPTask]]
+    nlp_tasks: List[Link[NLPTask]]

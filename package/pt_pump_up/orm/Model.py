@@ -8,7 +8,7 @@ from pt_pump_up.orm.Status import Status
 from pt_pump_up.orm.Author import Author
 from pt_pump_up.orm.License import License
 from pt_pump_up.orm.Architecture import Architecture
-from pt_pump_up.orm.Benchmark import Benchmark
+from pt_pump_up.orm.NLPTask import NLPTask
 from pt_pump_up.orm.Dataset import Dataset
 from pt_pump_up.orm.Metric import Metric
 
@@ -43,4 +43,4 @@ class Model(Document):
     authors: List[Link[Author]]
     license: Optional[Link[License]] = None
     benchmarks: List[Benchmark]
-    nlp_tasks: List[Link[Language]]
+    nlp_tasks: List[Link[NLPTask]]

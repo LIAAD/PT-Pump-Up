@@ -87,9 +87,9 @@ async def post_datasets():
 
         authors = await Author.find(In(Author.hrefs.email, elem['authors'])).to_list()
 
-        nlp_task = await NLPTask.find(In(NLPTask.acronym, elem['nlp_task'])).to_list()
+        nlp_tasks = await NLPTask.find(In(NLPTask.acronym, elem['nlp_tasks'])).to_list()
 
-        if len(languages) != len(elem['languages']) or len(authors) != len(elem['authors']) or nlp_task is None:
+        if len(languages) != len(elem['languages']) or len(authors) != len(elem['authors']) or nlp_tasks is None:
             return Response(status=400)
 
         await Dataset(
@@ -103,7 +103,7 @@ async def post_datasets():
                           ['standard_format'], backup=elem['status']['backup'], preservation_rating=elem['status']['preservation_rating'], off_the_shelf=elem['status']['off_the_shelf']),
 
             authors=[author.id for author in authors],
-            nlp_task=[nlp_task.id for nlp_task in nlp_task]
+            nlp_tasks=[nlp_tasks.id for nlp_tasks in nlp_tasks]
         ).insert(link_rule=WriteRules.WRITE)
 
     # Return 200 OK
@@ -210,7 +210,7 @@ async def post_model():
 
         languages = await Language.find(In(Language.iso_code, elem['languages'])).to_list()
         authors = await Author.find(In(Author.hrefs.email, elem['authors'])).to_list()
-        nlp_tasks = await NLPTask.find(In(NLPTask.acronym, elem['nlp_task'])).to_list()
+        nlp_tasks = await NLPTask.find(In(NLPTask.acronym, elem['nlp_tasks'])).to_list()
 
         await Model(
             name=elem['name'],
