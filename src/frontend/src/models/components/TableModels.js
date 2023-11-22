@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import { sendGetRequest } from '../../utils/requests';
 import { filterByNLPTask } from '../../utils/filterNLPTask';
 import StatusTableRows from '../../assets/tables/StatusTableRows';
+import Button from '@mui/material/Button';
+import MonitorIcon from '@mui/icons-material/Monitor';
 
 
 const TableModels = (props) => {
@@ -35,6 +37,7 @@ const TableModels = (props) => {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="center">Year</TableCell>
+                            <TableCell align="center">Source URL</TableCell>
                             <TableCell align="center">Standardized</TableCell>
                             <TableCell align="center">Off the Shelf</TableCell>
                             <TableCell align="center">Preservation Rating</TableCell>
@@ -48,6 +51,9 @@ const TableModels = (props) => {
                                 </TableCell>
                                 <TableCell scope="row" align="center">
                                     {model.year}
+                                </TableCell>
+                                <TableCell scope="row" align="center">
+                                    <Button href={model.hrefs.link_source} target="_blank" rel="noopener noreferrer"><MonitorIcon /></Button>
                                 </TableCell>
                                 <StatusTableRows status={model.status} />
                             </TableRow>
