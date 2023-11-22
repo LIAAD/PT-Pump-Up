@@ -19,12 +19,10 @@ const TableModels = (props) => {
 
     useEffect(() => {
         sendGetRequest('/api/models/').then((response) => {
-            console.log(response);
             setState({
                 ...state,
                 'models': filterByNLPTask(response),
             })
-            console.log(state);
         });
     }, [])
 

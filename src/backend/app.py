@@ -14,6 +14,7 @@ from pt_pump_up.orm.NLPTask import NLPTask
 from pt_pump_up.orm.Architecture import Architecture
 from pt_pump_up.orm.Model import Model, ModelStats, MetricResult, Benchmark
 from pt_pump_up.orm.Metric import Metric
+from pt_pump_up.orm.Publication import Publication
 from beanie import WriteRules
 from beanie.operators import In
 from quart_cors import cors
@@ -38,9 +39,21 @@ async def init():
     await init_orm(CURRENT_PATH)
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 async def hello():
-    return 'hello'
+
+    datasets = findall_to_json(await Dataset.find_all(fetch_links=True).to_list())
+    models = findall_to_json(await Model.find_all(fetch_links=True).to_list())
+    authors = findall_to_json(await Author.find_all(fetch_links=True).to_list())
+    publications = findall_to_json(await Publication.find_all(fetch_links=True).to_list())
+
+    response = {
+        'datasets': datasets,
+        'models': models,
+        'authors': authors,
+        'publications': publications
+    }
+    return Response(status=200, response=json.dumps(response), content_type='application/json')
 
 
 @app.route('/api/datasets/', methods=['GET'])
@@ -236,3 +249,17 @@ async def post_model():
 async def get_models():
     models = await Model.find_all(fetch_links=True).to_list()
     return Response(status=200, response=findall_to_json(models), content_type='application/json')
+
+
+@app.route('/api/publications/', methods=['POST'])
+async def post_publication():
+    request_body = await request.get_json()
+
+    for elem in request_body:
+        await Publication(
+            name=elem['name'],
+            doi=elem['doi'] if 'doi' in elem else None,
+            bibtex=elem['bibtex'] if 'bibtex' in elem else None
+        ).insert(link_rule=WriteRules.WRITE)
+
+    return Response(status=200)
