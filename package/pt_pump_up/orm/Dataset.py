@@ -1,26 +1,21 @@
 from typing import Optional, List
 from beanie import Document, Link
-from enum import Enum
-from pydantic import BaseModel
 from pt_pump_up.orm.License import License
-from pt_pump_up.orm.DatasetStats import DatasetStats
 from pt_pump_up.orm.Author import Author
 from pt_pump_up.orm.Conference import Conference
 from pt_pump_up.orm.NLPTask import NLPTask
+from pt_pump_up.orm.Hrefs import Hrefs
+from pt_pump_up.orm.Status import Status
+from pt_pump_up.orm.Language import Language
+
+from pydantic import BaseModel
 
 
-class Status(Enum):
-    BROKEN_LINK = 1
-    NOT_READY = 2
-    READY = 3
-
-# TODO: Change From BaseModel to Document
-
-
-class Hrefs(BaseModel):
-    link_source: str
-    link_hf: Optional[str] = None
-    doi: Optional[str] = None
+class DatasetStats(BaseModel):
+    language: Link[Language]
+    number_documents: Optional[int] = 0
+    number_tokens: Optional[int] = 0
+    number_chars: Optional[int] = 0
 
 
 class Dataset(Document):
@@ -29,9 +24,8 @@ class Dataset(Document):
     conference: Optional[Link[Conference]] = None
     hrefs: Hrefs
     year: int
-    # Status is an Enum
     status: Status
     overall_dataset_stats: Optional[DatasetStats] = None
     authors: List[Link[Author]]
     license: Optional[Link[License]] = None
-    nlp_task: List[Link[NLPTask]]
+    nlp_tasks: List[Link[NLPTask]]

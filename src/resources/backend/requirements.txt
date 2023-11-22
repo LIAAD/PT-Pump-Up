@@ -1,4 +1,0 @@
-quart[dotenv]
-beanie
-pt_pump_up
-quart-corsa
