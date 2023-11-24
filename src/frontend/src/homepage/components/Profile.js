@@ -8,7 +8,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 // TODO: Add LinkedIn links
 const Profile = (props) => {
     return (
-        <Grid item xs={2} sx={{ textAlign: "center", mr: 3 }} >
+        <Grid item xs={6} md={2} xl={1.5} sx={{ textAlign: "center", mr: 3 }} >
             <img src={props.member.img} className="profile-img" />
             <h3>{props.member.name}</h3>
             <h4>{props.member.title}</h4>

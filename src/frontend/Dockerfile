@@ -6,6 +6,8 @@ COPY package.json package-lock.json ./
 
 COPY .env .
 
+COPY .env.* .
+
 # Update npm to latest version
 RUN npm install -g npm@latest
 

@@ -16,9 +16,9 @@ const SidebarAdmin = (props) => {
 
     return (
         <SwipeableDrawer open={props.showDrawer} onOpen={props.toggleDrawer} onClose={props.toggleDrawer}>
-            <List id="sidebar" >
+            <List id="sidebar" sx={{ pt: 5 }} >
                 {menus.map((menu, index) => (
-                    <ListItemButton className="sidebar-button" href={`${menu[1]}`} sx={{ my: 2 }}>
+                    <ListItemButton key={index} className="sidebar-button" href={`${menu[1]}`} sx={{ my: 2 }}>
                         {menu[0]}
                     </ListItemButton>
                 ))}

@@ -1,4 +1,4 @@
-from quart import Quart, Response, request
+from quart import Quart, Response, request, send_file
 from init_server import init_orm
 import os
 import json
@@ -20,11 +20,12 @@ from beanie.operators import In
 from quart_cors import cors
 
 
-app = Quart(__name__)
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+
+app = Quart(__name__, static_folder=os.path.join(
+    CURRENT_PATH, 'build'), static_url_path='/')
 
 app = cors(app, allow_origin="*")
-
-CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def findall_to_json(documents):
@@ -39,8 +40,14 @@ async def init():
     await init_orm(CURRENT_PATH)
 
 
-@app.route('/', methods=['GET'])
-async def hello():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path>', methods=['GET'])
+async def index(path):
+    return await send_file(os.path.join(CURRENT_PATH, 'build', 'index.html'))
+
+
+@app.route('/api/homepage/', methods=['GET'])
+async def get_homepage():
 
     datasets = findall_to_json(await Dataset.find_all(fetch_links=True).to_list())
     models = findall_to_json(await Model.find_all(fetch_links=True).to_list())

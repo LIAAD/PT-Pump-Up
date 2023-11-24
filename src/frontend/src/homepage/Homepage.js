@@ -59,7 +59,7 @@ const Homepage = (props) => {
 
 
     useEffect(() => {
-        sendGetRequest('/').then((response) => {
+        sendGetRequest('/api/homepage/').then((response) => {
 
             for (const key in response)
                 response[key] = JSON.parse(response[key])
@@ -81,7 +81,7 @@ const Homepage = (props) => {
     return (
         <LayoutAdmin
             main={
-                <Grid container>
+                <Grid container className="force-padding">
                     <Grid container sx={{ mt: 5 }} justifyContent="center" alignItems="center">
                         <Grid item xs={8} >
                             <h1>Sincronizing & Extending <br /> Portuguese NLP Resources</h1>
@@ -95,20 +95,20 @@ const Homepage = (props) => {
                         <h3>PT-Pump-Up is a hub for Portuguese NLP resources, which aims to provide a centralized access point to the most relevant resources for Portuguese NLP, as well as to provide a set of tools to facilitate their use.</h3>
                     </Grid>
                     <InescDivider label="Some Figures" />
-                    <Grid container justifyContent="around" alignItems="center" >
-                        <Grid item xs={3} className='figure' >
+                    <Grid container justifyContent="space-around" alignItems="center" >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.datasets.length}</h3>
                             <h4>Datasets</h4>
                         </Grid>
-                        <Grid item xs={3} className='figure' >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.models.length}</h3>
                             <h4>Models</h4>
                         </Grid>
-                        <Grid item xs={3} className='figure' >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.authors.length}</h3>
                             <h4>Authors</h4>
                         </Grid>
-                        <Grid item xs={3} className='figure' >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.nlp_tasks}</h3>
                             <h4>NLP Tasks</h4>
                         </Grid>

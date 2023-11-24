@@ -21,6 +21,8 @@ body {
     height: 100%;
     background-color: var(--background-color);
     font-family: 'IBM Plex Sans', sans-serif;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 main {
@@ -28,7 +30,7 @@ main {
 }
 
 header {
-    border-bottom: black 2px solid;
+    border-bottom: var(--blue-inesc) 2px solid;
 }
 
 .vh-100 {
@@ -119,10 +121,11 @@ img {
     border-top: 2px solid var(--blue-inesc) !important;
 }
 
-.figure{
+.figure {
     font-family: 'PressStart2P', cursive;
     text-align: center;
 }
+
 .figure h3 {
     font-size: 3rem;
     font-weight: bolder;
@@ -133,6 +136,13 @@ img {
     font-weight: bolder;
 }
 
-.profile-img{
+.profile-img {
     border-radius: 50%;
+}
+
+@media (width >= 900px) {
+    .force-padding {
+        padding-left: 8% !important;
+        padding-right: 8% !important;
+    }
 }

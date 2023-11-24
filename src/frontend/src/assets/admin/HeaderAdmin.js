@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import inescLogo from '../images/INESCTEC.png'
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
 
 
 const HeaderAdmin = (props) => {
@@ -15,7 +16,7 @@ const HeaderAdmin = (props) => {
                 <h1><span className="blue-inesc">PT-Pump-Up:</span> <span id="small-title">Hub for Portuguese NLP Resources</span></h1>
             </Grid>
             <Grid item xs={"auto"} sx={{ ml: "auto" }}>
-                <Button className="blue-inesc" onClick={props.toggleDrawer} sx={{p:2}}><MenuIcon/></Button>
+                <IconButton className="blue-inesc" onClick={props.toggleDrawer} sx={{ p: 2 }} size="large"><MenuIcon fontSize="inherit" /></IconButton>
             </Grid>
         </Grid>
     )
