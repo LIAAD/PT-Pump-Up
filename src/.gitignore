@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,flask,visualstudiocode,pycharm,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,flask,visualstudiocode,pycharm,react
 
+deploy_cc_cloud.sh
+
 ### Flask ###
 instance/*
 !instance/.gitignore
