@@ -95,7 +95,7 @@ const Homepage = (props) => {
                         <h3>PT-Pump-Up is a hub for Portuguese NLP resources, which aims to provide a centralized access point to the most relevant resources for Portuguese NLP, as well as to provide a set of tools to facilitate their use.</h3>
                     </Grid>
                     <InescDivider label="Some Figures" />
-                    <Grid container justifyContent="around" alignItems="center" >
+                    <Grid container justifyContent="space-around" alignItems="center" >
                         <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.datasets.length}</h3>
                             <h4>Datasets</h4>
