@@ -10,7 +10,7 @@ import { sendGetRequest } from '../../utils/requests';
 import { filterByNLPTask } from '../../utils/filterNLPTask';
 import StatusTableRows from '../../assets/tables/StatusTableRows';
 import Button from '@mui/material/Button';
-import MonitorIcon from '@mui/icons-material/Monitor';
+import LinkIcon from '@mui/icons-material/Link';
 
 
 const TableModels = (props) => {
@@ -53,7 +53,7 @@ const TableModels = (props) => {
                                     {model.year}
                                 </TableCell>
                                 <TableCell scope="row" align="center">
-                                    <Button href={model.hrefs.link_source} target="_blank" rel="noopener noreferrer"><MonitorIcon /></Button>
+                                    <Button href={model.hrefs.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
                                 </TableCell>
                                 <StatusTableRows status={model.status} />
                             </TableRow>

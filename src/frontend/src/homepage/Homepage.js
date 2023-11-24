@@ -81,7 +81,7 @@ const Homepage = (props) => {
     return (
         <LayoutAdmin
             main={
-                <Grid container>
+                <Grid container className="force-padding">
                     <Grid container sx={{ mt: 5 }} justifyContent="center" alignItems="center">
                         <Grid item xs={8} >
                             <h1>Sincronizing & Extending <br /> Portuguese NLP Resources</h1>

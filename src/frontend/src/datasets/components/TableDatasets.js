@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { sendGetRequest } from '../../utils/requests';
 import { useEffect } from 'react';
-import MonitorIcon from '@mui/icons-material/Monitor';
+import LinkIcon from '@mui/icons-material/Link';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -66,7 +66,7 @@ const TableDatasets = (props) => {
                                 </TableCell>
                                 <TableCell scope="row" align="center">{dataset.year}</TableCell>
                                 <TableCell scope="row" align="center">
-                                    <Button href={dataset.hrefs.link_source} target="_blank" rel="noopener noreferrer"><MonitorIcon /></Button>
+                                    <Button href={dataset.hrefs.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
                                 </TableCell>
                                 <StatusTableRows status={dataset.status} />
                             </TableRow>
