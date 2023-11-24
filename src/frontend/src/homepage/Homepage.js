@@ -96,19 +96,19 @@ const Homepage = (props) => {
                     </Grid>
                     <InescDivider label="Some Figures" />
                     <Grid container justifyContent="around" alignItems="center" >
-                        <Grid item xs={3} className='figure' >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.datasets.length}</h3>
                             <h4>Datasets</h4>
                         </Grid>
-                        <Grid item xs={3} className='figure' >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.models.length}</h3>
                             <h4>Models</h4>
                         </Grid>
-                        <Grid item xs={3} className='figure' >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.authors.length}</h3>
                             <h4>Authors</h4>
                         </Grid>
-                        <Grid item xs={3} className='figure' >
+                        <Grid item xs={12} md={3} lg={2} className='figure' >
                             <h3>{state.nlp_tasks}</h3>
                             <h4>NLP Tasks</h4>
                         </Grid>

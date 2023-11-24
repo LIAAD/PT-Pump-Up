@@ -21,6 +21,8 @@ body {
     height: 100%;
     background-color: var(--background-color);
     font-family: 'IBM Plex Sans', sans-serif;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 main {
@@ -138,7 +140,9 @@ img {
     border-radius: 50%;
 }
 
-.force-padding {
-    padding-left: 8% !important;
-    padding-right: 8% !important;
+@media (width: 900px) {
+    .force-padding {
+        padding-left: 8% !important;
+        padding-right: 8% !important;
+    }
 }
