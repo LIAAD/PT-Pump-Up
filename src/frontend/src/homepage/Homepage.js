@@ -59,7 +59,7 @@ const Homepage = (props) => {
 
 
     useEffect(() => {
-        sendGetRequest('/').then((response) => {
+        sendGetRequest('/api/homepage/').then((response) => {
 
             for (const key in response)
                 response[key] = JSON.parse(response[key])
