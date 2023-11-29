@@ -138,9 +138,11 @@ img {
 
 .profile-img {
     border-radius: 50%;
+    min-height: 160px;
+    object-fit: cover;
 }
 
-@media (width >= 900px) {
+@media (width >=900px) {
     .force-padding {
         padding-left: 8% !important;
         padding-right: 8% !important;
