@@ -4,7 +4,8 @@ setup(
     name='pt_pump_up',
     version='2.1.3',
     description='Hub for Portuguese NLP resources',
-    install_requires=['beanie', 'mechanize'],
+    install_requires=['beanie', 'mechanize',
+                      'pandas', 'requests', 'scikit-learn'],
     packages=find_packages(),
     author='Rúben Almeida'
 )
