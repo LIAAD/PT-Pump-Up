@@ -50,6 +50,7 @@ root.render(
       <link rel="mask-icon" href={safari_pinned_tab} color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#da532c" />
       <meta name="theme-color" content="#ffffff" />
+      <meta name="google-site-verification" content="kfQgcpnmhcBBdkWw0DJPbPXPpyAawGYO8TanoCGDQTI" />
     </Helmet>
     <RouterProvider router={router} />
   </React.StrictMode>

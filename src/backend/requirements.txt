@@ -2,3 +2,5 @@ quart[dotenv]
 beanie
 pt_pump_up >= 1.3.0
 quart-cors
+paperswithcode-client
+mechanize

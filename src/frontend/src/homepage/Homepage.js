@@ -27,7 +27,7 @@ const Homepage = (props) => {
             "email": "ruben.f.almeida@inesctec.pt"
         },
         {
-            'img': 'https://text2story.inesctec.pt/img/ricardo.jpg',
+            'img': 'https://raw.githubusercontent.com/LIAAD/PT-Pump-Up/main/src/frontend/src/assets/images/RC5.png',
             'name': 'Ricardo Campos',
             'title': 'Coordinator',
             'affiliation': 'INESC Tec',
@@ -83,10 +83,10 @@ const Homepage = (props) => {
             main={
                 <Grid container className="force-padding">
                     <Grid container sx={{ mt: 5 }} justifyContent="center" alignItems="center">
-                        <Grid item xs={8} >
+                        <Grid item md={8}>
                             <h1>Sincronizing & Extending <br /> Portuguese NLP Resources</h1>
                         </Grid>
-                        <Grid item xs={2} >
+                        <Grid item md={2} sx={{ display: { xs: 'none', md: 'block' } }} >
                             <ListIcon sx={{ fontSize: 200 }} />
                         </Grid>
                     </Grid>
