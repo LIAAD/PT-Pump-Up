@@ -34,6 +34,10 @@ const TableDatasets = (props) => {
         })
     }, [])
 
+    const obtainYearFromDate = (date) => {
+        return date.split('/')[0]
+    }
+
     // TODO: Add search bar
 
     // TODO: Add Capabilities of Automatic Testing Link Availability using Cron Jobs
@@ -62,9 +66,9 @@ const TableDatasets = (props) => {
                         {state.datasets[key].map((dataset, index) =>
                             <TableRow key={index}>
                                 <TableCell scope="row" className="resource-name">
-                                    {dataset.name}
+                                    {dataset.english_name}
                                 </TableCell>
-                                <TableCell scope="row" align="center">{dataset.year}</TableCell>
+                                <TableCell scope="row" align="center">{obtainYearFromDate(dataset.introduction_date)}</TableCell>
                                 <TableCell scope="row" align="center">
                                     <Button href={dataset.hrefs.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
                                 </TableCell>
