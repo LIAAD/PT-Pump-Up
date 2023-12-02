@@ -5,6 +5,4 @@ src/pt_pump_up.egg-info/
 
 thrash/*
 
-.env
-
-out/*
+out/

@@ -24,5 +24,5 @@ async def init_orm(CURRENT_PATH):
     )
 
     # Initialize beanie with the Sample document class and a database
-    await init_beanie(database=client.db_name, document_models=[
+    await init_beanie(database=client[os.getenv('mongo_database')], document_models=[
         Author, Language, Dataset, Conference, License, NLPTask, Architecture, Metric, Model, Publication])

@@ -19,11 +19,13 @@ class DatasetStats(BaseModel):
 
 
 class Dataset(Document):
-    name: str
+    english_name: str
+    full_portuguese_name: Optional[str] = ""
+    description: str
+    introduction_date: str
     language_stats: List[DatasetStats]
     conference: Optional[Link[Conference]] = None
     hrefs: Hrefs
-    year: int
     status: Status
     overall_dataset_stats: Optional[DatasetStats] = None
     authors: List[Link[Author]]

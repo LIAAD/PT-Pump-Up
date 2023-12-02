@@ -1,5 +1,7 @@
 FROM python:3.8
 
+RUN python -m pip install --upgrade pip
+
 SHELL ["/bin/bash", "-c"]
 
 RUN pip install virtualenv
