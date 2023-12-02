@@ -4,7 +4,6 @@ import logging
 
 
 class PaperWithCodeElement(ABC):
-    # Abstract method findall
     @abstractmethod
     def insert(self, br: Browser) -> list:
         pass

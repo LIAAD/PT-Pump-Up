@@ -113,11 +113,12 @@ async def post_datasets():
             return Response(status=400)
 
         await Dataset(
-            name=elem['name'],
+            english_name=elem['english_name'],
+            description=elem['description'],
             language_stats=[DatasetStats(language=language.id)
                             for language in languages],
             hrefs=DatasetHrefs(link_source=elem['link_source']),
-            year=elem['year'],
+            introduction_date=elem['introduction_data'],
 
             status=Status(broken_link=elem['status']['broken_link'], author_response=elem['status']['author_response'], standard_format=elem['status']
                           ['standard_format'], backup=elem['status']['backup'], preservation_rating=elem['status']['preservation_rating'], off_the_shelf=elem['status']['off_the_shelf']),
@@ -137,7 +138,8 @@ async def post_language():
     for elem in request_body:
         await Language(
             name=elem['name'],
-            iso_code=elem['iso_code']
+            iso_code=elem['iso_code'],
+            papers_with_code_id=elem['papers_with_code_id']
         ).insert(link_rule=WriteRules.WRITE)
 
     return Response(status=200)
@@ -179,7 +181,8 @@ async def post_nlp_task():
     for elem in request_body:
         await NLPTask(
             name=elem['name'],
-            acronym=elem['acronym']
+            acronym=elem['acronym'],
+            papers_with_code_ids=elem['papers_with_code_ids']
         ).insert(link_rule=WriteRules.WRITE)
 
     return Response(status=200)
@@ -216,8 +219,8 @@ async def post_model():
         benchmarks = []
 
         for benchmark in request_body['benchmarks']:
-            train_dataset = await Dataset.find_one(Dataset.name == benchmark['train_dataset'])
-            test_dataset = await Dataset.find_one(Dataset.name == benchmark['test_dataset'])
+            train_dataset = await Dataset.find_one(Dataset.english_name == benchmark['train_dataset'])
+            test_dataset = await Dataset.find_one(Dataset.english_name == benchmark['test_dataset'])
             scores = [MetricResult(metric=(await Metric.find_one(Metric.name == score['metric'])).id, value=score['value']) for score in benchmark['scores']]
             benchmarks.append(Benchmark(
                 train_dataset=train_dataset.id, test_dataset=test_dataset.id, scores=scores))
@@ -263,10 +266,19 @@ async def post_publication():
     request_body = await request.get_json()
 
     for elem in request_body:
+
+        authors = await Author.find(In(Author.hrefs.email, elem['authors'])).to_list()
+
         await Publication(
-            name=elem['name'],
-            doi=elem['doi'] if 'doi' in elem else None,
-            bibtex=elem['bibtex'] if 'bibtex' in elem else None
+            title=elem['title'],
+            abstract=elem['abstract'],
+            authors=[author.id for author in authors],
+            url_abstract=elem['url_abstract'],
+            url_pdf=elem['url_pdf'],
+            published_date=elem['published_date'],
+            github_url=elem['github_url'],
+            bibtex=elem['bibtex'],
+
         ).insert(link_rule=WriteRules.WRITE)
 
     return Response(status=200)
