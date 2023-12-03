@@ -3,7 +3,6 @@ import requests
 import logging
 from datasets import load_dataset as load_hf_dataset
 
-
 class PTPumpUp:
     def __init__(self):
         self.url = "http://pt-pump-up.inesctec.pt/"

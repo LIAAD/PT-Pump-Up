@@ -6,4 +6,4 @@ from beanie import Document
 class Language(Document):
     name: str
     iso_code: str
-    papers_with_code_id: int
+    papers_with_code_ids: int

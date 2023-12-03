@@ -118,7 +118,7 @@ async def post_datasets():
             language_stats=[DatasetStats(language=language.id)
                             for language in languages],
             hrefs=DatasetHrefs(link_source=elem['link_source']),
-            introduction_date=elem['introduction_data'],
+            introduction_date=elem['introduction_date'],
 
             status=Status(broken_link=elem['status']['broken_link'], author_response=elem['status']['author_response'], standard_format=elem['status']
                           ['standard_format'], backup=elem['status']['backup'], preservation_rating=elem['status']['preservation_rating'], off_the_shelf=elem['status']['off_the_shelf']),
@@ -139,7 +139,7 @@ async def post_language():
         await Language(
             name=elem['name'],
             iso_code=elem['iso_code'],
-            papers_with_code_id=elem['papers_with_code_id']
+            papers_with_code_ids=elem['papers_with_code_ids']
         ).insert(link_rule=WriteRules.WRITE)
 
     return Response(status=200)
