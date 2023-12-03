@@ -8,11 +8,12 @@ import requests
 import os
 import numpy as np
 from datetime import datetime
+from sklearn.preprocessing import LabelEncoder, OrdinalEncoder
 
 
 class PreservationRating(ABC):
     @abstractmethod
-    def __init__(self, url_fetch, local_path, hf_token, hf_repo, hf_path, use_cache=False) -> None:
+    def __init__(self, url_fetch, local_path, hf_token, hf_repo, hf_path, use_cache) -> None:
         if hf_token is None:
             raise ValueError("HuggingFace token is required")
 
@@ -21,6 +22,7 @@ class PreservationRating(ABC):
         self.clf = None
         self.local_path = local_path
         self.url_fetch = url_fetch
+        self.hf_repo = hf_repo
 
         try:
             if use_cache:
@@ -74,10 +76,14 @@ class PreservationRating(ABC):
 
         self.save_model()
 
-    def predict(self, df: pd.DataFrame) -> str:
-        X, _ = self.preprocess(df)
+    def predict(self, series: pd.Series) -> str:
+        df = pd.DataFrame(data=[series])
 
-        return self.clf.predict(X=X)
+        X, _, encoder = self.preprocess(df)
+
+        output = self.clf.predict(X=X)
+
+        return encoder.inverse_transform(output.reshape(-1, 1)).item()
 
     def save_model(self):
         if self.clf is None:
@@ -97,11 +103,11 @@ class PreservationRating(ABC):
 
 class PreservationRatingDataset(PreservationRating):
 
-    def __init__(self, hf_token, hf_repo, hf_path=None) -> None:
+    def __init__(self, hf_token, hf_repo, hf_path=None, use_cache=False) -> None:
         super().__init__(url_fetch="http://pt-pump-up.inesctec.pt/api/datasets",
                          local_path=os.path.join(
                              os.getcwd(), "out", "dataset_model.pkl"),
-                         hf_token=hf_token, hf_repo=hf_repo, hf_path=hf_path)
+                         hf_token=hf_token, hf_repo=hf_repo, hf_path=hf_path, use_cache=use_cache)
 
     def preprocess(self, df: pd.DataFrame):
         df = pd.concat([df.drop(['hrefs', 'status'], axis=1), df['hrefs'].apply(
@@ -139,29 +145,30 @@ class PreservationRatingDataset(PreservationRating):
             'category')
         df['off_the_shelf'] = df['off_the_shelf'].astype('bool')
 
-        return df
+        for column in ['link_source', 'link_hf']:
+            label_encoder = LabelEncoder()
+            df[column] = label_encoder.fit_transform(df[column])
+
+        ordinal_encoder = OrdinalEncoder(dtype=np.int64, categories=[
+                                         ['low', 'medium', 'high']])
+
+        df['preservation_rating'] = ordinal_encoder.fit_transform(
+            df[['preservation_rating']])
+
+        # Split in X and y
+        X = df.drop(columns=['preservation_rating']).to_numpy()
+        y = df['preservation_rating'].to_numpy()
+
+        return X, y, ordinal_encoder
 
 
 class PreservationRatingModel(PreservationRating):
 
-    def __init__(self, hf_token, hf_repo, hf_path=None) -> None:
+    def __init__(self, hf_token, hf_repo, hf_path=None, use_cache=False) -> None:
         super().__init__(url_fetch="http://pt-pump-up.inesctec.pt/api/models",
                          local_path=os.path.join(
                              os.getcwd(), "out", "model_model.pkl"),
-                         hf_token=hf_token, hf_repo=hf_repo, hf_path=hf_path)
+                         hf_token=hf_token, hf_repo=hf_repo, hf_path=hf_path, use_cache=use_cache),
 
     def preprocess(self, df: pd.DataFrame):
-        pass
-
-
-trainer = PreservationRatingDataset(
-    hf_token="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",
-    hf_repo="liaad/pt_pump_up_infrastructure",
-    hf_path="model_dataset.pkl",
-)
-
-df = trainer.fetch_all()
-
-df = trainer.preprocess(df)
-
-print(df.head())
+        raise NotImplementedError()
