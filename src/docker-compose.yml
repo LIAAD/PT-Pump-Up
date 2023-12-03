@@ -24,4 +24,4 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      - mongo_database=test
+      - mongo_database=production
