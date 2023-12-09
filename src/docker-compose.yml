@@ -5,6 +5,8 @@ services:
     build:
       context: ./frontend
     container_name: frontend
+    networks:
+      - pt-pump-up
     ports:
       - "3000:3000"
     volumes:
@@ -19,9 +21,15 @@ services:
       context: ./backend
     container_name: backend
     restart: on-failure
+    networks:
+      - pt-pump-up
     ports:
       - "5000:5000"
     volumes:
       - ./backend:/app
     environment:
       - mongo_database=production
+
+networks:
+  pt-pump-up:
+    driver: bridge
