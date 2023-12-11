@@ -7,6 +7,8 @@ services:
     container_name: frontend
     ports:
       - "3000:3000"
+    networks:
+      - pt-pump-up
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
@@ -16,12 +18,31 @@ services:
   
   backend:
     build:
-      context: ./backend
+      context: ./backend/flask
     container_name: backend
     restart: on-failure
     ports:
       - "5000:5000"
+    networks:
+      - pt-pump-up
     volumes:
-      - ./backend:/app
+      - ./backend/flask:/app
     environment:
       - mongo_database=production
+
+  laravel:
+    build: 
+      context: ./backend/laravel
+    container_name: laravel
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    networks:
+      - pt-pump-up
+    volumes:
+      - ./backend/laravel:/app
+
+networks:
+  pt-pump-up:
+    driver: bridge
+  
