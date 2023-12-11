@@ -14,6 +14,7 @@ setup(
                       'datasets',
                       'transformers',
                       'tqdm',
+                      'conllu',
                       ],
     packages=find_packages(),
     author='Rúben Almeida'

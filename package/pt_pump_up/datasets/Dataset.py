@@ -1,41 +1,42 @@
 from abc import ABC, abstractmethod
-from huggingface_hub import hf_hub_download
-import os
+from conllu import parse as conllu_parse
 import logging
-from datasets import Dataset as HFDataset
+from huggingface_hub import hf_hub_download
+from datasets import Dataset as HF_Dataset
 
 
 class Dataset(ABC):
-    def __init__(self, repo_id, filepath, filename, hf_token=None) -> None:
-
-        if hf_token is None:
-            logging.warning("No huggingface token provided.")
-
-        self.hf_token = hf_token
+    def __init__(self, repo_id, hf_token) -> None:
+        super().__init__()
         self.repo_id = repo_id
-        self.filepath = filepath
-        self.filename = filename
+        self.hf_token = hf_token
+        self.hf_dataset = None
 
-    def download(self):
-        logging.info("Downloading dataset from HuggingFace Hub")
+    def parse_conllu(self, conllu_str):
+        return conllu_parse(conllu_str)
 
-        path = hf_hub_download(
+    def download(self, subfolder, filename):
+        logging.info(f"Downloading {filename} from {subfolder}")
+
+        local_path = hf_hub_download(
             repo_id=self.repo_id,
-            subfolder=self.filepath,
-            filename=self.filename,
+            subfolder=subfolder,
+            filename=filename,
             repo_type="dataset",
             revision="main",
+            token=self.hf_token,
         )
 
-        logging.info(f"Dataset downloaded successfully | Path: {path}")
+        logging.info(f"Downloaded {filename} to {local_path}")
 
-        return path
+        return local_path
 
     @abstractmethod
-    def standardize(self):
+    def parse(self):
         pass
 
-    def publish(self, dataset: HFDataset):
-        logging.info("Publishing dataset to HuggingFace Hub")
-
-        dataset.push_to_hub(repo_id=self.repo_id, token=self.hf_token)
+    def push_to_hub(self, dataset: HF_Dataset):
+        dataset.push_to_hub(
+            repo_id=self.repo_id,
+            token=self.hf_token,
+        )
