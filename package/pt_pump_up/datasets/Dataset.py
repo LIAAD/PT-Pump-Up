@@ -12,15 +12,17 @@ class Dataset(ABC):
         self.hf_token = hf_token
         self.hf_dataset = None
 
-    def parse_conllu(self, conllu_str):
-        return conllu_parse(conllu_str)
+    @abstractmethod
+    def normalize(self, **kwargs):
+        pass
 
     def download(self, subfolder, filename):
         logging.info(f"Downloading {filename} from {subfolder}")
 
         local_path = hf_hub_download(
             repo_id=self.repo_id,
-            subfolder=subfolder,
+            # HuggingFace is Linux based. It is necessary to Force using forward slash To run on Windows Locals
+            subfolder=subfolder.replace("\\", "/"),
             filename=filename,
             repo_type="dataset",
             revision="main",
@@ -35,8 +37,8 @@ class Dataset(ABC):
     def parse(self):
         pass
 
-    def push_to_hub(self, dataset: HF_Dataset):
-        dataset.push_to_hub(
+    def push_to_hub(self):
+        self.hf_dataset.push_to_hub(
             repo_id=self.repo_id,
             token=self.hf_token,
         )

@@ -3,7 +3,6 @@ import os
 from pt_pump_up.datasets.srl.SRL import SRL
 import pandas as pd
 from datasets import Dataset as HF_Dataset
-import logging
 
 
 class PropbankBr(Dataset):
@@ -13,8 +12,7 @@ class PropbankBr(Dataset):
     def parse(self):
 
         local_path = self.download(
-            # HF is Linux based. It is necessary to Force using forward slash To run on Windows Locals
-            subfolder=os.path.join("raw", "propbank_1.1").replace("\\", "/"),
+            subfolder=os.path.join("raw", "propbank_1.1"),
             filename="PropBankBr_v1.1_Const.conll"
         )
 

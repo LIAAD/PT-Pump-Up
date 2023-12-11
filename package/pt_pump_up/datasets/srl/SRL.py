@@ -1,11 +1,11 @@
 from tqdm import tqdm
 
+TOKEN_IDX = 1
+
 class SRL:
 
     @staticmethod
     def process_column(line, column, idx, accumulator):
-
-        TOKEN_POS = 1
 
         def get_tag(column):
 
@@ -24,7 +24,7 @@ class SRL:
         if column == "(V*)":
             tag = get_tag(column)
 
-            accumulator[idx]['verb'] = line.split("\t")[TOKEN_POS].strip()
+            accumulator[idx]['verb'] = line.split("\t")[TOKEN_IDX].strip()
             accumulator[idx]['frames'].append(f"B-{tag}")
 
         elif column.startswith("("):
@@ -90,6 +90,6 @@ class SRL:
                                    accumulator['srl_frames'])
 
             # Append token to the accumulator
-            accumulator['tokens'].append(line.split("\t")[1].strip())
+            accumulator['tokens'].append(line.split("\t")[TOKEN_IDX].strip())
 
         return sentences
