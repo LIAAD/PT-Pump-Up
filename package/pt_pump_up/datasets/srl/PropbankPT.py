@@ -80,11 +80,3 @@ class PropbankPT(Dataset):
         self.hf_dataset = HF_Dataset.from_pandas(dataset)
 
         return self.hf_dataset
-
-
-propbank_pt = PropbankPT(
-    hf_token="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")
-
-dataset = propbank_pt.parse()
-
-propbank_pt.push_to_hub()
