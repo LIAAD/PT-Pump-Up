@@ -13,8 +13,8 @@ const StatusTableRows = (props) => {
             <TableCell scope="row" align="center">
                 {props.status.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
             </TableCell>
-            <TableCell scope="row" align="center">
-                {props.status.preservation_rating}
+            <TableCell scope="row" align="center" className={`label-${props.status.preservation_rating}`}>
+                {props.status.preservation_rating.replace(props.status.preservation_rating[0], props.status.preservation_rating[0].toUpperCase())}
             </TableCell>
             {/*<TableCell scope="row" align="center">
                                     {dataset.status.broken_link ? <ClearIcon /> : <CheckIcon />}
