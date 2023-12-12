@@ -2,19 +2,12 @@ from pt_pump_up.datasets.Dataset import Dataset
 import os
 from pt_pump_up.datasets.srl.SRL import SRL
 from bs4 import BeautifulSoup
-from tqdm import tqdm
-import tempfile
-import logging
 import re
-import pandas as pd
-from datasets import Dataset as HF_Dataset
 
 
 class PropbankPT(Dataset):
     def __init__(self, hf_token) -> None:
         super().__init__(repo_id="liaad/Propbank-PT", hf_token=hf_token)
-        self.INDEX_OFFSET = 9
-        self.VERB_INDEX = 2
 
     def process_verbs(self, line, verb_counter):
         line_exploded = line.split('\t')
@@ -29,62 +22,53 @@ class PropbankPT(Dataset):
 
         soup = BeautifulSoup(xml, 'xml')
 
-        conll = soup.find_all('conll')
+        str_all_conll = ''
 
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, encoding="utf-8") as f:
-            # Parse parse_conllu requires a file pointer
-            logging.info(f"Creating temporary file at {f}")
+        for idx, conll in enumerate(soup.find_all('conll')):
 
-            for elem in tqdm(conll):
-                sentence = elem.text.strip()
+            text_formated = conll.get_text().strip()
 
-                verb_counter = 0
+            for line in text_formated.split('\n'):
 
-                for line in sentence.split('\n'):
+                if line == '':
+                    continue
 
-                    if line != '\n':
-                        # Remove extra spaces from within a line
-                        line = line.replace('\t', '')
-                        line = re.sub(r'\s+', '\t', line).strip()
+                line = line.strip()
 
-                        """
-                        In PropbankPT, unlike PropbankBR and Propbank (English), the verbs are not marked with a 'V' in SRL column.
-                        """
-                        if line.split('\t')[self.VERB_INDEX] == 'V':
-                            line = self.process_verbs(line, verb_counter)
-                            verb_counter += 1
+                line = line.replace('\t', '')
 
-                        # f.tell() adds an id to each line
-                        line = f"{f.tell()}'\t'{line}\n"
+                line = re.sub(r'\s+', '\t', line).strip()
 
-                    f.write(line)
+                str_all_conll += line + '\n'
 
-                f.write('\n')
+            # TODO: Solve this problem. Empty String is not a native type in Propbank English
+            if line == '':
+                raise Exception("Empty line found")
+            break
 
-        return f
+        return str_all_conll.split('\n')
 
     def parse(self):
+        raise Exception(
+            "This dataset is not ready yet. It has problems with the annotations. Authors of the dataset were contacted. Please, wait for a new version.")
+
         local_path = self.download(
             # HF is Linux based. It is necessary to Force using forward slash To run on Windows Locals
             subfolder=os.path.join("raw"),
             filename="WSJ-Propbank.xml"
         )
 
-        f = self.normalize(local_path=local_path)
+        lines_conllu = self.normalize(local_path=local_path)
 
-        sentences = SRL().parse_conllu(fp=f.name, index_offset=self.INDEX_OFFSET)
+        srl_parser = SRL(lines_conllu, index_offset=7, token_pos=0)
 
+        sentences = srl_parser.parse_conllu()
+
+        """
         dataset = pd.DataFrame(data=sentences, columns=[
                                "tokens", "srl_frames"])
 
         self.hf_dataset = HF_Dataset.from_pandas(dataset)
 
         return self.hf_dataset
-
-
-propbank_pt = PropbankPT(
-    hf_token="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")
-
-dataset = propbank_pt.parse()
-
-propbank_pt.push_to_hub()
+        """
