@@ -10,37 +10,35 @@ class PTPumpUp:
         self.datasets = None
         self.models = None
 
-    def all_datasets(self, use_cache=True):
-        if self.datasets is not None and use_cache:
-            logging.info("Using cached datasets")
-            return self.datasets
+    def fetch_data(self, endpoint, element, use_cache, nlp_task):
+        if element is not None and use_cache:
+            logging.info(f"Using cached")
+            return element
 
-        response = requests.get(f"{self.url}/api/datasets/")
+        response = requests.get(f"{self.url}/api/{endpoint}/")
 
         if response.status_code != 200:
-            raise Exception("Error while fetching datasets")
+            raise Exception(f"Error while fetching")
 
-        self.datasets = pd.DataFrame(data=response.json())
+        data = response.json()
 
-        self.datasets.set_index("id", inplace=True)
+        if nlp_task != "all":
+            data = [elem for elem in data if any(
+                task["name"] == nlp_task or task["acronym"] == nlp_task for task in elem["nlp_tasks"])]
 
+        element = pd.DataFrame(data=data)
+        element.set_index("id", inplace=True)
+
+        return element
+
+    def all_datasets(self, nlp_task="all", use_cache=True):
+        self.datasets = self.fetch_data(
+            "datasets", self.datasets, use_cache, nlp_task)
         return self.datasets
 
-    def all_models(self, use_cache=True):
-
-        if self.models is not None and use_cache:
-            logging.info("Using cached models")
-            return self.models
-
-        response = requests.get(f"{self.url}/api/models/")
-
-        if response.status_code != 200:
-            raise Exception("Error while fetching models")
-
-        self.models = pd.DataFrame(data=response.json())
-
-        self.models.set_index("id", inplace=True)
-
+    def all_models(self, nlp_task="all", use_cache=True):
+        self.models = self.fetch_data(
+            "models", self.models, use_cache, nlp_task)
         return self.models
 
     def load_dataset(self, dataset_id, use_cache=True):

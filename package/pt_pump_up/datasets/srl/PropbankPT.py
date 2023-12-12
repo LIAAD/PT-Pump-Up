@@ -69,6 +69,6 @@ class PropbankPT(Dataset):
                                "tokens", "srl_frames"])
 
         self.hf_dataset = HF_Dataset.from_pandas(dataset)
-
+        
         return self.hf_dataset
         """
