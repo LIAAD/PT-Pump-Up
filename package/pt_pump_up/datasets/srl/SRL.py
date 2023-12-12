@@ -2,94 +2,98 @@ from tqdm import tqdm
 
 TOKEN_IDX = 1
 
+
 class SRL:
+    def __init__(self, lines_conllu, index_offset, token_pos) -> None:
+        self.accumulator = {}
+        self.lines_conllu = lines_conllu
+        self.index_offset = index_offset
+        self.token_pos = token_pos
 
-    @staticmethod
-    def process_column(line, column, idx, accumulator):
+    def reinit_accumulator(self, line):
+        number_verbs = len(line.split('\t')[self.index_offset:])
 
-        def get_tag(column):
+        self.accumulator = {
+            'tokens': [],
+            'srl_frames': [{'frames': [], 'stack': [], 'verb': None} for _ in range(number_verbs)]
+        }
 
-            if column == "*":
-                return "O"
+    def extract_label(self, tag):
+        return tag.replace('(', '').replace(')', '').replace('*', '')
 
-            return column.replace("(", "").replace(")", "").replace("*", "")
+    def process_column(self, idx, tag):
+        # Normalize tag
+        tag = tag.strip()
 
-        if len(accumulator) <= idx:
-            accumulator.append({
-                'verb': None,
-                'frames': [],
-                'current_tag': None,
-            })
+        # Process * tag
+        if tag == '*' and self.accumulator['srl_frames'][idx]['stack'] == []:
+            return 'O'
 
-        if column == "(V*)":
-            tag = get_tag(column)
+        elif tag == '*' and self.accumulator['srl_frames'][idx]['stack'] != []:
+            return f"I-{self.accumulator['srl_frames'][idx]['stack'][-1]}"
 
-            accumulator[idx]['verb'] = line.split("\t")[TOKEN_IDX].strip()
-            accumulator[idx]['frames'].append(f"B-{tag}")
+        # Process Tags with (
+        if tag.startswith('(') and not tag.endswith(')'):
+            label = self.extract_label(tag)
+            self.accumulator['srl_frames'][idx]['stack'].append(label)
+            return f"B-{label}"
 
-        elif column.startswith("("):
-            tag = get_tag(column)
+        # Single Token label is not worth placing in stack
+        elif tag.startswith('(') and tag.endswith(')'):
+            return f"B-{self.extract_label(tag)}"
 
-            accumulator[idx]['frames'].append(f"B-{tag}")
-            accumulator[idx]['current_tag'] = tag
+        # Process Tags with )
+        if tag.endswith(')'):
+            label = self.accumulator['srl_frames'][idx]['stack'][-1]
+            self.accumulator['srl_frames'][idx]['stack'].pop()
+            return f"I-{label}"
 
-        elif column.endswith(")"):
-            accumulator[idx]['frames'].append(
-                f"I-{accumulator[idx]['current_tag']}")
-            accumulator[idx]['current_tag'] = None
+    def process_line(self, line):
+       srl_tags = line.split('\t')[self.index_offset:]
 
-        elif column == "*" and accumulator[idx]['current_tag']:
-            accumulator[idx]['frames'].append(
-                f"I-{accumulator[idx]['current_tag']}")
+       self.accumulator['tokens'].append(
+           line.split('\t')[self.token_pos].strip())
 
-        elif column == "*":
-            tag = get_tag(column)
+       for idx, tag in enumerate(srl_tags):
+           tag = self.process_column(idx, tag)
 
-            accumulator[idx]['frames'].append(tag)
+           self.accumulator['srl_frames'][idx]['frames'].append(tag)
 
-        else:
-            raise Exception(f"Unknown column {column}")
+           # Fill Verb Information
+           if tag == 'B-V':
+               self.accumulator['srl_frames'][idx]['verb'] = line.split('\t')[
+                   self.token_pos].strip()
 
-        return accumulator
+    def validate_stack(self):
+        for srl_frame in self.accumulator['srl_frames']:
+            if srl_frame['stack'] != []:
+                return False
 
-    @staticmethod
-    def parse_conllu(fp, index_offset):
+        return True
 
-        def reset_accumulator():
-            return {
-                'tokens': [],
-                'srl_frames': []
-            }
-
-        def clean_columns(accumulator):
-            for verb in accumulator['srl_frames']:
-                del verb['current_tag']
-
-            return accumulator
-
+    def parse_conllu(self):
         sentences = []
 
-        with open(fp, "r", encoding="utf-8") as f:
-            lines = f.readlines()
+        for line in tqdm(self.lines_conllu):
 
-        accumulator = reset_accumulator()
+            if self.accumulator == {}:
+                self.reinit_accumulator(line)
 
-        for line in tqdm(lines):
+            if line == '':
+                raise Exception("Empty line found. Only \ n is allowed")
 
-            # If \n line is found, it means that the sentence has ended
-            # Reset the accumulator and start a new sentence
-            if line == "\n":
-                sentences.append(clean_columns(accumulator))
-                accumulator = reset_accumulator()
+            if line == '\n':
+                sentences.append(self.accumulator)
+
+                # Validate Stack. In a Pushdown Automata, the stack must be empty at the end of the process
+                # If not, there is a problem with the input
+                if not self.validate_stack():
+                    raise Exception("Stack not empty")
+
+                self.accumulator = {}
+
                 continue
 
-            # Skip Non SRL columns in each line
-            # Number of columns SRL is variable, and is equal to the number of verbs in the sentence
-            for idx, column in enumerate(line.split("\t")[index_offset-1:]):
-                SRL.process_column(line, column.strip(), idx,
-                                   accumulator['srl_frames'])
-
-            # Append token to the accumulator
-            accumulator['tokens'].append(line.split("\t")[TOKEN_IDX].strip())
+            self.process_line(line)
 
         return sentences
