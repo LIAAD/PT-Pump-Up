@@ -16,33 +16,24 @@ services:
       - ./frontend/package.json:/app/package.json
       - ./frontend/package-lock.json:/app/package-lock.json
   
-  backend:
-    build:
-      context: ./backend/flask
-    container_name: backend
-    restart: on-failure
-    ports:
-      - "5000:5000"
-    networks:
-      - pt-pump-up
-    volumes:
-      - ./backend/flask:/app
-    environment:
-      - mongo_database=production
-
   laravel:
     build: 
       context: ./backend/laravel
-    container_name: laravel
-    restart: on-failure
+      dockerfile: dev.Dockerfile
+    container_name: laravel    
     ports:
       - "8000:8000"
     networks:
       - pt-pump-up
     volumes:
       - ./backend/laravel:/app
+      - node_modules:/app/node_modules
+      - vendor:/app/vendor
 
 networks:
   pt-pump-up:
     driver: bridge
-  
+
+volumes:
+  node_modules:
+  vendor:
