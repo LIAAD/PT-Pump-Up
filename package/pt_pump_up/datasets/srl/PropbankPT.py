@@ -53,7 +53,6 @@ class PropbankPT(Dataset):
             "This dataset is not ready yet. It has problems with the annotations. Authors of the dataset were contacted. Please, wait for a new version.")
 
         local_path = self.download(
-            # HF is Linux based. It is necessary to Force using forward slash To run on Windows Locals
             subfolder=os.path.join("raw"),
             filename="WSJ-Propbank.xml"
         )
