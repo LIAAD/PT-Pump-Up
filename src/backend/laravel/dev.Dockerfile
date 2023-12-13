@@ -22,10 +22,19 @@ RUN apt-get install -y \
     curl \
     libzip-dev
 
+
+RUN pecl install mongodb
+
+RUN docker-php-ext-enable mongodb
+
 COPY . .
+
+RUN composer update
 
 RUN composer install
 
 RUN npm install
+
+RUN npm run build
 
 ENTRYPOINT [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
