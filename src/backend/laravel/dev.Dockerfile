@@ -37,4 +37,7 @@ RUN npm install
 
 RUN npm run build
 
+# Hotfix for Sanctum Work with MongoDB
+RUN sed 's/Illuminate\\Database/MongoDB\\Laravel\\/' vendor/laravel/sanctum/src/PersonalAccessToken.php
+
 ENTRYPOINT [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
