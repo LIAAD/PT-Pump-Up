@@ -27,17 +27,13 @@ RUN pecl install mongodb
 
 RUN docker-php-ext-enable mongodb
 
-COPY . .
+COPY package.json package-lock.json composer.json composer.lock ./docker-entrypoint.sh /app/
 
-RUN composer update
-
-RUN composer install
+RUN composer install --no-autoloader
 
 RUN npm install
-
-RUN npm run build
 
 # Hotfix for Sanctum Work with MongoDB
 RUN sed 's/Illuminate\\Database/MongoDB\\Laravel\\/' vendor/laravel/sanctum/src/PersonalAccessToken.php
 
-ENTRYPOINT [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+ENTRYPOINT [ "./docker-entrypoint.sh"]

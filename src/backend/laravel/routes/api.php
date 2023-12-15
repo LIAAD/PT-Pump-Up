@@ -14,14 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::apiResources([
-        'models' => App\Http\Controllers\ModelController::class,
-        'datasets' => App\Http\Controllers\DatasetController::class,
-    ]);
-    Route::get('/tokens/create', function (Request $request) {
-        $token = $request->user()->createToken("general");
-
-        return ['token' => $token->plainTextToken];
-    });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
