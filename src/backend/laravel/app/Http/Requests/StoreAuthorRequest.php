@@ -25,8 +25,8 @@ class StoreAuthorRequest extends FormRequest
         return [
             'name' => 'required|string',
             'affiliation' => 'required|string',
-            'hrefs' => 'required|json',
-            'hrefs.email' => 'required|email|unique',
+            'hrefs' => 'required|array',
+            'hrefs.email' => 'required|email|unique:authors,email',
             'hrefs.website' => 'nullable|url',
             'hrefs.orcid' => 'nullable|url',
             'hrefs.github' => 'nullable|url',

@@ -25,15 +25,8 @@ class StoreNLPTaskRequest extends FormRequest
         return [
             'name' => 'required|string',
             'acronym' => 'required|string',
-            'papers_with_code_ids' => 'required|array:integer',
+            'papers_with_code_ids' => 'required|array',
+            'papers_with_code_ids.*' => 'required|int',
         ];
     }
 }
-/*
-    protected $fillable = [
-        '_id',
-        'name',
-        'acronym',
-        'papers_with_code_ids',
-    ];
-*/

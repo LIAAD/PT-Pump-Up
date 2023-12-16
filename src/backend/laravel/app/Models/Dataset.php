@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 use App\Models\Helpers\LanguageStats;
 use App\Models\Author;
 use App\Models\NLPTask;
 use App\Models\Helpers\HRefs;
+use App\Models\Helpers\ResourceStatus;
 
 
 class Dataset extends Model
@@ -45,5 +46,11 @@ class Dataset extends Model
     public function hrefs()
     {
         return $this->hasOne(HRefs::class);
+    }
+
+    # One Dataset has one ResourceStatus.
+    public function resource_status()
+    {
+        return $this->hasOne(ResourceStatus::class);
     }
 }

@@ -29,7 +29,16 @@ class LanguageController extends Controller
      */
     public function store(StoreLanguageRequest $request)
     {
-        //
+        $language = Language::create([
+            'name' => $request->name,
+            'iso_code' => $request->iso_code,
+            'papers_with_code_id' => $request->papers_with_code_id,
+        ]);
+
+        return response()->json([
+            'message' => 'Language created successfully.',
+            'language' => $language,
+        ], 201);
     }
 
     /**

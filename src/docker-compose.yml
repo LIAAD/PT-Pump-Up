@@ -1,21 +1,6 @@
 version: '3'
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-    container_name: frontend
-    ports:
-      - "3000:3000"
-    networks:
-      - pt-pump-up
-    volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
-      - ./frontend/build:/app/build
-      - ./frontend/package.json:/app/package.json
-      - ./frontend/package-lock.json:/app/package-lock.json
-  
   laravel:
     build: 
       context: ./backend/laravel

@@ -13,7 +13,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        return Author::all();
     }
 
     /**
@@ -29,7 +29,28 @@ class AuthorController extends Controller
      */
     public function store(StoreAuthorRequest $request)
     {
-        //
+        $author = Author::create([
+            'name' => $request->name,
+            'affiliation' => $request->affiliation,
+        ]);
+
+        # Create the HRefs for the author.
+        $author->hrefs = [
+            'email' => $request->hrefs['email'],
+            'website' => $request->hrefs['website'] ?? null,
+            'orcid' => $request->hrefs['orcid'] ?? null,
+            'github' => $request->hrefs['github'] ?? null,
+            'twitter' => $request->hrefs['twitter'] ?? null,
+            'googleScholar' => $request->hrefs['googleScholar'] ?? null,
+            'linkedin' => $request->hrefs['linkedin'] ?? null,
+        ];
+
+        $author->save();
+
+        return response()->json([
+            'message' => 'Author created successfully.',
+            'author' => $author,
+        ], 201);
     }
 
     /**

@@ -24,27 +24,35 @@ class StoreDatasetRequest extends FormRequest
     {
         return [
             'english_name' => 'required|string',
-            'full_portuguese_name' => 'required|string',
+            'full_portuguese_name' => 'nullable|string',
             'description' => 'required|string',
-            'introduction_date' => 'required|string',
+            'introduction_date' => 'required|date',
 
             'language_stats' => 'required|array',
-            'language_stats.*.language_id' => 'required|int|exists:languages,_id',
+            'language_stats.*.iso_code' => 'required|string|exists:languages,iso_code',
 
 
             'authors' => 'required|array',
-            'authors.*.author_id' => 'required|int|exists:authors,_id',
+            'authors.*.email' => 'required|email',
 
 
             'nlp_tasks' => 'required|array',
-            'nlp_tasks.*.nlp_task_id' => 'required|int',
-            'nlp_tasks.*.nlp_task_name' => 'required|string',
-            'nlp_tasks.*.nlp_task_acronym' => 'required|string',
-            'nlp_tasks.*.nlp_task_papers_with_code_ids' => 'required|array',
-            'nlp_tasks.*.nlp_task_papers_with_code_ids.*' => 'required|int',
-            'hrefs' => 'required|json',
-            'hrefs.papers_with_code' => 'required|string',
+            'nlp_tasks.*.acronym' => 'required|string',
 
+            'hrefs' => 'required|array',
+            'hrefs.papers_with_code' => 'nullable|url',
+            'hrefs.link_source' => 'nullable|url',
+            'hrefs.link_hf' => 'nullable|url',
+            'hrefs.link_github' => 'nullable|url',
+            'hrefs.doi' => 'nullable|url',
+
+            'resource_status' => 'required|array',
+            'resource_status.broken_link' => 'required|boolean',
+            'resource_status.author_response' => 'required|boolean',
+            'resource_status.standard_format' => 'required|boolean',
+            'resource_status.backup' => 'required|boolean',
+            'resource_status.preservation_rating' => 'required|string',
+            'resource_status.off_the_shelf' => 'required|boolean',
 
         ];
     }

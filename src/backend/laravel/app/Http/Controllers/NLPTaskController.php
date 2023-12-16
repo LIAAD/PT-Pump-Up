@@ -29,7 +29,16 @@ class NLPTaskController extends Controller
      */
     public function store(StoreNLPTaskRequest $request)
     {
-        //
+        $nlp_task = NLPTask::create([
+            'name' => $request->name,
+            'acronym' => $request->acronym,
+            'papers_with_code_ids' => $request->papers_with_code_ids,
+        ]);
+
+        return response()->json([
+            'message' => 'NLP Task created successfully.',
+            'nlp_task' => $nlp_task,
+        ], 201);
     }
 
     /**
