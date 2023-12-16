@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::apiResources([
+        'models' => App\Http\Controllers\ModelController::class,
+        'datasets' => App\Http\Controllers\DatasetController::class,
+    ]);
+});

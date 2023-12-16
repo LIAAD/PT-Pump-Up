@@ -9,6 +9,13 @@ export default defineConfig({
             ssr: 'resources/js/ssr.jsx',
             refresh: true,
         }),
-        react(),
+        react({ include: "**/*.jsx" }),
     ],
+    server: {
+        host: true,
+        port: 5173,
+        watch: {
+            usePolling: true
+        }
+    }
 });

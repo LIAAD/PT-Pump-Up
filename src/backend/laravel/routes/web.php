@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'api_token' => auth()->user()->tokens->first()->plainTextToken
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -35,4 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+Route::get('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken("general");
+
+    return ['token' => $token->plainTextToken];
+});
+
+require __DIR__ . '/auth.php';
