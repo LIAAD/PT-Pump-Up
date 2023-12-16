@@ -75,7 +75,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     </h2>
 
                                     <p className="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                        Porto
+                                        Porto é top asjdsajdlkasjdlkasdsads asd
                                     </p>
                                 </div>
 
