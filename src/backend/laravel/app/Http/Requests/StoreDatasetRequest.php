@@ -26,18 +26,18 @@ class StoreDatasetRequest extends FormRequest
             'english_name' => 'required|string',
             'full_portuguese_name' => 'nullable|string',
             'description' => 'required|string',
-            'introduction_date' => 'required|date',
+            'year' => 'required|integer',
 
             'language_stats' => 'required|array',
-            'language_stats.*.iso_code' => 'required|string|exists:languages,iso_code',
+            'language_stats.*' => 'required|string|exists:languages,iso_code',
 
 
             'authors' => 'required|array',
-            'authors.*.email' => 'required|email',
+            'authors.*' => 'required|email',
 
 
             'nlp_tasks' => 'required|array',
-            'nlp_tasks.*.acronym' => 'required|string',
+            'nlp_tasks.*' => 'required|string',
 
             'hrefs' => 'required|array',
             'hrefs.papers_with_code' => 'nullable|url',
@@ -46,13 +46,16 @@ class StoreDatasetRequest extends FormRequest
             'hrefs.link_github' => 'nullable|url',
             'hrefs.doi' => 'nullable|url',
 
-            'resource_status' => 'required|array',
-            'resource_status.broken_link' => 'required|boolean',
-            'resource_status.author_response' => 'required|boolean',
-            'resource_status.standard_format' => 'required|boolean',
-            'resource_status.backup' => 'required|boolean',
-            'resource_status.preservation_rating' => 'required|string',
-            'resource_status.off_the_shelf' => 'required|boolean',
+            'dataset_stats' => 'required|array',
+            'dataset_stats.broken_link' => 'required|boolean',
+            'dataset_stats.author_response' => 'required|boolean',
+            'dataset_stats.standard_format' => 'required|boolean',
+            'dataset_stats.backup' => 'required|boolean',
+            'dataset_stats.preservation_rating' => 'required|string',
+            'dataset_stats.off_the_shelf' => 'required|boolean',
+
+            #TODO: Add Publication validation
+
 
         ];
     }

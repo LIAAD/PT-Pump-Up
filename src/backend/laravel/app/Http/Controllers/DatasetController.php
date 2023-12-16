@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateDatasetRequest;
 use App\Models\Dataset;
 use App\Models\Language;
 use App\Models\NLPTask;
+use App\Models\Author;
 
 class DatasetController extends Controller
 {
@@ -15,7 +16,14 @@ class DatasetController extends Controller
      */
     public function index()
     {
-        return Dataset::all();
+        $dataset = Dataset::all();
+
+        foreach ($dataset as $dataset) {
+            $dataset->authors = Author::whereIn('_id', $dataset->author_ids)->get();
+            $dataset->nlp_tasks = NLPTask::whereIn('_id', $dataset->n_l_p_task_ids)->get();
+        }
+
+        return $dataset;
     }
 
     /**
@@ -35,31 +43,14 @@ class DatasetController extends Controller
             'english_name' => $request->english_name,
             'full_portuguese_name' => $request->full_portuguese_name,
             'description' => $request->description,
-            'introduction_date' => $request->introduction_date,
+            'year' => $request->year,
         ]);
 
         # Create the LanguageStats for the dataset.
-        foreach ($request->language_stats as $language_stat) {
-            if ($dataset->language_stats === null) {
-                $dataset->language_stats = [];
-            }
+        $dataset->language_stats = $request->language_stats;
 
-            $dataset->language_stats[] = [
-                'iso_code' => $language_stat['iso_code'],
-            ];
-        }
-
-        # Create the Authors for the dataset.
-        foreach ($request->authors as $author) {
-            $dataset->authors()->create([
-                'email' => $author['email'],
-            ]);
-        }
-
-        # Create the NLPTasks for the dataset.
-        foreach ($request->nlp_tasks as $nlp_task)
-            $dataset->nlp_tasks()->save(NLPTask::where('acronym', $nlp_task['acronym'])->first());
-
+        $dataset->authors()->attach(Author::whereIn('hrefs.email', $request->authors)->get());
+        $dataset->nlp_tasks()->attach(NLPTask::whereIn('acronym', $request->nlp_tasks)->get());
 
         # Create the HRefs for the dataset.
         $dataset->hrefs = [
@@ -71,13 +62,13 @@ class DatasetController extends Controller
         ];
 
         # Create the ResourceStatus for the dataset.
-        $dataset->resource_status = [
-            'broken_link' => $request->resource_status['broken_link'],
-            'author_response' => $request->resource_status['author_response'],
-            'standard_format' => $request->resource_status['standard_format'],
-            'backup' => $request->resource_status['backup'],
-            'preservation_rating' => $request->resource_status['preservation_rating'],
-            'off_the_shelf' => $request->resource_status['off_the_shelf'],
+        $dataset->dataset_stats = [
+            'broken_link' => $request->dataset_stats['broken_link'],
+            'author_response' => $request->dataset_stats['author_response'],
+            'standard_format' => $request->dataset_stats['standard_format'],
+            'backup' => $request->dataset_stats['backup'],
+            'preservation_rating' => $request->dataset_stats['preservation_rating'],
+            'off_the_shelf' => $request->dataset_stats['off_the_shelf'],
         ];
 
         $dataset->saveOrFail();

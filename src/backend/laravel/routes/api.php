@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::apiResource('models', App\Http\Controllers\ModelController::class)->only(['store', 'index', 'show']);
+    Route::apiResource('models', App\Http\Controllers\MLModelController::class)->only(['store', 'index', 'show']);
     Route::apiResource('datasets', App\Http\Controllers\DatasetController::class)->only(['store', 'index', 'show']);
     Route::apiResource('authors', App\Http\Controllers\AuthorController::class)->only(['store', 'index', 'show']);
     Route::apiResource('languages', App\Http\Controllers\LanguageController::class)->only(['store', 'index', 'show']);

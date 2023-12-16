@@ -5,7 +5,7 @@ namespace App\Models\Helpers;
 use MongoDB\Laravel\Eloquent\Model;
 
 
-class ResourceStatus extends Model
+class ResourceStats extends Model
 {
     # The attributes that are mass assignable.
     protected $fillable = [
@@ -15,5 +15,9 @@ class ResourceStatus extends Model
         'backup',
         'preservation_rating',
         'off_the_shelf',
+        'languages',
+        'architecture',
+        'number_parameters',
+        'size_MB',
     ];
 }

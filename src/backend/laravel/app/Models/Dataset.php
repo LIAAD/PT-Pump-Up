@@ -8,7 +8,7 @@ use App\Models\Helpers\LanguageStats;
 use App\Models\Author;
 use App\Models\NLPTask;
 use App\Models\Helpers\HRefs;
-use App\Models\Helpers\ResourceStatus;
+use App\Models\Helpers\ResourceStats;
 
 
 class Dataset extends Model
@@ -33,13 +33,13 @@ class Dataset extends Model
     # One Dataset has many Authors.
     public function authors()
     {
-        return $this->hasMany(Author::class);
+        return $this->belongsToMany(Author::class, parentKey: '_id');
     }
 
     # One Dataset has many NLPTasks.
     public function nlp_tasks()
     {
-        return $this->hasMany(NLPTask::class);
+        return $this->belongsToMany(NLPTask::class);
     }
 
     # One Dataset has one HRefs.
@@ -48,9 +48,15 @@ class Dataset extends Model
         return $this->hasOne(HRefs::class);
     }
 
-    # One Dataset has one ResourceStatus.
-    public function resource_status()
+    # One Dataset has one ResourceStats.
+    public function dataset_stats()
     {
-        return $this->hasOne(ResourceStatus::class);
+        return $this->hasOne(ResourceStats::class);
+    }
+
+    # One Dataset has many Publications.
+    public function publications()
+    {
+        return $this->hasMany(Publication::class);
     }
 }

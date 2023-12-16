@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MongoDB\Laravel\Eloquent\Model;
+use App\Models\Dataset;
+use App\Models\MLModel;
 
 class NLPTask extends Model
 {
@@ -21,5 +23,10 @@ class NLPTask extends Model
     public function datasets()
     {
         return $this->belongsToMany(Dataset::class);
+    }
+
+    public function ml_models()
+    {
+        return $this->belongsToMany(MLModel::class);
     }
 }
