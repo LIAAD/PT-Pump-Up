@@ -27,6 +27,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/home', function () {
+    return Inertia::render('Homepage');
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'api_token' => auth()->user()->tokens->first()->plainTextToken
