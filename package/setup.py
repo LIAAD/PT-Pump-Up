@@ -5,7 +5,17 @@ setup(
     version='2.2.3',
     description='Hub for Portuguese NLP resources',
     install_requires=['beanie', 'mechanize',
-                      'pandas', 'requests', 'scikit-learn', 'numpy'],
+                      'huggingface_hub',
+                      'pandas', 'requests',
+                      'scikit-learn',
+                      'numpy',
+                      'bs4',
+                      'lxml',
+                      'datasets',
+                      'transformers',
+                      'tqdm',
+                      'conllu',
+                      ],
     packages=find_packages(),
     author='Rúben Almeida'
 )

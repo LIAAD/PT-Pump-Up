@@ -148,3 +148,21 @@ img {
         padding-right: 8% !important;
     }
 }
+
+.label-low {
+    font-weight: bold !important;
+    font-size: larger !important;
+    color: #990012 !important;
+}
+
+.label-medium {
+    font-weight: bold !important; 
+    font-size: larger !important;
+    color: #3B2F2F !important;
+}
+
+.label-high {
+    font-weight: bold !important;
+    font-size: larger !important;
+    color: #2E8B57 !important;
+}
