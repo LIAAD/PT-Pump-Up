@@ -7,13 +7,27 @@ use App\Http\Requests\UpdateMLModelRequest;
 use App\Models\MLModel;
 use App\Models\Author;
 use App\Models\NLPTask;
+use Inertia\Inertia;
 
 class MLModelController extends Controller
 {
+
+    public function index_web()
+    {
+        $ml_models = $this->index_api();
+
+        return Inertia::render(
+            'MLModels/Index',
+            [
+                'ml_models' => $ml_models,
+            ]
+        );
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index_api()
     {
         # Retrieve all MLModels with their authors.
         $ml_models = MLModel::all();

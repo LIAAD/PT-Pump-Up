@@ -8,6 +8,7 @@ const GenericSidebar = (props) => {
         ['Home', '/'],
         ['Datasets', '/datasets'],
         ['Models', '/models'],
+        ['Login', '/login']
     ]
 
     return (

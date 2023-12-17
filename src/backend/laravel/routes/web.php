@@ -5,7 +5,7 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\Http\Controllers\MLModelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 // Defined by us
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/datasets', [DatasetController::class, 'index_web'])->name('index_web');
+Route::get('/models', [MLModelController::class, 'index_web'])->name('index_web');
 
 /*
 Route::get('/tokens/create', function (Request $request) {

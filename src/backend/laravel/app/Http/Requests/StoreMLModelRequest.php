@@ -23,7 +23,7 @@ class StoreMLModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:ml_models',
             'description' => 'required|string',
             'year' => 'required|integer',
             'authors' => 'required|array',

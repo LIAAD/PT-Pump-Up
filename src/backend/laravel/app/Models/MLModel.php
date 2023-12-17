@@ -17,6 +17,8 @@ class MLModel extends Model
     protected $fillable = [
         '_id',
         'name',
+        'description',
+        'year',
     ];
 
     # One MLModel has many Authors.
