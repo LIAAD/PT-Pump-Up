@@ -3,7 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import Grid from '@mui/material/Grid'
 import ListIcon from '@mui/icons-material/List';
-import CustomDivider from '@/Components/CustomDivider';
+import GenericDivider from '@/Components/GenericDivider';
 import Publication from '@/Components/Publication';
 import Button from '@mui/material/Button';
 import EmailIcon from '@mui/icons-material/Email';
@@ -14,21 +14,21 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 const FigureItem = (props) => {
     return (
-        <Grid item xs={12} md={3} lg={2} className='figure' >
+        <Grid item xs={12} md={3} lg={2} className='figure'>
             <h3>{props.number}</h3>
-            <p>{props.title}</p>
+            <h4>{props.title}</h4>
         </Grid>
     )
 }
 
 const Profile = (props) => {
     return (
-        <Grid item xs={6} md={2} xl={1.5} sx={{ textAlign: "center", mr: 3, mb: { xs: 3, md: 0 } }} >
+        <Grid item xs={6} md={2} xl={1.5} sx={{ textAlign: "center" }} >
             <img src={props.member.img} className="profile-img" />
             <h3>{props.member.name}</h3>
             <h4>{props.member.title}</h4>
             <h4>{props.member.affiliation}</h4>
-            <Grid container justifyContent="center" alignItems="center" >
+            <Grid container alignItems="center" justifyContent="center" >
                 <Grid item xs={4}>
                     <Button href={`mailto:${props.member.email}`} className="blue-inesc" target="_blank" rel="noopener noreferrer">
                         <EmailIcon sx={{ fontSize: 40 }} />
@@ -51,46 +51,6 @@ const Profile = (props) => {
 
 const Index = (props) => {
 
-    const [state, setState] = useState({
-        team: [
-            {
-                'img': 'https://text2story.inesctec.pt/img/ruben_almeida.png',
-                'name': 'Rúben Almeida',
-                'title': 'NLP Researcher',
-                'affiliation': 'INESC Tec',
-                'linkedin': 'https://www.linkedin.com/in/almeida-ruben',
-                'github': "https://github.com/arubenruben",
-                "email": "ruben.f.almeida@inesctec.pt"
-            },
-            {
-                'img': 'https://raw.githubusercontent.com/LIAAD/PT-Pump-Up/main/src/frontend/src/assets/images/RC5.png',
-                'name': 'Ricardo Campos',
-                'title': 'Coordinator',
-                'affiliation': 'INESC Tec',
-                "email": "ricardo.campos@inesctec.pt"
-            },
-            {
-                'img': 'https://text2story.inesctec.pt/img/alipio.png',
-                'name': 'Alípio Jorge',
-                'title': 'Co-Coordinator',
-                'affiliation': 'INESC Tec',
-                "email": "amjorge@fc.up.pt"
-            },
-            {
-                'img': 'https://text2story.inesctec.pt/img/sergio.jpg',
-                'name': 'Sérgio Nunes',
-                'title': 'Co-Coordinator',
-                'affiliation': 'INESC Tec',
-                "email": "ssn@fe.up.pt"
-            }
-        ],
-        publications: [],
-        authors: [],
-        datasets: [],
-        models: [],
-        nlp_tasks: []
-    })
-
     return (
         <PTPumpUpLayout
             main={
@@ -103,26 +63,26 @@ const Index = (props) => {
                             <ListIcon sx={{ fontSize: 200 }} />
                         </Grid>
                     </Grid>
-                    <CustomDivider label="What is PT-Pump-Up?" />
+                    <GenericDivider label="What is PT-Pump-Up?" />
                     <Grid item xs={12} sx={{ mx: 5 }}>
                         <h3>PT-Pump-Up is a hub for Portuguese NLP resources, which aims to provide a centralized access point to the most relevant resources for Portuguese NLP, as well as to provide a set of tools to facilitate their use.</h3>
                     </Grid>
-                    <CustomDivider label="What resources are available?" />
+                    <GenericDivider label="What resources are available?" />
                     <Grid container justifyContent="space-around" alignItems="center">
-                        <FigureItem number={state.datasets.length} title="Datasets" />
-                        <FigureItem number={state.models.length} title="Models" />
-                        <FigureItem number={state.authors.length} title="Authors" />
-                        <FigureItem number={state.nlp_tasks.length} title="NLP Tasks" />
+                        <FigureItem number={props.num_datasets} title="Datasets" />
+                        <FigureItem number={props.num_models} title="Models" />
+                        <FigureItem number={props.num_authors} title="Authors" />
+                        <FigureItem number={props.nlp_tasks} title="NLP Tasks" />
                     </Grid>
-                    <CustomDivider label="Our Team" />
+                    <GenericDivider label="Our Team" />
                     <Grid container alignItems="center" justifyContent="space-around">
-                        {state.team.map((member, index) =>
+                        {props.team.map((member, index) =>
                             <Profile key={index} member={member} />
                         )}
                     </Grid>
-                    <CustomDivider label="Publications" />
+                    <GenericDivider label="Publications" />
                     <ul>
-                        {state.publications.map((publication, index) =>
+                        {props.publications.map((publication, index) =>
                             <Publication key={index} publication={publication} />
                         )}
                     </ul>

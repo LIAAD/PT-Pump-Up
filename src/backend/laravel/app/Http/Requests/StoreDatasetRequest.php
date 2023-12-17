@@ -23,10 +23,10 @@ class StoreDatasetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'english_name' => 'required|string',
-            'full_portuguese_name' => 'nullable|string',
+            'english_name' => 'required|string|unique:datasets,english_name',
+            'full_portuguese_name' => 'nullable|string|unique:datasets,full_portuguese_name',
             'description' => 'required|string',
-            'year' => 'required|integer',
+            'year' => 'numeric|integer',
 
             'language_stats' => 'required|array',
             'language_stats.*' => 'required|string|exists:languages,iso_code',

@@ -27,6 +27,7 @@
         "@mui/material": "^5.15.0",
         "@mui/styled-engine-sc": "^6.0.0-alpha.8",
         "citation-js": "^0.7.4",
-        "styled-components": "^6.1.1"
+        "styled-components": "^6.1.1",
+        "ziggy-js": "^1.0.5"
     }
 }

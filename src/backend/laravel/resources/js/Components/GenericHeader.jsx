@@ -16,12 +16,10 @@ const GenericHeader = (props) => {
                 </Button>
             </Grid>
             <Grid item xs={"auto"} lg={6}>
-                <h1>PT-Pump-Up
-                    <Box>Hub for Portuguese NLP Resources</Box>
-                </h1>
+                <h1><span className="blue-inesc">PT-Pump-Up</span> <Box id="small-title" sx={{ display: { xs: 'none', md: 'inline' } }}>Hub for Portuguese NLP Resources</Box></h1>
             </Grid>
-            <Grid item xs={1}>
-                <IconButton onClick={props.toggleDrawer}><MenuIcon /></IconButton>
+            <Grid item xs={1} sx={{ ml: "auto" }}>
+                <IconButton className="blue-inesc" onClick={props.toggleDrawer} sx={{ p: 2 }} size="large"><MenuIcon fontSize="inherit" /></IconButton>
             </Grid>
         </Grid>
     )

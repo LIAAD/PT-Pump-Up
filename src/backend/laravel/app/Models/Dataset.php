@@ -22,6 +22,7 @@ class Dataset extends Model
         'full_portuguese_name',
         'description',
         'introduction_date',
+        'year',
     ];
 
     # One Dataset has many LanguageStats.

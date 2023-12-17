@@ -12,9 +12,9 @@ const GenericSidebar = (props) => {
 
     return (
         <SwipeableDrawer open={props.showDrawer} onOpen={props.toggleDrawer} onClose={props.toggleDrawer}>
-            <List>
+            <List id="sidebar-list">
                 {menus.map((menu, index) => (
-                    <ListItemButton key={index}>
+                    <ListItemButton key={index} className="sidebar-button" href={menu[1]} sx={{ my: 2 }}>
                         {menu[0]}
                     </ListItemButton>
                 ))}

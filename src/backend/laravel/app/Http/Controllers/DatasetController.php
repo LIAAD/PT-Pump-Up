@@ -8,22 +8,33 @@ use App\Models\Dataset;
 use App\Models\Language;
 use App\Models\NLPTask;
 use App\Models\Author;
+use Inertia\Inertia;
 
 class DatasetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $dataset = Dataset::all();
 
-        foreach ($dataset as $dataset) {
+    public function index_web()
+    {
+        $datasets = $this->index_api();
+
+        return Inertia::render('Datasets/Index', [
+            'datasets' => $datasets,
+        ]);
+    }
+    /**
+     * Display a listing of the resource. For the API.
+     * 
+     */
+    public function index_api()
+    {
+        $datasets = Dataset::all();
+
+        foreach ($datasets as $dataset) {
             $dataset->authors = Author::whereIn('_id', $dataset->author_ids)->get();
             $dataset->nlp_tasks = NLPTask::whereIn('_id', $dataset->n_l_p_task_ids)->get();
         }
 
-        return $dataset;
+        return $datasets;
     }
 
     /**
