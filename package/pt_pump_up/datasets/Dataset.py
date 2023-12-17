@@ -3,10 +3,11 @@ from conllu import parse as conllu_parse
 import logging
 from huggingface_hub import hf_hub_download
 from datasets import Dataset as HF_Dataset
+from tqdm import tqdm
 
 
 class Dataset(ABC):
-    def __init__(self, repo_id, hf_token) -> None:
+    def __init__(self, repo_id, hf_token=None) -> None:
         super().__init__()
         self.repo_id = repo_id
         self.hf_token = hf_token
