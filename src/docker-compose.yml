@@ -1,35 +1,25 @@
 version: '3'
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-    container_name: frontend
+  laravel:
+    build: 
+      context: ./backend/laravel
+      dockerfile: dev.Dockerfile
+    container_name: laravel    
+    ports:
+      - "8000:8000"
+      - "5173:5173"
     networks:
       - pt-pump-up
-    ports:
-      - "3000:3000"
     volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
-      - ./frontend/build:/app/build
-      - ./frontend/package.json:/app/package.json
-      - ./frontend/package-lock.json:/app/package-lock.json
-  
-  backend:
-    build:
-      context: ./backend
-    container_name: backend
-    restart: on-failure
-    networks:
-      - pt-pump-up
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./backend:/app
-    environment:
-      - mongo_database=production
+      - ./backend/laravel:/app
+      - node_modules:/app/node_modules
+      - vendor:/app/vendor
 
 networks:
   pt-pump-up:
     driver: bridge
+
+volumes:
+  node_modules:
+  vendor:

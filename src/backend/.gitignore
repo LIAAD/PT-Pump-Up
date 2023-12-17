@@ -1,5 +1,1 @@
-cert/*
-!cert/.gitkeep
-
-build/*
-!build/.gitkeep
+laravel1/
