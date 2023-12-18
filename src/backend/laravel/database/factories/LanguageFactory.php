@@ -23,7 +23,7 @@ class LanguageFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'iso_code' => $this->faker->text(),
-            'papers_with_code_ids' => $this->faker->word(),
+            'papers_with_code_ids' => '{}',
         ];
     }
 }

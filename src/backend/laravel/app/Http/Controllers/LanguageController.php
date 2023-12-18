@@ -32,7 +32,7 @@ class LanguageController extends Controller
         $language = Language::create([
             'name' => $request->name,
             'iso_code' => $request->iso_code,
-            'papers_with_code_id' => $request->papers_with_code_id,
+            'papers_with_code_ids' => $request->papers_with_code_ids,
         ]);
 
         return response()->json([

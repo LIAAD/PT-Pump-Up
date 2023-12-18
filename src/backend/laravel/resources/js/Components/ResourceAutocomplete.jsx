@@ -42,20 +42,22 @@ const SelectedCard = (props) => {
 const ResourceAutocomplete = (props) => {
     return (
         <>
-            <GenericDivider label={props.label} />
-
+            <Grid item xs={12}>
+                <GenericDivider label={props.label} />
+            </Grid>
             <Grid container alignItems="center" justifyContent="center">
+
+                <Grid item xs={8} >
+                    <NewAutocomplete label={props.label} options={props.propsElements} />
+                </Grid>
+
                 {props.stateElements.map((elem, index) => {
-                    <Grid item xs={6}>
+                    <Grid key={index} item xs={6}>
                         <SelectedCard title={elem} onClick={props.onClick} />
                     </Grid>
                 })}
-                <Grid item xs={6}>
-                    <NewAutocomplete label={props.label} options={props.propsElements} />
-                </Grid>
             </Grid>
         </>
-
     )
 }
 

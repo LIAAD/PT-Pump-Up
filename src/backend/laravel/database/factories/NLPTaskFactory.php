@@ -23,7 +23,7 @@ class NLPTaskFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'acronym' => $this->faker->text(),
-            'papers_with_code_ids' => $this->faker->word(),
+            'papers_with_code_ids' => '{}',
         ];
     }
 }

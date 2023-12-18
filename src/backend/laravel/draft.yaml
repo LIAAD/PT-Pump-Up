@@ -42,12 +42,12 @@ models:
   Language:
     name: longtext
     iso_code: longtext
-    papers_with_code_ids: array
+    papers_with_code_ids: json
   
   NLPTask:
     name: longtext
     acronym: longtext
-    papers_with_code_ids: array
+    papers_with_code_ids: json
 
   Publication:
     title: longtext

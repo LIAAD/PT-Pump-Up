@@ -27,5 +27,6 @@ class Language extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'papers_with_code_ids' => 'array',
     ];
 }

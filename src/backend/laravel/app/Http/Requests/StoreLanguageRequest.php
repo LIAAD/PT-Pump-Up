@@ -25,7 +25,7 @@ class StoreLanguageRequest extends FormRequest
         return [
             'name' => 'required|string',
             'iso_code' => 'required|string',
-            'papers_with_code_id' => 'required|int',
+            'papers_with_code_ids' => 'required|array',
         ];
     }
 }

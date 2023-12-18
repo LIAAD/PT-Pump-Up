@@ -47,9 +47,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        # Create Bearer token for user on registration
-        $user->createToken("api_token");
-
         return redirect(RouteServiceProvider::HOME);
     }
 }

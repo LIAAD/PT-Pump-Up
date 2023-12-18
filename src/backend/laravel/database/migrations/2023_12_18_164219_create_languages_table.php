@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->longText('name');
             $table->longText('iso_code');
-            $table->string('papers_with_code_ids');
+            $table->json('papers_with_code_ids');
             $table->timestamps();
         });
     }

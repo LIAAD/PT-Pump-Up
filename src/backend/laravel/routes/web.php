@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MLModelController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,15 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('datasets', DatasetController::class)->only('create');
     Route::resource('models', MLModelController::class)->only('create');
+
+
+    Route::post('/tokens', function (Request $request) {
+        $token = $request->user()->createToken("api_key");
+
+        return Inertia::render('Dashboard', [
+            'api_token' => $token->plainTextToken,
+        ]);
+    });
 });
 
 
@@ -39,12 +49,8 @@ Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/datasets', [DatasetController::class, 'index_web'])->name('index_web');
 Route::get('/models', [MLModelController::class, 'index_web'])->name('index_web');
 
+
 /*
-Route::get('/tokens/create', function (Request $request) {
-    $token = $request->user()->createToken("general");
-    
-    return ['token' => $token->plainTextToken];
-});
 */
 
 require __DIR__ . '/auth.php';
