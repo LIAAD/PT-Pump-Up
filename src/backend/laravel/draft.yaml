@@ -11,9 +11,16 @@ models:
     link_hf: url nullable
     doi: url nullable
 
+  ResourceStats:
+    broken_link: boolean
+    author_response: boolean
+    standard_format: boolean
+    backup: boolean
+    preservation_rating: string nullable
+
   
   Dataset:
-    englishName: longtext
+    english_name: longtext
     full_portuguese_name: longtext
     description: longtext
     year: integer

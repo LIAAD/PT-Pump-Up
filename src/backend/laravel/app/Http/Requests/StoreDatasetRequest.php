@@ -51,7 +51,7 @@ class StoreDatasetRequest extends FormRequest
             'dataset_stats.author_response' => 'required|boolean',
             'dataset_stats.standard_format' => 'required|boolean',
             'dataset_stats.backup' => 'required|boolean',
-            'dataset_stats.preservation_rating' => 'required|string',
+            'dataset_stats.preservation_rating' => 'nullable|string',
             'dataset_stats.off_the_shelf' => 'required|boolean',
 
             #TODO: Add Publication validation

@@ -40,7 +40,6 @@ const SelectedCard = (props) => {
 }
 
 const ResourceAutocomplete = (props) => {
-    console.log(props.stateElements);
     return (
         <>
             <Grid item xs={12}>

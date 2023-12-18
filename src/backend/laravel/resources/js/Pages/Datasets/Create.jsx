@@ -5,6 +5,10 @@ import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import { handleTextFieldChange } from '@/utils'
 import ResourceAutocomplete from '@/Components/ResourceAutocomplete'
+import Button from '@mui/material/Button'
+import { router } from '@inertiajs/react'
+import GenericDivider from '@/Components/GenericDivider'
+import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 
 const Create = (props) => {
 
@@ -18,12 +22,49 @@ const Create = (props) => {
         authors: [],
         nlp_tasks: [],
         languages: [],
+        broken_link: false,
+        author_response: false,
+        standard_format: false,
+        backup: false,
+        off_the_shelf: false,
+        submit: false,
+        description: '',
     })
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setState({ ...state, submit: true })
 
-    const removeElement = (e, key, value) => {
-        setState({ ...state, [key]: state[key].filter(elem => elem.id !== value.id) })
+        router.post(route('datasets.store'), {
+            english_name: state.english_name,
+            portuguese_name: state.portuguese_name,
+            year: state.year,
+            hrefs: {
+                source_url: state.source_url,
+                link_huggingface: state.link_huggingface,
+                doi: state.doi,
+            },
+            dataset_stats: {
+                broken_link: state.broken_link == "on" ? true : false,
+                author_response: state.author_response == "on" ? true : false,
+                standard_format: state.standard_format == "on" ? true : false,
+                backup: state.backup == "on" ? true : false,
+                off_the_shelf: state.off_the_shelf == "on" ? true : false,
+            },
+            authors: state.authors.map(elem => elem.href.email),
+            nlp_tasks: state.nlp_tasks.map(elem => elem.acronym),
+            language_stats: state.languages.map(elem => elem.iso_code),
+            description: state.description,
+        }, {
+            onerror: () => {
+                setState({ ...state, submit: false })
+            },
+        })
+
     }
+
+
+    const removeElement = (e, key, value) => setState({ ...state, [key]: state[key].filter(elem => elem.id !== value.id) })
 
 
     return (
@@ -44,7 +85,12 @@ const Create = (props) => {
                             </FormControl>
                         </Grid>
                         <Grid xs={8} item>
-
+                            <FormControl fullWidth sx={{ mb: 3 }}>
+                                <TextField label="Description" variant="outlined" required multiline rows={3} onChange={e => handleTextFieldChange(e, state, setState)} name="description" />
+                                <FormHelperText>Description of dataset</FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid xs={8} item>
                             <FormControl fullWidth sx={{ mb: 3 }}>
                                 <TextField label="Year" type="number" variant="outlined" required onChange={e => handleTextFieldChange(e, state, setState)} name="year" />
                                 <FormHelperText>Year of publication</FormHelperText>
@@ -68,6 +114,20 @@ const Create = (props) => {
                                 <FormHelperText>DOI of the dataset</FormHelperText>
                             </FormControl>
                         </Grid>
+                        <GenericDivider label="Stats" />
+
+                        <Grid container justifyContent="center" alignItems="center">
+                            <Grid xs={"auto"} item>
+                                <FormGroup>
+                                    <FormControlLabel required control={<Switch onChange={e => handleTextFieldChange(e, state, setState)} />} label="Broken Link" name="broken_link" />
+                                    <FormControlLabel required control={<Switch onChange={e => handleTextFieldChange(e, state, setState)} />} label="Author Response" name="author_response" />
+                                    <FormControlLabel required control={<Switch onChange={e => handleTextFieldChange(e, state, setState)} />} label="Standard Format" name="standard_format" />
+                                    <FormControlLabel required control={<Switch onChange={e => handleTextFieldChange(e, state, setState)} />} label="Backup" name="backup" />
+                                    <FormControlLabel required control={<Switch onChange={e => handleTextFieldChange(e, state, setState)} />} label="Off the Shelf" name="off_the_shelf" />
+                                </FormGroup>
+                            </Grid>
+
+                        </Grid>
 
                         <ResourceAutocomplete label="Languages" stateElements={state.languages} propsElements={props.languages} onChange={(e, newValue) => setState({ ...state, languages: [...state.languages, newValue] })} onDelete={
                             (e, value) => {
@@ -87,6 +147,9 @@ const Create = (props) => {
                             }}
                         />
 
+                        <Grid sx={{ mt: 5 }}>
+                            {!state.submit && <Button variant="contained" onClick={handleSubmit}>Submit</Button>}
+                        </Grid>
                     </Grid>
 
                 </form >

@@ -38,7 +38,7 @@ class DatasetController extends Controller
         return Inertia::render('Datasets/Create', [
             'languages' => Language::all(),
             'nlp_tasks' => NLPTask::all(),
-            'authors' => Author::all(),
+            'authors' => Author::with('href')->get(),
         ]);
     }
 
@@ -56,7 +56,8 @@ class DatasetController extends Controller
 
         # Create the LanguageStats for the dataset.
         $dataset->language_stats = $request->language_stats;
-
+        
+        # TODO: hrefs.email is wrong
         $dataset->authors()->attach(Author::whereIn('hrefs.email', $request->authors)->get());
         $dataset->nlp_tasks()->attach(NLPTask::whereIn('acronym', $request->nlp_tasks)->get());
 
