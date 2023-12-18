@@ -23,7 +23,7 @@ const NewAutocomplete = (props) => {
             options={props.options}
             getOptionLabel={(option) => option.name}
             renderInput={renderFunction}
-            onChange={props.onChange}
+            onChange={(event, newValue) => { if (newValue) props.onChange(event, newValue) }}
         />
     )
 }
@@ -32,18 +32,15 @@ const SelectedCard = (props) => {
     return (
         <Card>
             <CardHeader
-                title={props.name}
-                action={
-                    <CloseIcon onClick={props.onClick} />
-                }
+                title={props.elem.name}
+                action={<CloseIcon onClick={props.onClick} />}
             />
-
         </Card>
     )
 }
 
-
 const ResourceAutocomplete = (props) => {
+    console.log(props.stateElements);
     return (
         <>
             <Grid item xs={12}>
@@ -51,15 +48,17 @@ const ResourceAutocomplete = (props) => {
             </Grid>
             <Grid container alignItems="center" justifyContent="center">
 
-                <Grid item xs={8} >
+                <Grid item xs={10} >
                     <NewAutocomplete label={props.label} options={props.propsElements} onChange={props.onChange} />
                 </Grid>
 
-                {props.stateElements.map((elem, index) => {
-                    <Grid key={index} item xs={6}>
-                        <SelectedCard title={elem} onClick={props.onClick} />
+                {props.stateElements.map((elem, index) =>
+                    <Grid key={index} item xs={4} sx={{ mt: 5, mx: 2 }}>
+                        <SelectedCard elem={elem} onClick={(e) => {
+                            props.onDelete(e, elem)
+                        }} />
                     </Grid>
-                })}
+                )}
             </Grid>
         </>
     )

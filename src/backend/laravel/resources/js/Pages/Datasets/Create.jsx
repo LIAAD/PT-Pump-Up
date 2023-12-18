@@ -7,6 +7,7 @@ import { handleTextFieldChange } from '@/utils'
 import ResourceAutocomplete from '@/Components/ResourceAutocomplete'
 
 const Create = (props) => {
+
     const [state, setState] = useState({
         english_name: '',
         portuguese_name: '',
@@ -19,7 +20,11 @@ const Create = (props) => {
         languages: [],
     })
 
-    console.log(state);
+
+    const removeElement = (e, key, value) => {
+        setState({ ...state, [key]: state[key].filter(elem => elem.id !== value.id) })
+    }
+
 
     return (
         <PTPumpUpLayout
@@ -64,11 +69,23 @@ const Create = (props) => {
                             </FormControl>
                         </Grid>
 
-                        <ResourceAutocomplete label="Languages" stateElements={state.languages} propsElements={props.languages} onChange={(e, newValue) => setState({ ...state, languages: [...state.languages, newValue] })} />
+                        <ResourceAutocomplete label="Languages" stateElements={state.languages} propsElements={props.languages} onChange={(e, newValue) => setState({ ...state, languages: [...state.languages, newValue] })} onDelete={
+                            (e, value) => {
+                                removeElement(e, 'languages', value)
+                            }
+                        } />
 
-                        <ResourceAutocomplete label="Authors" stateElements={state.authors} propsElements={props.authors} onChange={(e, newValue) => setState({ ...state, authors: [...state.authors, newValue] })} />
+                        <ResourceAutocomplete label="Authors" stateElements={state.authors} propsElements={props.authors} onChange={(e, newValue) => setState({ ...state, authors: [...state.authors, newValue] })} onDelete={
+                            (e, value) => {
+                                removeElement(e, 'authors', value)
+                            }
+                        } />
 
-                        <ResourceAutocomplete label="NLP Tasks" stateElements={state.nlp_tasks} propsElements={props.nlp_tasks} onChange={(e, newValue) => setState({ ...state, nlp_tasks: [...state.nlp_tasks, newValue] })} />
+                        <ResourceAutocomplete label="NLP Tasks" stateElements={state.nlp_tasks} propsElements={props.nlp_tasks} onChange={(e, newValue) => setState({ ...state, nlp_tasks: [...state.nlp_tasks, newValue] })}
+                            onDelete={(e, value) => {
+                                removeElement(e, 'nlp_tasks', value)
+                            }}
+                        />
 
                     </Grid>
 
