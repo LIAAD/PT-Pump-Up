@@ -13,3 +13,10 @@ export const filterByNLPTask = (response) => {
 
     return datasetsByTask
 }
+
+export const handleTextFieldChange = (event, state, setState) => {
+    setState({
+        ...state,
+        [event.target.name]: event.target.value
+    })
+}

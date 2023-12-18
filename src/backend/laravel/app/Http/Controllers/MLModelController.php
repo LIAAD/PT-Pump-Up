@@ -34,7 +34,10 @@ class MLModelController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('MLModels/Create', [
+            'nlp_tasks' => NLPTask::all(),
+            'authors' => Author::all(),
+        ]);
     }
 
     /**

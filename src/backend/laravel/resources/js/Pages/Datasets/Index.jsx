@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import LinkIcon from '@mui/icons-material/Link';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -69,14 +70,21 @@ const Index = (props) => {
     useEffect(() => {
         setState({ ...state, datasets: filterByNLPTask(props.datasets) })
     }, [])
+
     return (
         <PTPumpUpLayout
             main={
                 <Grid container>
-                    <Grid item>
-                        <h2>Dataset Index</h2>
+                    <Grid container alignItems="center">
+                        <Grid item>
+                            <h2>Dataset Index</h2>
+                        </Grid>
+                        {props.auth.user &&
+                            <Grid item sx={{ ml: "auto" }}>
+                                <Button variant="contained" href={route("datasets.create")}>Add New Dataset<AddIcon /> </Button>
+                            </Grid>
+                        }
                     </Grid>
-
                     {Object.keys(state.datasets).map((key) =>
                         <TableDataset task={key} datasets={state.datasets[key]} />
                     )}

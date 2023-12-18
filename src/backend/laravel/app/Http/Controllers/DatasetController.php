@@ -17,6 +17,8 @@ class DatasetController extends Controller
     {
         return Inertia::render('Datasets/Index', [
             'datasets' => Dataset::with(['authors', 'nlp_tasks'])->get(),
+            'authors' => Author::all(),
+            'nlp_tasks' => NLPTask::all(),
         ]);
     }
     /**
@@ -33,7 +35,11 @@ class DatasetController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Datasets/Create', [
+            'languages' => Language::all(),
+            'nlp_tasks' => NLPTask::all(),
+            'authors' => Author::all(),
+        ]);
     }
 
     /**

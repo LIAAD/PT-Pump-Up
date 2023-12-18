@@ -79,8 +79,15 @@ const Index = (props) => {
     <PTPumpUpLayout
       main={
         <Grid container>
-          <Grid item>
-            <h2>Model Index</h2>
+          <Grid container alignItems="center">
+            <Grid item>
+              <h2>Dataset Index</h2>
+            </Grid>
+            {props.auth.user &&
+              <Grid item sx={{ ml: "auto" }}>
+                <Button variant="contained" href={route("ml_models.create")}>Add New Model <AddIcon /> </Button>
+              </Grid>
+            }
           </Grid>
           {Object.keys(state.models).map((key) =>
             <TableModel key={key} task={key} models={state.models[key]} />
