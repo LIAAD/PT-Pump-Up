@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\UpdateAuthorRequest;
 use App\Models\Author;
+use App\Models\Href;
+use Illuminate\Support\Facades\Auth;
 
 class AuthorController extends Controller
 {
@@ -29,21 +31,22 @@ class AuthorController extends Controller
      */
     public function store(StoreAuthorRequest $request)
     {
-        $author = Author::create([
+        $author = new Author([
             'name' => $request->name,
             'affiliation' => $request->affiliation,
         ]);
 
-        # Create the HRefs for the author.
-        $author->hrefs = [
-            'email' => $request->hrefs['email'],
-            'website' => $request->hrefs['website'] ?? null,
-            'orcid' => $request->hrefs['orcid'] ?? null,
-            'github' => $request->hrefs['github'] ?? null,
-            'twitter' => $request->hrefs['twitter'] ?? null,
-            'googleScholar' => $request->hrefs['googleScholar'] ?? null,
-            'linkedin' => $request->hrefs['linkedin'] ?? null,
-        ];
+        $author->href()->associate(Href::create([
+            'email' => $request->email,
+            'website' => $request->website ?? null,
+            'orcid' => $request->orcid ?? null,
+            'github' => $request->github ?? null,
+            'linkedin' => $request->linkedin ?? null,
+            'twitter' => $request->twitter ?? null,
+            'google_scholar' => $request->google_scholar ?? null,
+            'dblp' => $request->dblp ?? null,
+        ]));
+
 
         $author->save();
 
