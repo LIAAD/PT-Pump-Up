@@ -3,42 +3,47 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use MongoDB\Laravel\Eloquent\Model;
-use App\Models\Helpers\Hrefs;
-use App\Models\Publication;
-use App\Models\Dataset;
-use App\Models\MLModel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Author extends Model
 {
     use HasFactory;
 
-    # The attributes that are mass assignable.~
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        '_id',
         'name',
         'affiliation',
+        'href_id',
     ];
 
-    # One author has one Hrefs.
-    public function hrefs()
-    {
-        return $this->hasOne(Hrefs::class);
-    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'href_id' => 'integer',
+    ];
 
-    # One author has many publications.
-    public function publications()
-    {
-        return $this->hasMany(Publication::class);
-    }
-
-    public function datasets()
+    public function datasets(): BelongsToMany
     {
         return $this->belongsToMany(Dataset::class);
     }
 
-    public function ml_models()
+    public function mLModels(): BelongsToMany
     {
         return $this->belongsToMany(MLModel::class);
+    }
+
+    public function href(): BelongsTo
+    {
+        return $this->belongsTo(Href::class);
     }
 }

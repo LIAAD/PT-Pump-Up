@@ -21,19 +21,18 @@ RUN apt-get install -y \
     git \
     curl \
     libzip-dev
-
-
-RUN pecl install mongodb
-
-RUN docker-php-ext-enable mongodb
+    
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 COPY package.json package-lock.json composer.json composer.lock ./docker-entrypoint.sh /app/
 
-RUN composer install --no-autoloader
+RUN composer update --no-autoloader --no-scripts
+
+RUN composer install --no-autoloader --no-scripts
 
 RUN npm install
 
 # Hotfix for Sanctum Work with MongoDB
-RUN sed 's/Illuminate\\Database/MongoDB\\Laravel\\/' vendor/laravel/sanctum/src/PersonalAccessToken.php
+#RUN sed 's/Illuminate\\Database/MongoDB\\Laravel\\/' vendor/laravel/sanctum/src/PersonalAccessToken.php
 
 ENTRYPOINT [ "./docker-entrypoint.sh"]

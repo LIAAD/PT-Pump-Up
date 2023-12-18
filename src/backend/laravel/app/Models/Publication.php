@@ -3,44 +3,68 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use MongoDB\Laravel\Eloquent\Model;
-use App\Models\Conference;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Publication extends Model
 {
     use HasFactory;
 
-    # The attributes that are mass assignable.
-    protected $fillable = [];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'year',
+        'bibtex',
+        'href_id',
+    ];
 
-    # One publication belongs to many authors.
-    public function authors()
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'href_id' => 'integer',
+    ];
+
+    public function datasets(): BelongsToMany
+    {
+        return $this->belongsToMany(Dataset::class);
+    }
+
+    public function mLModels(): BelongsToMany
+    {
+        return $this->belongsToMany(MLModel::class);
+    }
+
+    public function authors(): BelongsToMany
     {
         return $this->belongsToMany(Author::class);
     }
 
-    # One publication belongs to One MLModel or Dataset.
-    public function ml_model()
+    public function languages(): BelongsToMany
     {
-        return $this->belongsTo(MLModel::class);
+        return $this->belongsToMany(Language::class);
     }
 
-    # One publication belongs to One MLModel or Dataset.
-    public function dataset()
-    {
-        return $this->belongsTo(Dataset::class);
-    }
-
-    # One publication belongs to many NLPTasks.
-    public function nlp_tasks()
+    public function nLPTasks(): BelongsToMany
     {
         return $this->belongsToMany(NLPTask::class);
     }
 
-    # One publication belongs to one Conference.
-    public function conference()
+    public function teams(): BelongsToMany
     {
-        return $this->belongsTo(Conference::class);
+        return $this->belongsToMany(Team::class);
+    }
+
+    public function href(): BelongsTo
+    {
+        return $this->belongsTo(Href::class);
     }
 }

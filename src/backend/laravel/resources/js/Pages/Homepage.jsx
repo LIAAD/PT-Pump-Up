@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import Cite from 'citation-js'
 
 
 
@@ -30,17 +31,17 @@ const Profile = (props) => {
             <h4>{props.member.affiliation}</h4>
             <Grid container alignItems="center" justifyContent="center" >
                 <Grid item xs={4}>
-                    <Button href={`mailto:${props.member.email}`} className="blue-inesc" target="_blank" rel="noopener noreferrer">
+                    <Button href={`mailto:${props.member.href.email}`} className="blue-inesc" target="_blank" rel="noopener noreferrer">
                         <EmailIcon sx={{ fontSize: 40 }} />
                     </Button>
                 </Grid>
-                {props.member.linkedin && <Grid item xs={4}>
-                    <Button href={props.member.linkedin} className="blue-inesc" target="_blank" rel="noopener noreferrer">
+                {props.member.href.linkedin && <Grid item xs={4}>
+                    <Button href={props.member.href.linkedin} className="blue-inesc" target="_blank" rel="noopener noreferrer">
                         <LinkedInIcon sx={{ fontSize: 40 }} />
                     </Button>
                 </Grid>}
-                {props.member.github && <Grid item xs={4}>
-                    <Button href={props.member.github} className="blue-inesc" target="_blank" rel="noopener noreferrer">
+                {props.member.href.github && <Grid item xs={4}>
+                    <Button href={props.member.href.github} className="blue-inesc" target="_blank" rel="noopener noreferrer">
                         <GitHubIcon sx={{ fontSize: 40 }} />
                     </Button>
                 </Grid>}
@@ -51,10 +52,21 @@ const Profile = (props) => {
 
 const Index = (props) => {
 
+    const extract_publication = () => {
+        let publications = []
+        props.team.map((member) => {
+            member.publications.map((publication) => {
+                publications.push(new Cite(publication.doi ? publication.doi : publication.bibtex))
+            })
+        })
+        return publications
+    }
+
+
     return (
         <PTPumpUpLayout
             main={
-                <Grid container>
+                <Grid container sx={{ px: { lg: 10 }, mt: { lg: 3 } }}>
                     <Grid container justifyContent="center" alignItems="center">
                         <Grid item md={8}>
                             <h1>Sincronizing & Extending <br /> Portuguese NLP Resources</h1>
@@ -82,7 +94,7 @@ const Index = (props) => {
                     </Grid>
                     <GenericDivider label="Publications" />
                     <ul>
-                        {props.publications.map((publication, index) =>
+                        {extract_publication().map((publication, index) =>
                             <Publication key={index} publication={publication} />
                         )}
                     </ul>

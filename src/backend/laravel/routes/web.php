@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MLModelController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,7 @@ use App\Http\Controllers\MLModelController;
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'api_token' => auth()->user()->tokens->first()->plainTextToken
-    ]);
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -40,7 +39,7 @@ Route::get('/models', [MLModelController::class, 'index_web'])->name('index_web'
 /*
 Route::get('/tokens/create', function (Request $request) {
     $token = $request->user()->createToken("general");
-
+    
     return ['token' => $token->plainTextToken];
 });
 */

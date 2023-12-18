@@ -15,10 +15,8 @@ class DatasetController extends Controller
 
     public function index_web()
     {
-        $datasets = $this->index_api();
-
         return Inertia::render('Datasets/Index', [
-            'datasets' => $datasets,
+            'datasets' => Dataset::with(['authors', 'nlp_tasks'])->get(),
         ]);
     }
     /**
@@ -27,14 +25,7 @@ class DatasetController extends Controller
      */
     public function index_api()
     {
-        $datasets = Dataset::all();
-
-        foreach ($datasets as $dataset) {
-            $dataset->authors = Author::whereIn('_id', $dataset->author_ids)->get();
-            $dataset->nlp_tasks = NLPTask::whereIn('_id', $dataset->n_l_p_task_ids)->get();
-        }
-
-        return $datasets;
+        return Dataset::with(['authors', 'nlp_tasks'])->get();
     }
 
     /**

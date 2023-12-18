@@ -2,7 +2,7 @@
 
 namespace App\Models\Helpers;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use App\Models\MLModel;
 use App\Models\Dataset;
 use App\Models\Helpers\Score;

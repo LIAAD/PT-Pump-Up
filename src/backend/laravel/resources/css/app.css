@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 :root {
     --background-color: #F2F2F2;
@@ -30,7 +28,7 @@ body {
 
 body {
     background-color: var(--background-color);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif !important;
 }
 
 .blue-inesc {
@@ -112,4 +110,8 @@ body {
     border-radius: 3px;
     width: 100%;
     table-layout: fixed;
+}
+
+header {
+    border-bottom: var(--blue-inesc) 2px solid;
 }

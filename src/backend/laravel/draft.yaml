@@ -1,0 +1,76 @@
+models:
+  Href:
+    email: email nullable
+    website: url nullable
+    orcid: url nullable
+    github: url nullable
+    twitter: url nullable
+    google_scholar: url nullable
+    linkedin: url nullable
+    link_source: url nullable
+    link_hf: url nullable
+    doi: url nullable
+
+  
+  Dataset:
+    englishName: longtext
+    full_portuguese_name: longtext
+    description: longtext
+    year: integer
+
+    relationships:
+      belongsToMany: Author
+      belongsTo: Href
+  
+  MLModel:
+    name: longtext
+    description: longtext
+    year: integer
+
+    relationships:
+      belongsToMany: Author
+      belongsTo: Href
+
+  Author:
+    name: longtext
+    affiliation: longtext
+
+    relationships:
+      belongsToMany: Dataset, MLModel
+      belongsTo: Href
+
+  Language:
+    name: longtext
+    iso_code: longtext
+    papers_with_code_ids: array
+  
+  NLPTask:
+    name: longtext
+    acronym: longtext
+    papers_with_code_ids: array
+
+  Publication:
+    title: longtext
+    year: integer
+    bibtex: longtext
+
+    relationships:
+      belongsToMany: Dataset, MLModel, Author, Language, NLPTask, Team
+      belongsTo: Href
+
+  Conference:
+    name: longtext
+    acronym: longtext
+
+    relationships:
+      belongsToMany: Publication
+      belongsTo: Href
+
+  Team:
+    img: url
+    name: longtext
+    title: longtext
+    affiliation: longtext
+    relationships:
+      belongsToMany: Publication
+      belongsTo: Href

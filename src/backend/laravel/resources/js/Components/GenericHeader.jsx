@@ -9,7 +9,7 @@ import inescLogo from '@/images/inesc-logo.png'
 
 const GenericHeader = (props) => {
     return (
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" sx={{ pb: { lg: 3 } }}>
             <Grid item xs={"auto"}>
                 <Button>
                     <img src={inescLogo} />

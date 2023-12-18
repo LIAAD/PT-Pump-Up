@@ -14,13 +14,10 @@ class MLModelController extends Controller
 
     public function index_web()
     {
-        $ml_models = $this->index_api();
 
         return Inertia::render(
             'MLModels/Index',
-            [
-                'ml_models' => $ml_models,
-            ]
+            ['ml_models' => MLModel::with(['authors', 'nlp_tasks'])->get()]
         );
     }
 
@@ -29,15 +26,7 @@ class MLModelController extends Controller
      */
     public function index_api()
     {
-        # Retrieve all MLModels with their authors.
-        $ml_models = MLModel::all();
-
-        foreach ($ml_models as $ml_model) {
-            $ml_model->authors = Author::whereIn('_id', $ml_model->author_ids)->get();
-            $ml_model->nlp_tasks = NLPTask::whereIn('_id', $ml_model->n_l_p_task_ids)->get();
-        }
-
-        return $ml_models;
+        return MLModel::with(['authors', 'nlp_tasks'])->get();
     }
 
     /**

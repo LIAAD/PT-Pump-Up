@@ -3,56 +3,43 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use MongoDB\Laravel\Eloquent\Model;
-use App\Models\Helpers\Hrefs;
-use App\Models\Helpers\ResourceStats;
-use App\Models\Helpers\Benchmark;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class MLModel extends Model
 {
     use HasFactory;
 
-    # The attributes that are mass assignable.
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        '_id',
         'name',
         'description',
         'year',
+        'href_id',
     ];
 
-    # One MLModel has many Authors.
-    public function authors()
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'href_id' => 'integer',
+    ];
+
+    public function authors(): BelongsToMany
     {
         return $this->belongsToMany(Author::class);
     }
 
-    # One MLModel has one ResourceStats.
-    public function model_stats()
+    public function href(): BelongsTo
     {
-        return $this->hasOne(ResourceStats::class);
-    }
-
-    # One MLModel has one HRefs.
-    public function hrefs()
-    {
-        return $this->hasOne(HRefs::class);
-    }
-
-    # One MLModel has many Benchmarks.
-    public function benchmarks()
-    {
-        return $this->hasMany(Benchmark::class);
-    }
-
-    # One MLModel has many Publications.
-    public function publications()
-    {
-        return $this->hasMany(Publication::class);
-    }
-
-    public function nlp_tasks()
-    {
-        return $this->belongsToMany(NLPTask::class);
+        return $this->belongsTo(Href::class);
     }
 }

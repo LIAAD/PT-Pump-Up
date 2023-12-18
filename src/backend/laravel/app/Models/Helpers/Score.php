@@ -2,7 +2,7 @@
 
 namespace App\Models\Helpers;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Score extends Model
 {

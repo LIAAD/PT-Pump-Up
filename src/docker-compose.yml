@@ -15,6 +15,28 @@ services:
       - ./backend/laravel:/app
       - node_modules:/app/node_modules
       - vendor:/app/vendor
+  database:
+    image: mysql:8
+    container_name: database
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=laravel
+      - MYSQL_PASSWORD=laravel
+    ports:
+      - "3306:3306"
+    networks:
+      - pt-pump-up
+    volumes:
+      - database:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - pt-pump-up
 
 networks:
   pt-pump-up:
@@ -23,3 +45,4 @@ networks:
 volumes:
   node_modules:
   vendor:
+  database:

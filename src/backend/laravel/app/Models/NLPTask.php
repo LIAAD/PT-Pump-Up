@@ -3,30 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use MongoDB\Laravel\Eloquent\Model;
-use App\Models\Dataset;
-use App\Models\MLModel;
+use Illuminate\Database\Eloquent\Model;
 
 class NLPTask extends Model
 {
     use HasFactory;
 
-    # The attributes that are mass assignable.
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        '_id',
         'name',
         'acronym',
         'papers_with_code_ids',
     ];
 
-    # One NLPTask belongs to many Datasets.
-    public function datasets()
-    {
-        return $this->belongsToMany(Dataset::class);
-    }
-
-    public function ml_models()
-    {
-        return $this->belongsToMany(MLModel::class);
-    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+    ];
 }
