@@ -36,7 +36,7 @@ const Create = (props) => {
 
         setState({ ...state, submit: true })
 
-        router.post(route('datasets.store'), {
+        router.post(route('datasets.store_web'), {
             english_name: state.english_name,
             portuguese_name: state.portuguese_name,
             year: state.year,

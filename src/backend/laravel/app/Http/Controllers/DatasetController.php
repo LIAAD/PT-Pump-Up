@@ -43,11 +43,18 @@ class DatasetController extends Controller
             'authors' => Author::with('href')->get(),
         ]);
     }
+    public function store_web(StoreDatasetRequest $request)
+    {
+        $response = $this->store_api($request);
+
+        return Inertia::render('Datasets/Show', ['dataset' => $response->original['dataset']]);
+    }
 
     /**
      * Store a newly created resource in storage.
+     * Using the API interface
      */
-    public function store(StoreDatasetRequest $request)
+    public function store_api(StoreDatasetRequest $request)
     {
         $dataset = new Dataset([
             'english_name' => $request->english_name,

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\MLModelController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +31,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('datasets', DatasetController::class)->only('create');
     Route::resource('models', MLModelController::class)->only('create');
+
+    Route::post('/datasets', [DatasetController::class, 'store_web'])->name('datasets.store_web');
+    Route::post('/models', [MLModelController::class, 'store_web'])->name('models.store_web');
+
+
 
 
     Route::post('/tokens', function (Request $request) {
