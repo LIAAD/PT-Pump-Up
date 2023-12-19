@@ -38,9 +38,9 @@ class Publication extends Model
         return $this->belongsToMany(Dataset::class);
     }
 
-    public function mLModels(): BelongsToMany
+    public function mlModels(): BelongsToMany
     {
-        return $this->belongsToMany(MLModel::class);
+        return $this->belongsToMany(MlModel::class);
     }
 
     public function authors(): BelongsToMany
@@ -53,9 +53,9 @@ class Publication extends Model
         return $this->belongsToMany(Language::class);
     }
 
-    public function nLPTasks(): BelongsToMany
+    public function nlpTasks(): BelongsToMany
     {
-        return $this->belongsToMany(NLPTask::class);
+        return $this->belongsToMany(NlpTask::class);
     }
 
     public function teams(): BelongsToMany

@@ -37,14 +37,14 @@ class AuthorController extends Controller
         ]);
 
         $author->href()->associate(Href::create([
-            'email' => $request->email,
-            'website' => $request->website ?? null,
-            'orcid' => $request->orcid ?? null,
-            'github' => $request->github ?? null,
-            'linkedin' => $request->linkedin ?? null,
-            'twitter' => $request->twitter ?? null,
-            'google_scholar' => $request->google_scholar ?? null,
-            'dblp' => $request->dblp ?? null,
+            'email' => $request->hrefs['email'],
+            'website' => $request->hrefs['website'] ?? null,
+            'orcid' => $request->hrefs['orcid'] ?? null,
+            'github' => $request->hrefs['github'] ?? null,
+            'linkedin' => $request->hrefs['linkedin'] ?? null,
+            'twitter' => $request->hrefs['twitter'] ?? null,
+            'google_scholar' => $request->hrefs['google_scholar'] ?? null,
+            'dblp' => $request->hrefs['dblp'] ?? null,
         ]));
 
 

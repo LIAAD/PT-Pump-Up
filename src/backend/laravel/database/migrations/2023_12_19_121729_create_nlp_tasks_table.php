@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('author_m_l_model', function (Blueprint $table) {
-            $table->foreignId('author_id');
-            $table->foreignId('m_l_model_id');
+        Schema::create('nlp_tasks', function (Blueprint $table) {
+            $table->id();
+            $table->longText('name');
+            $table->longText('acronym');
+            $table->json('papers_with_code_ids');
+            $table->timestamps();
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('author_m_l_model');
+        Schema::dropIfExists('nlp_tasks');
     }
 };

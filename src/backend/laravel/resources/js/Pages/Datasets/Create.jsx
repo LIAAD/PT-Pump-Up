@@ -33,6 +33,7 @@ const Create = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
         setState({ ...state, submit: true })
 
         router.post(route('datasets.store'), {
@@ -40,7 +41,7 @@ const Create = (props) => {
             portuguese_name: state.portuguese_name,
             year: state.year,
             hrefs: {
-                source_url: state.source_url,
+                link_source: state.source_url,
                 link_huggingface: state.link_huggingface,
                 doi: state.doi,
             },

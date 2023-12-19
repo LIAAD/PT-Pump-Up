@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_l_model_publication', function (Blueprint $table) {
-            $table->foreignId('m_l_model_id');
-            $table->foreignId('publication_id');
+        Schema::create('author_ml_model', function (Blueprint $table) {
+            $table->foreignId('author_id');
+            $table->foreignId('ml_model_id');
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_l_model_publication');
+        Schema::dropIfExists('author_ml_model');
     }
 };

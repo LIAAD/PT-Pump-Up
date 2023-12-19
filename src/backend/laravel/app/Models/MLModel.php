@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class MLModel extends Model
+class MlModel extends Model
 {
     use HasFactory;
 
@@ -21,6 +21,7 @@ class MLModel extends Model
         'description',
         'year',
         'href_id',
+        'resource_stats_id',
     ];
 
     /**
@@ -31,6 +32,7 @@ class MLModel extends Model
     protected $casts = [
         'id' => 'integer',
         'href_id' => 'integer',
+        'resource_stats_id' => 'integer',
     ];
 
     public function authors(): BelongsToMany
@@ -38,8 +40,18 @@ class MLModel extends Model
         return $this->belongsToMany(Author::class);
     }
 
+    public function nlpTasks(): BelongsToMany
+    {
+        return $this->belongsToMany(NlpTask::class);
+    }
+
     public function href(): BelongsTo
     {
         return $this->belongsTo(Href::class);
+    }
+
+    public function resourceStats(): BelongsTo
+    {
+        return $this->belongsTo(ResourceStats::class);
     }
 }

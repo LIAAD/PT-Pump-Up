@@ -21,29 +21,29 @@ models:
   
   Dataset:
     english_name: longtext
-    full_portuguese_name: longtext
+    full_portuguese_name: longtext nullable
     description: longtext
     year: integer
 
     relationships:
-      belongsToMany: Author
-      belongsTo: Href
+      belongsToMany: Author, NlpTask
+      belongsTo: Href, ResourceStats      
   
-  MLModel:
+  MlModel:
     name: longtext
     description: longtext
     year: integer
 
     relationships:
-      belongsToMany: Author
-      belongsTo: Href
+      belongsToMany: Author, NlpTask
+      belongsTo: Href, ResourceStats      
 
   Author:
     name: longtext
     affiliation: longtext
 
     relationships:
-      belongsToMany: Dataset, MLModel
+      belongsToMany: Dataset, MlModel
       belongsTo: Href
 
   Language:
@@ -51,7 +51,7 @@ models:
     iso_code: longtext
     papers_with_code_ids: json
   
-  NLPTask:
+  NlpTask:
     name: longtext
     acronym: longtext
     papers_with_code_ids: json
@@ -62,7 +62,7 @@ models:
     bibtex: longtext
 
     relationships:
-      belongsToMany: Dataset, MLModel, Author, Language, NLPTask, Team
+      belongsToMany: Dataset, MlModel, Author, Language, NlpTask, Team
       belongsTo: Href
 
   Conference:

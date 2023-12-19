@@ -17,7 +17,7 @@ class MLModelController extends Controller
 
         return Inertia::render(
             'MLModels/Index',
-            ['ml_models' => MLModel::with(['authors', 'nlp_tasks'])->get()]
+            ['ml_models' => MLModel::with(['authors', 'nlpTasks'])->get()]
         );
     }
 
@@ -26,7 +26,7 @@ class MLModelController extends Controller
      */
     public function index_api()
     {
-        return MLModel::with(['authors', 'nlp_tasks'])->get();
+        return MLModel::with(['authors', 'nlpTasks'])->get();
     }
 
     /**

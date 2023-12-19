@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Dataset;
 use App\Models\Href;
+use App\Models\ResourceStats;
 
 class DatasetFactory extends Factory
 {
@@ -22,11 +23,12 @@ class DatasetFactory extends Factory
     public function definition(): array
     {
         return [
-            'englishName' => $this->faker->text(),
+            'english_name' => $this->faker->text(),
             'full_portuguese_name' => $this->faker->text(),
             'description' => $this->faker->text(),
             'year' => $this->faker->numberBetween(-10000, 10000),
             'href_id' => Href::factory(),
+            'resource_stats_id' => ResourceStats::factory(),
         ];
     }
 }

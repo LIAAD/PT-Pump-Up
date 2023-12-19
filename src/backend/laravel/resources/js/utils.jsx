@@ -20,3 +20,14 @@ export const handleTextFieldChange = (event, state, setState) => {
         [event.target.name]: event.target.value
     })
 }
+
+export const sendRequest = (data, route) => {
+    return fetch(route, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+    }).then(response => response.json())
+}

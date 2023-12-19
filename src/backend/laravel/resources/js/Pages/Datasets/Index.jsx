@@ -17,6 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 
 const TableDataset = (props) => {
+    console.log(props);
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -42,16 +43,16 @@ const TableDataset = (props) => {
                                 </TableCell>
                                 <TableCell scope="row" align="center">{dataset.year}</TableCell>
                                 <TableCell scope="row" align="center">
-                                    <Button href={dataset.hrefs.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
+                                    <Button href={dataset.href.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
                                 </TableCell>
                                 <TableCell scope="row" align="center">
-                                    {dataset.dataset_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
+                                    {dataset.resource_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
                                 </TableCell>
                                 <TableCell scope="row" align="center">
-                                    {dataset.dataset_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
+                                    {dataset.resource_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
                                 </TableCell>
-                                <TableCell scope="row" align="center" className={`label-${dataset.dataset_stats.preservation_rating}`}>
-                                    {dataset.dataset_stats.preservation_rating.replace(dataset.dataset_stats.preservation_rating[0], dataset.dataset_stats.preservation_rating[0].toUpperCase())}
+                                <TableCell scope="row" align="center" className={`label-${dataset.resource_stats.preservation_rating}`}>
+                                    {dataset.resource_stats.preservation_rating && dataset.resource_stats.preservation_rating.replace(dataset.resource_stats.preservation_rating[0], dataset.resource_stats.preservation_rating[0].toUpperCase())}
                                 </TableCell>
                             </TableRow>
                         )}

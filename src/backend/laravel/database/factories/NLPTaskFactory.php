@@ -4,16 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\NLPTask;
+use App\Models\NlpTask;
 
-class NLPTaskFactory extends Factory
+class NlpTaskFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = NLPTask::class;
+    protected $model = NlpTask::class;
 
     /**
      * Define the model's default state.

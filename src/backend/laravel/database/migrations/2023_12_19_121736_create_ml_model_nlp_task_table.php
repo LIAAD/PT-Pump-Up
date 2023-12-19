@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('n_l_p_task_publication', function (Blueprint $table) {
-            $table->foreignId('n_l_p_task_id');
-            $table->foreignId('publication_id');
+        Schema::create('ml_model_nlp_task', function (Blueprint $table) {
+            $table->foreignId('ml_model_id');
+            $table->foreignId('nlp_task_id');
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('n_l_p_task_publication');
+        Schema::dropIfExists('ml_model_nlp_task');
     }
 };

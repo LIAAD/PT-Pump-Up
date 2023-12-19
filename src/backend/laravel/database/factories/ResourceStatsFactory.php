@@ -4,18 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Href;
-use App\Models\MlModel;
 use App\Models\ResourceStats;
 
-class MlModelFactory extends Factory
+class ResourceStatsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = MlModel::class;
+    protected $model = ResourceStats::class;
 
     /**
      * Define the model's default state.
@@ -23,11 +21,11 @@ class MlModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'description' => $this->faker->text(),
-            'year' => $this->faker->numberBetween(-10000, 10000),
-            'href_id' => Href::factory(),
-            'resource_stats_id' => ResourceStats::factory(),
+            'broken_link' => $this->faker->boolean(),
+            'author_response' => $this->faker->boolean(),
+            'standard_format' => $this->faker->boolean(),
+            'backup' => $this->faker->boolean(),
+            'preservation_rating' => $this->faker->word(),
         ];
     }
 }

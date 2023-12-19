@@ -17,11 +17,12 @@ class Dataset extends Model
      * @var array
      */
     protected $fillable = [
-        'englishName',
+        'english_name',
         'full_portuguese_name',
         'description',
         'year',
         'href_id',
+        'resource_stats_id',
     ];
 
     /**
@@ -32,6 +33,7 @@ class Dataset extends Model
     protected $casts = [
         'id' => 'integer',
         'href_id' => 'integer',
+        'resource_stats_id' => 'integer',
     ];
 
     public function authors(): BelongsToMany
@@ -39,8 +41,18 @@ class Dataset extends Model
         return $this->belongsToMany(Author::class);
     }
 
+    public function nlpTasks(): BelongsToMany
+    {
+        return $this->belongsToMany(NlpTask::class);
+    }
+
     public function href(): BelongsTo
     {
         return $this->belongsTo(Href::class);
+    }
+
+    public function resourceStats(): BelongsTo
+    {
+        return $this->belongsTo(ResourceStats::class);
     }
 }

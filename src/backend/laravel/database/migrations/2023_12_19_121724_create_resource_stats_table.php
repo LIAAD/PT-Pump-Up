@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_l_models', function (Blueprint $table) {
+        Schema::create('resource_stats', function (Blueprint $table) {
             $table->id();
-            $table->longText('name');
-            $table->longText('description');
-            $table->integer('year');
-            $table->foreignId('href_id');
+            $table->boolean('broken_link');
+            $table->boolean('author_response');
+            $table->boolean('standard_format');
+            $table->boolean('backup');
+            $table->string('preservation_rating')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_l_models');
+        Schema::dropIfExists('resource_stats');
     }
 };

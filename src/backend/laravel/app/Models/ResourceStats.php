@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NlpTask extends Model
+class ResourceStats extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,11 @@ class NlpTask extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'acronym',
-        'papers_with_code_ids',
+        'broken_link',
+        'author_response',
+        'standard_format',
+        'backup',
+        'preservation_rating',
     ];
 
     /**
@@ -27,6 +29,9 @@ class NlpTask extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'papers_with_code_ids' => 'array',
+        'broken_link' => 'boolean',
+        'author_response' => 'boolean',
+        'standard_format' => 'boolean',
+        'backup' => 'boolean',
     ];
 }

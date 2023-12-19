@@ -37,9 +37,9 @@ class Author extends Model
         return $this->belongsToMany(Dataset::class);
     }
 
-    public function mLModels(): BelongsToMany
+    public function mlModels(): BelongsToMany
     {
-        return $this->belongsToMany(MLModel::class);
+        return $this->belongsToMany(MlModel::class);
     }
 
     public function href(): BelongsTo
