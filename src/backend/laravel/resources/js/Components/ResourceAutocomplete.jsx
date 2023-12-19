@@ -47,7 +47,7 @@ const ResourceAutocomplete = (props) => {
             </Grid>
             <Grid container alignItems="center" justifyContent="center">
 
-                <Grid item xs={10} >
+                <Grid item xs={6} >
                     <NewAutocomplete label={props.label} options={props.propsElements} onChange={props.onChange} />
                 </Grid>
 

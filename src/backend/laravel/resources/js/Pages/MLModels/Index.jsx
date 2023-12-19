@@ -12,6 +12,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import { filterByNLPTask } from '@/utils';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const TableModel = (props) => {
@@ -81,11 +82,11 @@ const Index = (props) => {
         <Grid container>
           <Grid container alignItems="center">
             <Grid item>
-              <h2>Dataset Index</h2>
+              <h2>Model Index</h2>
             </Grid>
             {props.auth.user &&
               <Grid item sx={{ ml: "auto" }}>
-                <Button variant="contained" href={route("ml_models.create")}>Add New Model <AddIcon /> </Button>
+                <Button variant="contained" href={route("models.create")}>Add New Model <AddIcon /> </Button>
               </Grid>
             }
           </Grid>

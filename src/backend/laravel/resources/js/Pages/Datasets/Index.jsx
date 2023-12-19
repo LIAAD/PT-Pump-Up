@@ -16,8 +16,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 
 
-const TableDataset = (props) => {
-    console.log(props);
+const TableDataset = (props) => {    
     return (
         <Grid container>
             <Grid item xs={12}>

@@ -16,6 +16,8 @@ models:
     author_response: boolean
     standard_format: boolean
     backup: boolean
+    architecture: string nullable
+    size_gb: float nullable    
     preservation_rating: string nullable
 
   
@@ -30,13 +32,15 @@ models:
       belongsTo: Href, ResourceStats      
   
   MlModel:
-    name: longtext
+    english_name: longtext
+    full_portuguese_name: longtext nullable
     description: longtext
     year: integer
 
     relationships:
       belongsToMany: Author, NlpTask
-      belongsTo: Href, ResourceStats      
+      belongsTo: Href, ResourceStats
+      hasMany: Benchmark      
 
   Author:
     name: longtext
@@ -81,3 +85,10 @@ models:
     relationships:
       belongsToMany: Publication
       belongsTo: Href
+
+  Benchmark:
+    metric: longtext
+    value: float
+    relationships:
+      belongsToMany: Dataset:train_dataset, Dataset:test_dataset
+      belongsTo: MlModel

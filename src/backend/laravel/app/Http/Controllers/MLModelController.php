@@ -8,6 +8,7 @@ use App\Models\MLModel;
 use App\Models\Author;
 use App\Models\NLPTask;
 use Inertia\Inertia;
+use App\Models\Dataset;
 
 class MLModelController extends Controller
 {
@@ -37,13 +38,21 @@ class MLModelController extends Controller
         return Inertia::render('MLModels/Create', [
             'nlp_tasks' => NLPTask::all(),
             'authors' => Author::all(),
+            'datasets' => Dataset::all(),
         ]);
+    }
+
+    public function store_web(StoreMLModelRequest $request)
+    {
+        $response = $this->store_api($request);
+
+        return Inertia::render('MLModels/Show', ['ml_model' => $response->original['ml_model']]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMLModelRequest $request)
+    public function store_api(StoreMLModelRequest $request)
     {
         $ml_model = new MLModel([
             'name' => $request->name,
@@ -75,7 +84,7 @@ class MLModelController extends Controller
 
         return response()->json([
             'message' => 'MLModel created successfully.',
-            'data' => $ml_model,
+            'ml_model' => $ml_model,
         ], 201);
     }
 
