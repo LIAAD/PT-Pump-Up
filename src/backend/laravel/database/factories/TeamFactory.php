@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Href;
 use App\Models\Team;
+use App\Models\User;
 
 class TeamFactory extends Factory
 {
@@ -27,6 +28,7 @@ class TeamFactory extends Factory
             'title' => $this->faker->sentence(4),
             'affiliation' => $this->faker->text(),
             'href_id' => Href::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }

@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Href;
 use App\Models\Team;
+use App\Models\User;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -70,12 +72,18 @@ class TeamSeeder extends Seeder
                 'affiliation' => $member['affiliation'],
             ]);
 
+            $team->user()->associate(User::create([
+                'name' => $member['name'],
+                'email' => $member['email'],
+                # Fake password
+                'password' => Factory::create()->password()
+            ]));
+
             $team->href()->associate(Href::create([
                 'linkedin' => $member['linkedin'] ?? null,
                 'github' => $member['github'] ?? null,
                 'email' => $member['email'] ?? null,
             ]));
-
 
             $team->save();
 

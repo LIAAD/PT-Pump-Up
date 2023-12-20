@@ -53,8 +53,8 @@ Route::middleware('auth')->group(function () {
 
 // Defined by us
 Route::get('/', [HomepageController::class, 'index'])->name('home');
-Route::get('/datasets', [DatasetController::class, 'index_web'])->name('index_web');
-Route::get('/models', [MLModelController::class, 'index_web'])->name('index_web');
+Route::get('/datasets', [DatasetController::class, 'index_web'])->name('datasets.index_web');
+Route::get('/models', [MLModelController::class, 'index_web'])->name('models.index_web');
 
 /*
 */

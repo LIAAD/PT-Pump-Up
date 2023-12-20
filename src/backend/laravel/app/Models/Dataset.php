@@ -21,8 +21,10 @@ class Dataset extends Model
         'full_portuguese_name',
         'description',
         'year',
+        'status',
         'href_id',
         'resource_stats_id',
+        'introduced_by_id',
     ];
 
     /**
@@ -34,11 +36,12 @@ class Dataset extends Model
         'id' => 'integer',
         'href_id' => 'integer',
         'resource_stats_id' => 'integer',
+        'introduced_by_id' => 'integer',
     ];
 
     public function authors(): BelongsToMany
     {
-        return $this->belongsToMany(Author::class)->with('href');
+        return $this->belongsToMany(Author::class);
     }
 
     public function nlpTasks(): BelongsToMany
@@ -54,5 +57,10 @@ class Dataset extends Model
     public function resourceStats(): BelongsTo
     {
         return $this->belongsTo(ResourceStats::class);
+    }
+
+    public function introducedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

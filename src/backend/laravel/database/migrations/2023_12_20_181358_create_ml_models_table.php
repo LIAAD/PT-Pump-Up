@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('ml_models', function (Blueprint $table) {
             $table->id();
-            $table->string('img');
-            $table->longText('name');
-            $table->longText('title');
-            $table->longText('affiliation');
+            $table->longText('english_name');
+            $table->longText('full_portuguese_name')->nullable();
+            $table->longText('description');
+            $table->integer('year');
+            $table->string('architecture');
             $table->foreignId('href_id');
+            $table->foreignId('resource_stats_id');
+            $table->foreignId('introduced_by_id');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('ml_models');
     }
 };

@@ -18,6 +18,7 @@ createServer((page) =>
                     ...page.props.ziggy,
                     location: new URL(page.props.ziggy.location),
                 });
+            global.auth = () => page.props.auth;
 
             return <App {...props} />;
         },

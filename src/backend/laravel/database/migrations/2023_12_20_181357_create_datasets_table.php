@@ -17,8 +17,10 @@ return new class extends Migration
             $table->longText('full_portuguese_name')->nullable();
             $table->longText('description');
             $table->integer('year');
+            $table->string('status');
             $table->foreignId('href_id');
             $table->foreignId('resource_stats_id');
+            $table->foreignId('introduced_by_id');
             $table->timestamps();
         });
     }

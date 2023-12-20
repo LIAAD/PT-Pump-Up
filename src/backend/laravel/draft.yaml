@@ -26,10 +26,11 @@ models:
     full_portuguese_name: longtext nullable
     description: longtext
     year: integer
+    status: string
 
     relationships:
       belongsToMany: Author, NlpTask
-      belongsTo: Href, ResourceStats      
+      belongsTo: Href, ResourceStats, User:introduced_by     
   
   MlModel:
     english_name: longtext
@@ -41,7 +42,7 @@ models:
 
     relationships:
       belongsToMany: Author, NlpTask
-      belongsTo: Href, ResourceStats
+      belongsTo: Href, ResourceStats, User:introduced_by
       hasMany: Benchmark      
 
   Author:
@@ -86,7 +87,7 @@ models:
     affiliation: longtext
     relationships:
       belongsToMany: Publication
-      belongsTo: Href
+      belongsTo: Href, User
       
   # Blueprint does not support two belongsToMany relationships with the same model
   #Benchmark:

@@ -22,6 +22,7 @@ class Team extends Model
         'title',
         'affiliation',
         'href_id',
+        'user_id',
     ];
 
     /**
@@ -32,6 +33,7 @@ class Team extends Model
     protected $casts = [
         'id' => 'integer',
         'href_id' => 'integer',
+        'user_id' => 'integer',
     ];
 
     public function publications(): BelongsToMany
@@ -42,5 +44,10 @@ class Team extends Model
     public function href(): BelongsTo
     {
         return $this->belongsTo(Href::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
