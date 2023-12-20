@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import { handleTextFieldChange } from '@/utils'
 import ResourceAutocomplete from '@/Components/ResourceAutocomplete'
-import Button from '@mui/material/Button'
 import GenericDivider from '@/Components/GenericDivider'
 import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 
@@ -73,29 +72,28 @@ const FormAddResource = (props) => {
           </Grid>
         </Grid>
 
-        <ResourceAutocomplete label="Languages" stateElements={state.languages} propsElements={props.languages} onChange={(e, newValue) => setState({ ...state, languages: [...state.languages, newValue] })} onDelete={
+        {props.languages && <ResourceAutocomplete label="Languages" stateElements={state.languages} propsElements={props.languages} onChange={(e, newValue) => setState({ ...state, languages: [...state.languages, newValue] })} onDelete={
           (e, value) => {
             removeElement(e, 'languages', value)
           }
-        } />
+        }
+          optionLabel="name"
+        />}
 
         <ResourceAutocomplete label="Authors" stateElements={state.authors} propsElements={props.authors} onChange={(e, newValue) => setState({ ...state, authors: [...state.authors, newValue] })} onDelete={
           (e, value) => {
             removeElement(e, 'authors', value)
           }
-        } />
+        } optionLabel="name"
+        />
 
         <ResourceAutocomplete label="NLP Tasks" stateElements={state.nlp_tasks} propsElements={props.nlp_tasks} onChange={(e, newValue) => setState({ ...state, nlp_tasks: [...state.nlp_tasks, newValue] })}
           onDelete={(e, value) => {
             removeElement(e, 'nlp_tasks', value)
           }}
+          optionLabel="acronym"
         />
         {props.children}
-
-        <Grid sx={{ mt: 5 }}>
-          {!state.submit && <Button variant="contained" onClick={props.handleSubmit}>Submit</Button>}
-        </Grid>
-
       </Grid >
     </form >
   )

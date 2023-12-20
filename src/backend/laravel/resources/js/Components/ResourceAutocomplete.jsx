@@ -21,7 +21,7 @@ const NewAutocomplete = (props) => {
         <Autocomplete
             disablePortal
             options={props.options}
-            getOptionLabel={(option) => option.name}
+            getOptionLabel={(option) => option[props.optionLabel]}
             renderInput={renderFunction}
             onChange={(event, newValue) => { if (newValue) props.onChange(event, newValue) }}
         />
@@ -32,7 +32,7 @@ const SelectedCard = (props) => {
     return (
         <Card>
             <CardHeader
-                title={props.elem.name}
+                title={props.elem[props.optionLabel]}
                 action={<CloseIcon onClick={props.onClick} />}
             />
         </Card>
@@ -46,14 +46,14 @@ const ResourceAutocomplete = (props) => {
                 <GenericDivider label={props.label} />
             </Grid>
             <Grid container alignItems="center" justifyContent="center">
-
                 <Grid item xs={6} >
-                    <NewAutocomplete label={props.label} options={props.propsElements} onChange={props.onChange} />
+                    <NewAutocomplete label={props.label} options={props.propsElements} onChange={props.onChange} optionLabel={props.optionLabel} />
                 </Grid>
-
+            </Grid>
+            <Grid container alignItems="center" justifyContent="center">
                 {props.stateElements.map((elem, index) =>
                     <Grid key={index} item xs={4} sx={{ mt: 5, mx: 2 }}>
-                        <SelectedCard elem={elem} onClick={(e) => {
+                        <SelectedCard elem={elem} optionLabel={props.optionLabel} onClick={(e) => {
                             props.onDelete(e, elem)
                         }} />
                     </Grid>

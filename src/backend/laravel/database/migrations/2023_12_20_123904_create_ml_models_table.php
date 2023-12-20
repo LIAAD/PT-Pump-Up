@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('ml_models', function (Blueprint $table) {
             $table->id();
-            $table->longText('name');
+            $table->longText('english_name');
+            $table->longText('full_portuguese_name')->nullable();
             $table->longText('description');
             $table->integer('year');
+            $table->string('architecture');
             $table->foreignId('href_id');
             $table->foreignId('resource_stats_id');
             $table->timestamps();

@@ -16,7 +16,6 @@ models:
     author_response: boolean
     standard_format: boolean
     backup: boolean
-    architecture: string nullable
     size_gb: float nullable    
     preservation_rating: string nullable
 
@@ -36,6 +35,8 @@ models:
     full_portuguese_name: longtext nullable
     description: longtext
     year: integer
+    architecture: string
+
 
     relationships:
       belongsToMany: Author, NlpTask
@@ -85,10 +86,11 @@ models:
     relationships:
       belongsToMany: Publication
       belongsTo: Href
-
-  Benchmark:
-    metric: longtext
-    value: float
-    relationships:
-      belongsToMany: Dataset:train_dataset, Dataset:test_dataset
-      belongsTo: MlModel
+      
+  # Blueprint does not support two belongsToMany relationships with the same model
+  #Benchmark:
+   # metric: longtext
+    #value: float
+    #relationships:
+     # belongsToMany: Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset
+      #belongsTo: MlModel

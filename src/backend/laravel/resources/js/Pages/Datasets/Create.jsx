@@ -2,6 +2,8 @@ import PTPumpUpLayout from '@/Layouts/PTPumpUpLayout'
 import React, { useState } from 'react'
 import { router } from '@inertiajs/react'
 import FormAddResource from '@/Components/FormAddResource'
+import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
 
 const Create = (props) => {
 
@@ -50,9 +52,12 @@ const Create = (props) => {
             language_stats: state.languages.map(elem => elem.iso_code),
             description: state.description,
         }, {
-            onerror: () => {
+            onError: () => {
                 setState({ ...state, submit: false })
             },
+            onFinish: () => {
+                setState({ ...state, submit: false })
+            }
         })
 
     }
@@ -60,14 +65,19 @@ const Create = (props) => {
     return (
         <PTPumpUpLayout
             main={
-                <FormAddResource 
-                    state={state} 
-                    setState={setState} 
+                <FormAddResource
+                    state={state}
+                    setState={setState}
                     handleSubmit={handleSubmit}
                     resource="dataset"
+                    datasets={props.datasets}
+                    languages={props.languages}
+                    authors={props.authors}
+                    nlp_tasks={props.nlp_tasks}
                 >
-                    <div>Child 1</div>
-                    <div>Child 2</div>
+                    <Grid sx={{ mt: 5 }}>
+                        {!state.submit && <Button variant="contained" onClick={handleSubmit}>Submit</Button>}
+                    </Grid>
                 </FormAddResource>
             }
         />

@@ -19,6 +19,7 @@ class ResourceStats extends Model
         'author_response',
         'standard_format',
         'backup',
+        'size_gb',
         'preservation_rating',
     ];
 
@@ -33,5 +34,6 @@ class ResourceStats extends Model
         'author_response' => 'boolean',
         'standard_format' => 'boolean',
         'backup' => 'boolean',
+        'size_gb' => 'float',
     ];
 }

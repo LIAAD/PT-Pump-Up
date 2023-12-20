@@ -23,9 +23,11 @@ class MlModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'english_name' => $this->faker->text(),
+            'full_portuguese_name' => $this->faker->text(),
             'description' => $this->faker->text(),
             'year' => $this->faker->numberBetween(-10000, 10000),
+            'architecture' => $this->faker->word(),
             'href_id' => Href::factory(),
             'resource_stats_id' => ResourceStats::factory(),
         ];

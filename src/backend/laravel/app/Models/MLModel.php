@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MlModel extends Model
 {
@@ -17,9 +18,11 @@ class MlModel extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'english_name',
+        'full_portuguese_name',
         'description',
         'year',
+        'architecture',
         'href_id',
         'resource_stats_id',
     ];
@@ -53,5 +56,10 @@ class MlModel extends Model
     public function resourceStats(): BelongsTo
     {
         return $this->belongsTo(ResourceStats::class);
+    }
+
+    public function benchmarks(): HasMany
+    {
+        return $this->hasMany(Benchmark::class);
     }
 }

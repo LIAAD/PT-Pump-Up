@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('author_response');
             $table->boolean('standard_format');
             $table->boolean('backup');
+            $table->float('size_gb')->nullable();
             $table->string('preservation_rating')->nullable();
             $table->timestamps();
         });

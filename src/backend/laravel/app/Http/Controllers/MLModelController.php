@@ -9,6 +9,9 @@ use App\Models\Author;
 use App\Models\NLPTask;
 use Inertia\Inertia;
 use App\Models\Dataset;
+use App\Models\Href;
+use App\Models\ResourceStats;
+use App\Models\Benchmark;
 
 class MLModelController extends Controller
 {
@@ -37,7 +40,7 @@ class MLModelController extends Controller
     {
         return Inertia::render('MLModels/Create', [
             'nlp_tasks' => NLPTask::all(),
-            'authors' => Author::all(),
+            'authors' => Author::with('href')->get(),
             'datasets' => Dataset::all(),
         ]);
     }
@@ -55,30 +58,52 @@ class MLModelController extends Controller
     public function store_api(StoreMLModelRequest $request)
     {
         $ml_model = new MLModel([
-            'name' => $request->name,
+            'english_name' => $request->english_name,
+            'full_portuguese_name' => $request->full_portuguese_name,
             'description' => $request->description,
             'year' => $request->year,
+            'architecture' => $request->architecture,
         ]);
 
-        $ml_model->authors()->attach(Author::whereIn('hrefs.email', $request->authors)->get());
-        $ml_model->nlp_tasks()->attach(NLPTask::whereIn('acronym', $request->nlp_tasks)->get());
-
-        $ml_model->hrefs = [
+        $ml_model->href()->associate(Href::create([
             'papers_with_code' => $request->hrefs['papers_with_code'] ?? null,
             'link_source' => $request->hrefs['link_source'] ?? null,
             'link_hf' => $request->hrefs['link_hf'] ?? null,
             'link_github' => $request->hrefs['link_github'] ?? null,
             'doi' => $request->hrefs['doi'] ?? null,
-        ];
+        ]));
 
-        $ml_model->model_stats = [
+        $ml_model->resourceStats()->associate(ResourceStats::create([
             'broken_link' => $request->model_stats['broken_link'],
             'author_response' => $request->model_stats['author_response'],
             'standard_format' => $request->model_stats['standard_format'],
             'backup' => $request->model_stats['backup'],
-            'preservation_rating' => $request->model_stats['preservation_rating'],
+            'preservation_rating' => $request->model_stats['preservation_rating'] ?? null,
             'off_the_shelf' => $request->model_stats['off_the_shelf'],
-        ];
+        ]));
+
+        $ml_model->saveOrFail();
+
+        $emails = $request->authors;
+
+        $authors = Author::whereHas('href', function ($query) use ($emails) {
+            $query->whereIn('email', $emails);
+        })->get();
+
+        $ml_model->authors()->attach($authors);
+
+        $ml_model->nlpTasks()->attach(NLPTask::whereIn('acronym', $request->nlp_tasks)->get());
+
+        foreach ($request->benchmarks as $benchmark) {
+            $ml_model->benchmarks->add(Benchmark::create([
+                'ml_model_id' => $ml_model->id,
+                'train_dataset_id' => $benchmark['train_dataset'],
+                'validation_dataset_id' => $benchmark['validation_dataset'],
+                'test_dataset_id' => $benchmark['test_dataset'],
+                'metric' => $benchmark['metric'],
+                'performance' => $benchmark['performance'],
+            ]));
+        }
 
         $ml_model->saveOrFail();
 

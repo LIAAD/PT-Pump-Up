@@ -23,9 +23,11 @@ class StoreMLModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:ml_models',
+            'english_name' => 'required|string|unique:ml_models,english_name',
+            'full_portuguese_name' => 'nullable|string|unique:ml_models,full_portuguese_name',
             'description' => 'required|string',
             'year' => 'required|integer',
+            'architecture' => 'required|string',
             'authors' => 'required|array',
             'authors.*' => 'required|email',
             'hrefs' => 'required|array',
@@ -40,14 +42,21 @@ class StoreMLModelRequest extends FormRequest
             'model_stats.author_response' => 'required|boolean',
             'model_stats.standard_format' => 'required|boolean',
             'model_stats.backup' => 'required|boolean',
-            'model_stats.preservation_rating' => 'required|string',
+            'model_stats.preservation_rating' => 'nullable|string',
             'model_stats.off_the_shelf' => 'required|boolean',
 
             'model_stats' => 'required|array',
-            'model_stats.architecture' => 'required|string',
             'model_stats.size_in_mb' => 'nullable|numeric',
 
             #TODO: Add Benchmark validation
+            'benchmarks' => 'nullable|array',
+            'benchmarks.*.train_dataset' => 'required|numeric|exists:datasets,id',
+            'benchmarks.*.validation_dataset' => 'required|numeric|exists:datasets,id',
+            'benchmarks.*.test_dataset' => 'required|numeric|exists:datasets,id',
+            'benchmarks.*.metric' => 'required|string',
+            'benchmarks.*.performance' => 'required|numeric|min:0|max:100',
+
+
             #TODO: Add License validation
 
             #TODO: Add publication validation
