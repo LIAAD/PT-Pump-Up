@@ -65,8 +65,6 @@ const TableModel = (props) => {
 }
 
 
-
-
 const Index = (props) => {
   const [state, setState] = useState({
     models: [],

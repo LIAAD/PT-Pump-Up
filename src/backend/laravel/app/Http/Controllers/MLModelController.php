@@ -12,6 +12,7 @@ use App\Models\Dataset;
 use App\Models\Href;
 use App\Models\ResourceStats;
 use App\Models\Benchmark;
+use Illuminate\Http\Request;
 
 class MLModelController extends Controller
 {
@@ -115,9 +116,15 @@ class MLModelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MlModel $mLModel)
+    public function show($ml_model)
     {
-        return Inertia::render('MLModels/Show', ['ml_model' => $mLModel]);
+        $ml_model = MLModel::with(['authors', 'nlpTasks', 'href', 'resourceStats', 'benchmarks'])->where('id', $ml_model)->firstOrFail();
+
+        #$benchmarks = Benchmark::with('train_dataset', 'validation_dataset', 'test_dataset')->where('ml_model_id', $ml_model->id)->get();
+
+        #$ml_model->benchmarks = $benchmarks;
+
+        return Inertia::render('MLModels/Show', ['ml_model' => $ml_model]);
     }
 
     /**

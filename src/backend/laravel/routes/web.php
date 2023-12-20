@@ -29,11 +29,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('datasets', DatasetController::class)->only(['create', 'show']);
-    Route::resource('models', MLModelController::class)->only(['create', 'show']);
+    Route::resource('datasets', DatasetController::class)->only(['create']);
+    Route::resource('models', MLModelController::class)->only(['create']);
 
     Route::post('/datasets', [DatasetController::class, 'store_web'])->name('datasets.store_web');
     Route::post('/models', [MLModelController::class, 'store_web'])->name('models.store_web');
+
+    Route::get('/datasets/{dataset}', [DatasetController::class, 'show'])->name('datasets.show');
+    Route::get('/models/{ml_model}', [MLModelController::class, 'show'])->name('models.show');
 
 
 

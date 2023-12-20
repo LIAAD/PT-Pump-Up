@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class Benchmark extends Model
@@ -40,19 +39,19 @@ class Benchmark extends Model
         'test_dataset_id' => 'integer',
     ];
 
-    public function train_dataset(): BelongsToMany
+    public function train_dataset(): BelongsTo
     {
-        return $this->belongsToMany(Dataset::class, 'datasets', 'train_dataset_id');
+        return $this->belongsTo(Dataset::class, 'train_dataset_id', 'id', 'datasets');
     }
 
-    public function validation_dataset(): BelongsToMany
+    public function validation_dataset(): BelongsTo
     {
-        return $this->belongsToMany(Dataset::class, 'datasets', 'validation_dataset_id');
+        return $this->belongsTo(Dataset::class, 'validation_dataset_id', 'id', 'datasets');
     }
 
-    public function test_dataset(): BelongsToMany
+    public function test_dataset(): BelongsTo
     {
-        return $this->belongsToMany(Dataset::class, 'datasets', 'test_dataset_id');
+        return $this->belongsTo(Dataset::class, 'test_dataset_id', 'id', 'datasets');
     }
 
     public function mlModel(): BelongsTo
