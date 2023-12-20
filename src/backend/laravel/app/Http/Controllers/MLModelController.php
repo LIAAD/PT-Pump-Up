@@ -18,10 +18,9 @@ class MLModelController extends Controller
 
     public function index_web()
     {
-
         return Inertia::render(
             'MLModels/Index',
-            ['ml_models' => MLModel::with(['authors', 'nlpTasks'])->get()]
+            ['ml_models' => MLModel::with(['authors', 'nlpTasks', 'href', 'resourceStats'])->get()]
         );
     }
 
@@ -116,9 +115,9 @@ class MLModelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MLModel $mLModel)
+    public function show(MlModel $mLModel)
     {
-        //
+        return Inertia::render('MLModels/Show', ['ml_model' => $mLModel]);
     }
 
     /**

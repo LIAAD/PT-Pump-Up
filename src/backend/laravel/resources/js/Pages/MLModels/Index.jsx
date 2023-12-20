@@ -37,22 +37,22 @@ const TableModel = (props) => {
             {props.models.map((model, index) =>
               <TableRow key={index}>
                 <TableCell scope="row" className="resource-name">
-                  {model.name}
+                  {model.english_name}
                 </TableCell>
                 <TableCell scope="row" align="center">
                   {model.year}
                 </TableCell>
                 <TableCell scope="row" align="center">
-                  <Button href={model.hrefs.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
+                  <Button href={model.href.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
                 </TableCell>
                 <TableCell scope="row" align="center">
-                  {model.model_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
+                  {model.resource_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
                 </TableCell>
                 <TableCell scope="row" align="center">
-                  {model.model_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
+                  {model.resource_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
                 </TableCell>
-                <TableCell scope="row" align="center" className={`label-${model.model_stats.preservation_rating}`}>
-                  {model.model_stats.preservation_rating.replace(model.model_stats.preservation_rating[0], model.model_stats.preservation_rating[0].toUpperCase())}
+                <TableCell scope="row" align="center" className={`label-${model.resource_stats.preservation_rating}`}>
+                  {model.resource_stats.preservation_rating && model.resource_stats.preservation_rating.replace(model.resource_stats.preservation_rating[0], model.resource_stats.preservation_rating[0].toUpperCase())}
                 </TableCell>
               </TableRow>
             )}

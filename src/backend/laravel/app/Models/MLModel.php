@@ -60,6 +60,6 @@ class MlModel extends Model
 
     public function benchmarks(): HasMany
     {
-        return $this->hasMany(Benchmark::class);
+        return $this->hasMany(Benchmark::class)->with(['train_dataset', 'validation_dataset', 'test_dataset']);
     }
 }
