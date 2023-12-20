@@ -65,7 +65,7 @@ class DatasetController extends Controller
 
         # Create the HRefs for the dataset.
         $dataset->href()->associate(Href::create([
-            'papers_with_code' => $request->hrefs['papers_with_code'] ?? null,
+            'link_papers_with_code' => $request->hrefs['link_papers_with_code'] ?? null,
             'link_source' => $request->hrefs['link_source'] ?? null,
             'link_hf' => $request->hrefs['link_hf'] ?? null,
             'link_github' => $request->hrefs['link_github'] ?? null,

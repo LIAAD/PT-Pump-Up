@@ -9,6 +9,7 @@ models:
     linkedin: url nullable
     link_source: url nullable
     link_hf: url nullable
+    link_papers_with_code: url nullable
     doi: url nullable
 
   ResourceStats:

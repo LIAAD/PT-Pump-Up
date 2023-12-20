@@ -110,6 +110,20 @@ body {
     table-layout: fixed;
 }
 
+.table-resource tr:hover {
+    color: white !important;
+    font-weight: bolder;
+}
+.table-resource td{
+    color: inherit !important;
+    font-weight: inherit;
+}
+
+.table-resource .MuiTableRow-hover:hover {
+    background-color: var(--blue-inesc) !important;
+    cursor: pointer;
+}
+
 header {
     border-bottom: var(--blue-inesc) 2px solid;
 }

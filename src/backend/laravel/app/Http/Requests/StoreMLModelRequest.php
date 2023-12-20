@@ -31,7 +31,7 @@ class StoreMLModelRequest extends FormRequest
             'authors' => 'required|array',
             'authors.*' => 'required|email',
             'hrefs' => 'required|array',
-            'hrefs.papers_with_code' => 'nullable|url',
+            'hrefs.link_papers_with_code' => 'nullable|url',
             'hrefs.link_source' => 'nullable|url',
             'hrefs.link_hf' => 'nullable|url',
             'hrefs.link_github' => 'nullable|url',

@@ -66,7 +66,7 @@ class MLModelController extends Controller
         ]);
 
         $ml_model->href()->associate(Href::create([
-            'papers_with_code' => $request->hrefs['papers_with_code'] ?? null,
+            'link_papers_with_code' => $request->hrefs['link_papers_with_code'] ?? null,
             'link_source' => $request->hrefs['link_source'] ?? null,
             'link_hf' => $request->hrefs['link_hf'] ?? null,
             'link_github' => $request->hrefs['link_github'] ?? null,
@@ -120,10 +120,6 @@ class MLModelController extends Controller
     {
         $ml_model = MLModel::with(['authors', 'nlpTasks', 'href', 'resourceStats', 'benchmarks'])->where('id', $ml_model)->firstOrFail();
 
-        #$benchmarks = Benchmark::with('train_dataset', 'validation_dataset', 'test_dataset')->where('ml_model_id', $ml_model->id)->get();
-
-        #$ml_model->benchmarks = $benchmarks;
-
         return Inertia::render('MLModels/Show', ['ml_model' => $ml_model]);
     }
 
@@ -146,8 +142,10 @@ class MLModelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MLModel $mLModel)
+    public function destroy(MLModel $model)
     {
-        //
+        $model->delete();
+
+        return $this->index_web();
     }
 }

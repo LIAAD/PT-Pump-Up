@@ -24,6 +24,7 @@ class Href extends Model
         'linkedin',
         'link_source',
         'link_hf',
+        'link_papers_with_code',
         'doi',
     ];
 

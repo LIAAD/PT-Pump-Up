@@ -40,7 +40,7 @@ class MlModel extends Model
 
     public function authors(): BelongsToMany
     {
-        return $this->belongsToMany(Author::class);
+        return $this->belongsToMany(Author::class)->with('href');
     }
 
     public function nlpTasks(): BelongsToMany
@@ -60,6 +60,6 @@ class MlModel extends Model
 
     public function benchmarks(): HasMany
     {
-        return $this->hasMany(Benchmark::class)->with(['train_dataset', 'validation_dataset', 'test_dataset']);
+        return $this->hasMany(Benchmark::class);
     }
 }

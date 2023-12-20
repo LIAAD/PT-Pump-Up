@@ -40,7 +40,7 @@ class StoreDatasetRequest extends FormRequest
             'nlp_tasks.*' => 'required|string',
 
             'hrefs' => 'required|array',
-            'hrefs.papers_with_code' => 'nullable|url',
+            'hrefs.link_papers_with_code' => 'nullable|url',
             'hrefs.link_source' => 'nullable|url',
             'hrefs.link_hf' => 'nullable|url',
             'hrefs.link_github' => 'nullable|url',

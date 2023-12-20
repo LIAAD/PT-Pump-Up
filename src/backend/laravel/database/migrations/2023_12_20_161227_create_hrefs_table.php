@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('linkedin')->nullable();
             $table->string('link_source')->nullable();
             $table->string('link_hf')->nullable();
+            $table->string('link_papers_with_code')->nullable();
             $table->string('doi')->nullable();
             $table->timestamps();
         });

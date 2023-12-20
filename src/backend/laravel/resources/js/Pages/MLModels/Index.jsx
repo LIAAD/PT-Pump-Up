@@ -13,6 +13,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import { filterByNLPTask } from '@/utils';
 import AddIcon from '@mui/icons-material/Add';
+import { router } from '@inertiajs/react'
+
 
 
 const TableModel = (props) => {
@@ -35,7 +37,7 @@ const TableModel = (props) => {
           </TableHead>
           <TableBody>
             {props.models.map((model, index) =>
-              <TableRow key={index}>
+              <TableRow hover={true} key={index} onClick={() => router.get(route('models.show', model.id))}>
                 <TableCell scope="row" className="resource-name">
                   {model.english_name}
                 </TableCell>
@@ -59,7 +61,6 @@ const TableModel = (props) => {
           </TableBody>
         </Table>
       </Grid>
-
     </Grid>
   )
 }

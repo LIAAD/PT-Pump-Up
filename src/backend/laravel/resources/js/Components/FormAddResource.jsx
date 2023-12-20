@@ -54,6 +54,12 @@ const FormAddResource = (props) => {
           </FormControl>
         </Grid>
         <Grid xs={8} item>
+          <FormControl fullWidth sx={{ mb: 3 }}>
+            <TextField label="Link Papers With Code" variant="outlined" onChange={e => handleTextFieldChange(e, state, setState)} name="link_papers_with_code" />
+            <FormHelperText>URL of the {props.resource} on Papers With Code</FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid xs={8} item>
           <FormControl fullWidth>
             <TextField label="DOI" variant="outlined" onChange={e => handleTextFieldChange(e, state, setState)} name="doi" />
             <FormHelperText>DOI of the {props.resource}</FormHelperText>

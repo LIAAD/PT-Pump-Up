@@ -72,6 +72,7 @@ const Create = (props) => {
     year: '',
     source_url: '',
     link_huggingface: '',
+    link_papers_with_code: '',
     doi: '',
     authors: [],
     nlp_tasks: [],
@@ -108,6 +109,7 @@ const Create = (props) => {
         link_source: state.source_url,
         link_huggingface: state.link_huggingface,
         doi: state.doi,
+        link_papers_with_code: state.link_papers_with_code,
       },
       model_stats: {
         broken_link: state.broken_link == "on" ? true : false,

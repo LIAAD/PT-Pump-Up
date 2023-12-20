@@ -29,8 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('datasets', DatasetController::class)->only(['create']);
-    Route::resource('models', MLModelController::class)->only(['create']);
+    Route::resource('datasets', DatasetController::class)->only(['create', 'destroy']);
+    Route::resource('models', MLModelController::class)->only(['create', 'destroy']);
 
     Route::post('/datasets', [DatasetController::class, 'store_web'])->name('datasets.store_web');
     Route::post('/models', [MLModelController::class, 'store_web'])->name('models.store_web');
@@ -55,7 +55,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/datasets', [DatasetController::class, 'index_web'])->name('index_web');
 Route::get('/models', [MLModelController::class, 'index_web'])->name('index_web');
-
 
 /*
 */

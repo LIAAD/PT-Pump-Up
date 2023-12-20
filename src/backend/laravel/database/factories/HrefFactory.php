@@ -30,6 +30,7 @@ class HrefFactory extends Factory
             'linkedin' => $this->faker->word(),
             'link_source' => $this->faker->word(),
             'link_hf' => $this->faker->word(),
+            'link_papers_with_code' => $this->faker->word(),
             'doi' => $this->faker->word(),
         ];
     }
