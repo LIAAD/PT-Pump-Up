@@ -47,9 +47,9 @@ class MLModelController extends Controller
 
     public function store_web(StoreMLModelRequest $request)
     {
-        $response = $this->store_api($request);
+        $this->store_api($request);
 
-        return Inertia::render('MLModels/Show', ['ml_model' => $response->original['ml_model']]);
+        return $this->index_web();
     }
 
     /**

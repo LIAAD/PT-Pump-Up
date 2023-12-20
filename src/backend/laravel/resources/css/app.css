@@ -112,7 +112,6 @@ body {
 
 .table-resource tr:hover {
     color: white !important;
-    font-weight: bolder;
 }
 .table-resource td{
     color: inherit !important;

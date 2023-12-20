@@ -45,9 +45,9 @@ class DatasetController extends Controller
     }
     public function store_web(StoreDatasetRequest $request)
     {
-        $response = $this->store_api($request);
+        $this->store_api($request);
 
-        return Inertia::render('Datasets/Show', ['dataset' => $response->original['dataset']]);
+        return $this->index_web();
     }
 
     /**
