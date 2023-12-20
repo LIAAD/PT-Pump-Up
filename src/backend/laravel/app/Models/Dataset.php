@@ -38,7 +38,7 @@ class Dataset extends Model
 
     public function authors(): BelongsToMany
     {
-        return $this->belongsToMany(Author::class);
+        return $this->belongsToMany(Author::class)->with('href');
     }
 
     public function nlpTasks(): BelongsToMany

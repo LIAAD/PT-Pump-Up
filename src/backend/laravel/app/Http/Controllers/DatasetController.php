@@ -108,7 +108,9 @@ class DatasetController extends Controller
      */
     public function show(Dataset $dataset)
     {
-        //
+        return Inertia::render('Datasets/Show', [
+            'dataset' => $dataset->load(['authors', 'nlpTasks', 'href', 'resourceStats']),
+        ]);
     }
 
     /**

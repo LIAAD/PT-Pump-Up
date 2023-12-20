@@ -13,8 +13,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
-
-
+import { router } from '@inertiajs/react'
 
 const TableDataset = (props) => {    
     return (
@@ -36,7 +35,7 @@ const TableDataset = (props) => {
                     </TableHead>
                     <TableBody>
                         {props.datasets.map((dataset, index) =>
-                            <TableRow key={index}>
+                            <TableRow hover={true} key={index} onClick={() => router.get(route('datasets.show', dataset.id))}>
                                 <TableCell scope="row" className="resource-name">
                                     {dataset.english_name}
                                 </TableCell>
