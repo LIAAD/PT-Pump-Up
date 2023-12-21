@@ -26,11 +26,10 @@ models:
     full_portuguese_name: longtext nullable
     description: longtext
     year: integer
-    status: string
 
     relationships:
       belongsToMany: Author, NlpTask
-      belongsTo: Href, ResourceStats, User:introduced_by     
+      belongsTo: Href, ResourceStats    
   
   MlModel:
     english_name: longtext
@@ -42,7 +41,7 @@ models:
 
     relationships:
       belongsToMany: Author, NlpTask
-      belongsTo: Href, ResourceStats, User:introduced_by
+      belongsTo: Href, ResourceStats
       hasMany: Benchmark      
 
   Author:

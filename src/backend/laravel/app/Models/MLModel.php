@@ -25,7 +25,6 @@ class MlModel extends Model
         'architecture',
         'href_id',
         'resource_stats_id',
-        'introduced_by_id',
     ];
 
     /**
@@ -37,7 +36,6 @@ class MlModel extends Model
         'id' => 'integer',
         'href_id' => 'integer',
         'resource_stats_id' => 'integer',
-        'introduced_by_id' => 'integer',
     ];
 
     public function authors(): BelongsToMany
@@ -58,11 +56,6 @@ class MlModel extends Model
     public function resourceStats(): BelongsTo
     {
         return $this->belongsTo(ResourceStats::class);
-    }
-
-    public function introducedBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     public function benchmarks(): HasMany

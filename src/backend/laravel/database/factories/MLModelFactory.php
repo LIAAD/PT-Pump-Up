@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use App\Models\Href;
 use App\Models\MlModel;
 use App\Models\ResourceStats;
-use App\Models\User;
 
 class MlModelFactory extends Factory
 {
@@ -31,7 +30,6 @@ class MlModelFactory extends Factory
             'architecture' => $this->faker->word(),
             'href_id' => Href::factory(),
             'resource_stats_id' => ResourceStats::factory(),
-            'introduced_by_id' => User::factory(),
         ];
     }
 }
