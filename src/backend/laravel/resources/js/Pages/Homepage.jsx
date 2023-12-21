@@ -23,7 +23,7 @@ const FigureItem = (props) => {
 
 const Profile = (props) => {
     return (
-        <Grid item xs={6} md={2} xl={1.5} sx={{ textAlign: "center" }} >
+        <Grid item xs={8} md={2} xl={1.5} sx={{ textAlign: "center", mb: { xs: 3 } }} >
             <img src={props.member.img} className="profile-img" />
             <h3>{props.member.name}</h3>
             <h4>{props.member.title}</h4>
@@ -65,9 +65,9 @@ const Index = (props) => {
     return (
         <PTPumpUpLayout
             main={
-                <Grid container sx={{ px: { lg: 10 }, mt: { lg: 3 } }}>
+                <Grid container sx={{ px: {lg: 10 }, mt: { lg: 3 } }}>
                     <Grid container justifyContent="center" alignItems="center">
-                        <Grid item md={8}>
+                        <Grid item xs={12} md={8} sx={{ textAlign: { xs: "center", md: "left" } }}>
                             <h1>Sincronizing & Extending <br /> Portuguese NLP Resources</h1>
                         </Grid>
                         <Grid item md={2} sx={{ display: { xs: 'none', md: 'block' } }} >
@@ -75,10 +75,10 @@ const Index = (props) => {
                         </Grid>
                     </Grid>
                     <GenericDivider label="What is PT-Pump-Up?" />
-                    <Grid item xs={12} sx={{ mx: 5 }}>
+                    <Grid item xs={12} sx={{ mx: {sm: 5} }}>
                         <h3>PT-Pump-Up is a hub for Portuguese NLP resources, which aims to provide a centralized access point to the most relevant resources for Portuguese NLP, as well as to provide a set of tools to facilitate their use.</h3>
                     </Grid>
-                    <GenericDivider label="What resources are available?" />
+                    <GenericDivider label="Resources Avaiable?" />
                     <Grid container justifyContent="space-around" alignItems="center">
                         <FigureItem number={props.num_datasets} title="Datasets" />
                         <FigureItem number={props.num_models} title="Models" />
