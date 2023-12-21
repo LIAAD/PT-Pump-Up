@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNLPTaskRequest;
 use App\Http\Requests\UpdateNLPTaskRequest;
-use App\Models\NLPTask;
+use App\Models\NlpTask;
 
 class NLPTaskController extends Controller
 {
@@ -29,7 +29,7 @@ class NLPTaskController extends Controller
      */
     public function store(StoreNLPTaskRequest $request)
     {
-        $nlp_task = NLPTask::create([
+        $nlp_task = NlpTask::create([
             'name' => $request->name,
             'acronym' => $request->acronym,
             'papers_with_code_ids' => $request->papers_with_code_ids,
@@ -44,7 +44,7 @@ class NLPTaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(NLPTask $nLPTask)
+    public function show(NlpTask $nLPTask)
     {
         //
     }
@@ -52,7 +52,7 @@ class NLPTaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(NLPTask $nLPTask)
+    public function edit(NlpTask $nLPTask)
     {
         //
     }
@@ -60,7 +60,7 @@ class NLPTaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateNLPTaskRequest $request, NLPTask $nLPTask)
+    public function update(UpdateNLPTaskRequest $request, NlpTask $nLPTask)
     {
         //
     }
@@ -68,7 +68,7 @@ class NLPTaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(NLPTask $nLPTask)
+    public function destroy(NlpTask $nLPTask)
     {
         //
     }

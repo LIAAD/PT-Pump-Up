@@ -65,7 +65,7 @@ const Index = (props) => {
     return (
         <PTPumpUpLayout
             main={
-                <Grid container sx={{ px: {lg: 10 }, mt: { lg: 3 } }}>
+                <Grid container sx={{ px: { lg: 10 }, mt: { lg: 3 } }}>
                     <Grid container justifyContent="center" alignItems="center">
                         <Grid item xs={12} md={8} sx={{ textAlign: { xs: "center", md: "left" } }}>
                             <h1>Sincronizing & Extending <br /> Portuguese NLP Resources</h1>
@@ -75,7 +75,7 @@ const Index = (props) => {
                         </Grid>
                     </Grid>
                     <GenericDivider label="What is PT-Pump-Up?" />
-                    <Grid item xs={12} sx={{ mx: {sm: 5} }}>
+                    <Grid item xs={12} sx={{ mx: { sm: 5 } }}>
                         <h3>PT-Pump-Up is a hub for Portuguese NLP resources, which aims to provide a centralized access point to the most relevant resources for Portuguese NLP, as well as to provide a set of tools to facilitate their use.</h3>
                     </Grid>
                     <GenericDivider label="Resources Avaiable?" />

@@ -41,7 +41,7 @@ class TeamSeeder extends Seeder
                 ]
             ],
             [
-                'img' => 'https://raw.githubusercontent.com/LIAAD/PT-Pump-Up/main/src/frontend/src/assets/images/RC5.png',
+                'img' => 'https://storysense.inesctec.pt/assets/img/team/RC5.jpg',
                 'name' => 'Ricardo Campos',
                 'title' => 'Coordinator',
                 'affiliation' => 'INESC Tec',

@@ -6,7 +6,7 @@ use App\Http\Requests\StoreDatasetRequest;
 use App\Http\Requests\UpdateDatasetRequest;
 use App\Models\Dataset;
 use App\Models\Language;
-use App\Models\NLPTask;
+use App\Models\NlpTask;
 use App\Models\Author;
 use App\Models\ResourceStats;
 use Inertia\Inertia;
@@ -20,7 +20,7 @@ class DatasetController extends Controller
         return Inertia::render('Datasets/Index', [
             'datasets' => Dataset::with(['authors', 'nlpTasks', 'href', 'resourceStats'])->get(),
             'authors' => Author::all(),
-            'nlp_tasks' => NLPTask::all(),
+            'nlp_tasks' => NlpTask::all(),
         ]);
     }
     /**
@@ -39,7 +39,7 @@ class DatasetController extends Controller
     {
         return Inertia::render('Datasets/Create', [
             'languages' => Language::all(),
-            'nlp_tasks' => NLPTask::all(),
+            'nlp_tasks' => NlpTask::all(),
             'authors' => Author::with('href')->get(),
         ]);
     }
@@ -92,7 +92,7 @@ class DatasetController extends Controller
 
         $dataset->authors()->attach($authors);
 
-        $dataset->nlpTasks()->attach(NLPTask::whereIn('acronym', $request->nlp_tasks)->get());
+        $dataset->nlpTasks()->attach(NlpTask::whereIn('acronym', $request->nlp_tasks)->get());
 
         $dataset->saveOrFail();
 

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMLModelRequest;
 use App\Http\Requests\UpdateMLModelRequest;
-use App\Models\MLModel;
+use App\Models\MlModel;
 use App\Models\Author;
-use App\Models\NLPTask;
+use App\Models\NlpTask;
 use Inertia\Inertia;
 use App\Models\Dataset;
 use App\Models\Href;
@@ -21,7 +21,7 @@ class MLModelController extends Controller
     {
         return Inertia::render(
             'MLModels/Index',
-            ['ml_models' => MLModel::with(['authors', 'nlpTasks', 'href', 'resourceStats'])->get()]
+            ['ml_models' => MlModel::with(['authors', 'nlpTasks', 'href', 'resourceStats'])->get()]
         );
     }
 
@@ -30,7 +30,7 @@ class MLModelController extends Controller
      */
     public function index_api()
     {
-        return MLModel::with(['authors', 'nlpTasks'])->get();
+        return MlModel::with(['authors', 'nlpTasks'])->get();
     }
 
     /**
@@ -39,7 +39,7 @@ class MLModelController extends Controller
     public function create()
     {
         return Inertia::render('MLModels/Create', [
-            'nlp_tasks' => NLPTask::all(),
+            'nlp_tasks' => NlpTask::all(),
             'authors' => Author::with('href')->get(),
             'datasets' => Dataset::all(),
         ]);
@@ -57,7 +57,7 @@ class MLModelController extends Controller
      */
     public function store_api(StoreMLModelRequest $request)
     {
-        $ml_model = new MLModel([
+        $ml_model = new MlModel([
             'english_name' => $request->english_name,
             'full_portuguese_name' => $request->full_portuguese_name,
             'description' => $request->description,
@@ -92,7 +92,7 @@ class MLModelController extends Controller
 
         $ml_model->authors()->attach($authors);
 
-        $ml_model->nlpTasks()->attach(NLPTask::whereIn('acronym', $request->nlp_tasks)->get());
+        $ml_model->nlpTasks()->attach(NlpTask::whereIn('acronym', $request->nlp_tasks)->get());
 
         foreach ($request->benchmarks as $benchmark) {
             $ml_model->benchmarks->add(Benchmark::create([
@@ -108,7 +108,7 @@ class MLModelController extends Controller
         $ml_model->saveOrFail();
 
         return response()->json([
-            'message' => 'MLModel created successfully.',
+            'message' => 'MlModel created successfully.',
             'ml_model' => $ml_model,
         ], 201);
     }
@@ -118,7 +118,7 @@ class MLModelController extends Controller
      */
     public function show($ml_model)
     {
-        $ml_model = MLModel::with(['authors', 'nlpTasks', 'href', 'resourceStats', 'benchmarks'])->where('id', $ml_model)->firstOrFail();
+        $ml_model = MlModel::with(['authors', 'nlpTasks', 'href', 'resourceStats', 'benchmarks'])->where('id', $ml_model)->firstOrFail();
 
         return Inertia::render('MLModels/Show', ['ml_model' => $ml_model]);
     }
@@ -126,7 +126,7 @@ class MLModelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MLModel $mLModel)
+    public function edit(MlModel $mLModel)
     {
         //
     }
@@ -134,7 +134,7 @@ class MLModelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMLModelRequest $request, MLModel $mLModel)
+    public function update(UpdateMLModelRequest $request, MlModel $mLModel)
     {
         //
     }
@@ -142,7 +142,7 @@ class MLModelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MLModel $model)
+    public function destroy(MlModel $model)
     {
         $model->delete();
 
