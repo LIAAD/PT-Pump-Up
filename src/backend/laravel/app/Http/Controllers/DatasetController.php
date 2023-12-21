@@ -11,9 +11,13 @@ use App\Models\Author;
 use App\Models\ResourceStats;
 use Inertia\Inertia;
 use App\Models\Href;
+use App\Traits\Utils;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DatasetController extends Controller
 {
+    use Utils;
 
     public function index_web()
     {
@@ -56,51 +60,63 @@ class DatasetController extends Controller
      */
     public function store_api(StoreDatasetRequest $request)
     {
-        $dataset = new Dataset([
-            'english_name' => $request->english_name,
-            'full_portuguese_name' => $request->full_portuguese_name,
-            'description' => $request->description,
-            'year' => $request->year,
-        ]);
+        DB::beginTransaction();
 
-        # Create the HRefs for the dataset.
-        $dataset->href()->associate(Href::create([
-            'link_papers_with_code' => $request->hrefs['link_papers_with_code'] ?? null,
-            'link_source' => $request->hrefs['link_source'] ?? null,
-            'link_hf' => $request->hrefs['link_hf'] ?? null,
-            'link_github' => $request->hrefs['link_github'] ?? null,
-            'doi' => $request->hrefs['doi'] ?? null,
-        ]));
+        try {
 
-        # Create the ResourceStatus for the dataset.
-        $dataset->resourceStats()->associate(ResourceStats::create([
-            'broken_link' => $request->dataset_stats['broken_link'],
-            'author_response' => $request->dataset_stats['author_response'],
-            'standard_format' => $request->dataset_stats['standard_format'],
-            'backup' => $request->dataset_stats['backup'],
-            'preservation_rating' => $request->dataset_stats['preservation_rating'] ?? null,
-            'off_the_shelf' => $request->dataset_stats['off_the_shelf'],
-        ]));
+            $dataset = new Dataset([
+                'english_name' => $request->english_name,
+                'full_portuguese_name' => $request->full_portuguese_name,
+                'description' => $request->description,
+                'year' => $request->year,
+            ]);
 
-        $dataset->saveOrFail();
+            # Create the HRefs for the dataset.
+            $dataset->href()->associate(Href::create([
+                'link_papers_with_code' => $request->hrefs['link_papers_with_code'] ?? null,
+                'link_source' => $request->hrefs['link_source'] ?? null,
+                'link_hf' => $request->hrefs['link_hf'] ?? null,
+                'link_github' => $request->hrefs['link_github'] ?? null,
+                'doi' => $request->hrefs['doi'] ?? null,
+            ]));
 
-        $emails = $request->authors;
+            # Create the ResourceStatus for the dataset.
+            $dataset->resourceStats()->associate(ResourceStats::create([
+                'broken_link' => $request->dataset_stats['broken_link'],
+                'author_response' => $request->dataset_stats['author_response'],
+                'standard_format' => $request->dataset_stats['standard_format'],
+                'backup' => $request->dataset_stats['backup'],
+                'preservation_rating' => $request->dataset_stats['preservation_rating'] ?? null,
+                'off_the_shelf' => $request->dataset_stats['off_the_shelf'],
+                'state' => $this->getState($request->authors),
+            ]));
 
-        $authors = Author::whereHas('href', function ($query) use ($emails) {
-            $query->whereIn('email', $emails);
-        })->get();
+            $dataset->addBy()->associate(Auth::user());
 
-        $dataset->authors()->attach($authors);
+            $dataset->saveOrFail();
 
-        $dataset->nlpTasks()->attach(NlpTask::whereIn('acronym', $request->nlp_tasks)->get());
+            $emails = $request->authors;
 
-        $dataset->saveOrFail();
+            $authors = Author::whereHas('href', function ($query) use ($emails) {
+                $query->whereIn('email', $emails);
+            })->get();
 
+            $dataset->authors()->attach($authors);
 
-        return response()->json([
-            'message' => 'Dataset created successfully.',
-            'dataset' => $dataset,
-        ], 201);
+            $dataset->nlpTasks()->attach(NlpTask::whereIn('acronym', $request->nlp_tasks)->get());
+
+            $dataset->saveOrFail();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Dataset created successfully.',
+                'dataset' => $dataset,
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**

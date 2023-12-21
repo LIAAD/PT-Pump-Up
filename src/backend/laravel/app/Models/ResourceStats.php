@@ -21,6 +21,7 @@ class ResourceStats extends Model
         'backup',
         'size_gb',
         'preservation_rating',
+        'state',
     ];
 
     /**

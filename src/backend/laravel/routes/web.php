@@ -35,11 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/datasets', [DatasetController::class, 'store_web'])->name('datasets.store_web');
     Route::post('/models', [MLModelController::class, 'store_web'])->name('models.store_web');
 
-    Route::get('/datasets/{dataset}', [DatasetController::class, 'show'])->name('datasets.show');
-    Route::get('/models/{ml_model}', [MLModelController::class, 'show'])->name('models.show');
-
-
-
 
     Route::post('/tokens', function (Request $request) {
         $token = $request->user()->createToken("api_key");
@@ -55,6 +50,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [HomepageController::class, 'index'])->name('home');
 Route::get('/datasets', [DatasetController::class, 'index_web'])->name('datasets.index_web');
 Route::get('/models', [MLModelController::class, 'index_web'])->name('models.index_web');
+
+Route::get('/datasets/{dataset}', [DatasetController::class, 'show'])->name('datasets.show');
+Route::get('/models/{ml_model}', [MLModelController::class, 'show'])->name('models.show');
 
 /*
 */

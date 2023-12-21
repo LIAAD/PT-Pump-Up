@@ -23,6 +23,7 @@ class Dataset extends Model
         'year',
         'href_id',
         'resource_stats_id',
+        'add_by_id',
     ];
 
     /**
@@ -34,6 +35,7 @@ class Dataset extends Model
         'id' => 'integer',
         'href_id' => 'integer',
         'resource_stats_id' => 'integer',
+        'add_by_id' => 'integer',
     ];
 
     public function authors(): BelongsToMany
@@ -54,5 +56,10 @@ class Dataset extends Model
     public function resourceStats(): BelongsTo
     {
         return $this->belongsTo(ResourceStats::class);
+    }
+
+    public function addBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

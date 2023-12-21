@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('backup');
             $table->float('size_gb')->nullable();
             $table->string('preservation_rating')->nullable();
+            $table->string('state');
             $table->timestamps();
         });
     }

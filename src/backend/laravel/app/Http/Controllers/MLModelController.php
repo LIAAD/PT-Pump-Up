@@ -12,10 +12,12 @@ use App\Models\Dataset;
 use App\Models\Href;
 use App\Models\ResourceStats;
 use App\Models\Benchmark;
-use Illuminate\Http\Request;
+use App\Traits\Utils;
+use Illuminate\Support\Facades\DB;
 
 class MLModelController extends Controller
 {
+    use Utils;
 
     public function index_web()
     {
@@ -57,60 +59,73 @@ class MLModelController extends Controller
      */
     public function store_api(StoreMLModelRequest $request)
     {
-        $ml_model = new MlModel([
-            'english_name' => $request->english_name,
-            'full_portuguese_name' => $request->full_portuguese_name,
-            'description' => $request->description,
-            'year' => $request->year,
-            'architecture' => $request->architecture,
-        ]);
+        DB::beginTransaction();
 
-        $ml_model->href()->associate(Href::create([
-            'link_papers_with_code' => $request->hrefs['link_papers_with_code'] ?? null,
-            'link_source' => $request->hrefs['link_source'] ?? null,
-            'link_hf' => $request->hrefs['link_hf'] ?? null,
-            'link_github' => $request->hrefs['link_github'] ?? null,
-            'doi' => $request->hrefs['doi'] ?? null,
-        ]));
+        try {
 
-        $ml_model->resourceStats()->associate(ResourceStats::create([
-            'broken_link' => $request->model_stats['broken_link'],
-            'author_response' => $request->model_stats['author_response'],
-            'standard_format' => $request->model_stats['standard_format'],
-            'backup' => $request->model_stats['backup'],
-            'preservation_rating' => $request->model_stats['preservation_rating'] ?? null,
-            'off_the_shelf' => $request->model_stats['off_the_shelf'],
-        ]));
+            $ml_model = new MlModel([
+                'english_name' => $request->english_name,
+                'full_portuguese_name' => $request->full_portuguese_name,
+                'description' => $request->description,
+                'year' => $request->year,
+                'architecture' => $request->architecture,
+            ]);
 
-        $ml_model->saveOrFail();
-
-        $emails = $request->authors;
-
-        $authors = Author::whereHas('href', function ($query) use ($emails) {
-            $query->whereIn('email', $emails);
-        })->get();
-
-        $ml_model->authors()->attach($authors);
-
-        $ml_model->nlpTasks()->attach(NlpTask::whereIn('acronym', $request->nlp_tasks)->get());
-
-        foreach ($request->benchmarks as $benchmark) {
-            $ml_model->benchmarks->add(Benchmark::create([
-                'ml_model_id' => $ml_model->id,
-                'train_dataset_id' => $benchmark['train_dataset'],
-                'validation_dataset_id' => $benchmark['validation_dataset'],
-                'test_dataset_id' => $benchmark['test_dataset'],
-                'metric' => $benchmark['metric'],
-                'performance' => $benchmark['performance'],
+            $ml_model->href()->associate(Href::create([
+                'link_papers_with_code' => $request->hrefs['link_papers_with_code'] ?? null,
+                'link_source' => $request->hrefs['link_source'] ?? null,
+                'link_hf' => $request->hrefs['link_hf'] ?? null,
+                'link_github' => $request->hrefs['link_github'] ?? null,
+                'doi' => $request->hrefs['doi'] ?? null,
             ]));
+
+            $ml_model->resourceStats()->associate(ResourceStats::create([
+                'broken_link' => $request->model_stats['broken_link'],
+                'author_response' => $request->model_stats['author_response'],
+                'standard_format' => $request->model_stats['standard_format'],
+                'backup' => $request->model_stats['backup'],
+                'preservation_rating' => $request->model_stats['preservation_rating'] ?? null,
+                'off_the_shelf' => $request->model_stats['off_the_shelf'],
+                'state' => $this->getState($request->authors),
+            ]));
+
+            $ml_model->addBy()->associate(auth()->user());
+
+            $ml_model->saveOrFail();
+
+            $emails = $request->authors;
+
+            $authors = Author::whereHas('href', function ($query) use ($emails) {
+                $query->whereIn('email', $emails);
+            })->get();
+
+            $ml_model->authors()->attach($authors);
+
+            $ml_model->nlpTasks()->attach(NlpTask::whereIn('acronym', $request->nlp_tasks)->get());
+
+            foreach ($request->benchmarks as $benchmark) {
+                $ml_model->benchmarks->add(Benchmark::create([
+                    'ml_model_id' => $ml_model->id,
+                    'train_dataset_id' => $benchmark['train_dataset'],
+                    'validation_dataset_id' => $benchmark['validation_dataset'],
+                    'test_dataset_id' => $benchmark['test_dataset'],
+                    'metric' => $benchmark['metric'],
+                    'performance' => $benchmark['performance'],
+                ]));
+            }
+
+            $ml_model->saveOrFail();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'MlModel created successfully.',
+                'ml_model' => $ml_model,
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
         }
-
-        $ml_model->saveOrFail();
-
-        return response()->json([
-            'message' => 'MlModel created successfully.',
-            'ml_model' => $ml_model,
-        ], 201);
     }
 
     /**
