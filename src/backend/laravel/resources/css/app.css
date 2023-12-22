@@ -113,7 +113,8 @@ body {
 .table-resource tr:hover {
     color: white !important;
 }
-.table-resource td{
+
+.table-resource td {
     color: inherit !important;
     font-weight: inherit;
 }
@@ -129,4 +130,9 @@ header {
 
 #logo {
     max-width: 50px;
+}
+
+.collapsed-table-preview {
+    font-size: larger;
+    font-weight: bolder;
 }

@@ -14,16 +14,64 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { filterByNLPTask } from '@/utils';
 import AddIcon from '@mui/icons-material/Add';
 import { router } from '@inertiajs/react'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import IconButton from '@mui/material/IconButton';
 
 
-
-const TableModel = (props) => {
+const TableContent = (props) => {
   return (
-    <Grid container>
-      <Grid item xs={12}>
+    <TableBody>
+      {props.models.map((model, index) =>
+        <TableRow hover={true} key={index} onClick={() => router.get(route('models.show', model.id))}>
+          <TableCell scope="row" className="resource-name">
+            {model.english_name}
+          </TableCell>
+          <TableCell scope="row" align="center">
+            {model.year}
+          </TableCell>
+          <TableCell scope="row" align="center">
+            <Button href={model.href.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
+          </TableCell>
+          <TableCell scope="row" align="center">
+            {model.resource_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
+          </TableCell>
+          <TableCell scope="row" align="center">
+            {model.resource_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
+          </TableCell>
+          <TableCell scope="row" align="center" className={`label-${model.resource_stats.preservation_rating}`}>
+            {model.resource_stats.preservation_rating && model.resource_stats.preservation_rating.replace(model.resource_stats.preservation_rating[0], model.resource_stats.preservation_rating[0].toUpperCase())}
+          </TableCell>
+        </TableRow>
+      )}
+    </TableBody>
+  );
+}
+
+
+const ColapsibleTable = (props) => {
+  const [state, setState] = useState({
+    expanded: props.expanded,
+  })
+
+  return (
+    <Grid container justifyContent="center">
+      <Grid item xs={11}>
         <h2>{props.task}</h2>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item>
+        {!state.expanded &&
+          <IconButton size="large" onClick={() => setState({ ...state, expanded: !state.expanded })}>
+            <ExpandMoreIcon fontSize="large" />
+          </IconButton>
+        }
+        {state.expanded &&
+          <IconButton size="large" onClick={() => setState({ ...state, expanded: !state.expanded })}>
+            <ExpandLessIcon fontSize="large" />
+          </IconButton>
+        }
+      </Grid>
+      <Grid item xs={11}>
         <Table stickyHeader className="table-resource">
           <TableHead>
             <TableRow>
@@ -35,33 +83,10 @@ const TableModel = (props) => {
               <TableCell align="center">Preservation Rating</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {props.models.map((model, index) =>
-              <TableRow hover={true} key={index} onClick={() => router.get(route('models.show', model.id))}>
-                <TableCell scope="row" className="resource-name">
-                  {model.english_name}
-                </TableCell>
-                <TableCell scope="row" align="center">
-                  {model.year}
-                </TableCell>
-                <TableCell scope="row" align="center">
-                  <Button href={model.href.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
-                </TableCell>
-                <TableCell scope="row" align="center">
-                  {model.resource_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
-                </TableCell>
-                <TableCell scope="row" align="center">
-                  {model.resource_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
-                </TableCell>
-                <TableCell scope="row" align="center" className={`label-${model.resource_stats.preservation_rating}`}>
-                  {model.resource_stats.preservation_rating && model.resource_stats.preservation_rating.replace(model.resource_stats.preservation_rating[0], model.resource_stats.preservation_rating[0].toUpperCase())}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          {state.expanded && <TableContent models={props.models} />}
         </Table>
       </Grid>
-    </Grid>
+    </Grid >
   )
 }
 
@@ -73,7 +98,7 @@ const Index = (props) => {
 
   useEffect(() => {
     setState({ ...state, models: filterByNLPTask(props.ml_models) })
-  })
+  }, [])
 
   return (
     <PTPumpUpLayout
@@ -89,8 +114,8 @@ const Index = (props) => {
               </Grid>
             }
           </Grid>
-          {Object.keys(state.models).map((key) =>
-            <TableModel key={key} task={key} models={state.models[key]} />
+          {Object.keys(state.models).map((key, index) =>
+            <ColapsibleTable key={index} task={key} models={state.models[key]} expanded={index === 0} />
           )}
         </Grid>
       }
