@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('dataset_nlp_task', function (Blueprint $table) {
-            $table->foreignId('dataset_id');
-            $table->foreignId('nlp_task_id');
+            $table->foreignId('dataset_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('nlp_task_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

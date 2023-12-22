@@ -12,6 +12,7 @@ import { router } from '@inertiajs/react'
 
 
 const ShowResource = (props) => {
+
     return (
         <Grid container alignItems="center" justifyContent="center">
             <Grid container alignItems="center" justifyContent="space-between" sx={{ mb: 5 }}>
@@ -34,7 +35,7 @@ const ShowResource = (props) => {
                     <h3>English Name</h3>
                     <TextField disabled value={props.elem.english_name} variant="outlined" />
                 </FormControl>
-            </Grid>        
+            </Grid>
             <GenericDivider label="Authors" />
             <Grid container justifyContent="center" alignItems="center">
                 {props.elem.authors.map((author, index) => (

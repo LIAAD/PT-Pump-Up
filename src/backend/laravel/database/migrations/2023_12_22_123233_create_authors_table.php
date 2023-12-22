@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nlp_tasks', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->longText('name');
-            $table->longText('acronym');
-            $table->json('papers_with_code_ids');
+            $table->longText('affiliation');
+            $table->foreignId('href_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nlp_tasks');
+        Schema::dropIfExists('authors');
     }
 };

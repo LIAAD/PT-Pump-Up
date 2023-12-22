@@ -150,6 +150,8 @@ class DatasetController extends Controller
      */
     public function destroy(Dataset $dataset)
     {
-        //
+        $dataset->delete();
+
+        return $this->index_web();
     }
 }

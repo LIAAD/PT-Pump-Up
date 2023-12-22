@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
+
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('ml_model_benchmarks', function (Blueprint $table) {
-            $table->foreignId('ml_model_id');
-            $table->foreignId('publication_id');
+            $table->foreignId('ml_model_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('publication_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

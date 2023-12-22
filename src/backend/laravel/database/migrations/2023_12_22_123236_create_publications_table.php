@@ -11,13 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('conferences', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('publications', function (Blueprint $table) {
             $table->id();
-            $table->longText('name');
-            $table->longText('acronym');
-            $table->foreignId('href_id');
+            $table->longText('title');
+            $table->integer('year');
+            $table->longText('bibtex');
+            $table->foreignId('href_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -25,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('conferences');
+        Schema::dropIfExists('publications');
     }
 };

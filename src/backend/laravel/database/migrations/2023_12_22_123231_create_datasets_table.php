@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('datasets', function (Blueprint $table) {
             $table->id();
             $table->longText('english_name');
             $table->longText('full_portuguese_name')->nullable();
             $table->longText('description');
             $table->integer('year');
-            $table->foreignId('href_id');
-            $table->foreignId('resource_stats_id');
-            $table->foreignId('add_by_id');
+            $table->foreignId('href_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('resource_stats_id')->constrained('resource_stats')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('add_by_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

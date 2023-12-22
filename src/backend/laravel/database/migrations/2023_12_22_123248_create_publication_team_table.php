@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('publication_team', function (Blueprint $table) {
-            $table->foreignId('publication_id');
-            $table->foreignId('team_id');
+            $table->foreignId('publication_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

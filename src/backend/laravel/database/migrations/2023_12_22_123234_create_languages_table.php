@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
             $table->longText('name');
@@ -18,6 +20,8 @@ return new class extends Migration
             $table->json('papers_with_code_ids');
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

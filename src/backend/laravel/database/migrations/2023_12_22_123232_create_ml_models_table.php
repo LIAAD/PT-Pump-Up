@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('ml_models', function (Blueprint $table) {
             $table->id();
             $table->longText('english_name');
@@ -18,11 +20,13 @@ return new class extends Migration
             $table->longText('description');
             $table->integer('year');
             $table->string('architecture');
-            $table->foreignId('href_id');
-            $table->foreignId('resource_stats_id');
-            $table->foreignId('add_by_id');
+            $table->foreignId('href_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('resource_stats_id')->constrained('resource_stats')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('add_by_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

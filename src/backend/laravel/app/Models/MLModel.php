@@ -8,6 +8,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $english_name
+ * @property string $full_portuguese_name
+ * @property string $description
+ * @property int $year
+ * @property string $architecture
+ * @property int $href_id
+ * @property int $resource_stats_id
+ * @property int $add_by_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class MlModel extends Model
 {
     use HasFactory;
@@ -42,7 +55,7 @@ class MlModel extends Model
 
     public function authors(): BelongsToMany
     {
-        return $this->belongsToMany(Author::class);
+        return $this->belongsToMany(Author::class)->with('href');
     }
 
     public function nlpTasks(): BelongsToMany
