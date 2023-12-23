@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('author_ml_model', function (Blueprint $table) {
-            $table->foreignId('author_id');
-            $table->foreignId('ml_model_id');
+            $table->foreignId('author_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('ml_model_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

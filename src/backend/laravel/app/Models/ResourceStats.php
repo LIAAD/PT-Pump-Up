@@ -5,6 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property bool $broken_link
+ * @property bool $author_response
+ * @property bool $standard_format
+ * @property bool $backup
+ * @property float $size_gb
+ * @property string $preservation_rating
+ * @property string $state
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class ResourceStats extends Model
 {
     use HasFactory;
@@ -21,6 +33,7 @@ class ResourceStats extends Model
         'backup',
         'size_gb',
         'preservation_rating',
+        'state',
     ];
 
     /**

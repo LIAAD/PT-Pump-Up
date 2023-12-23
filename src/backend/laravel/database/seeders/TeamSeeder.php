@@ -76,7 +76,8 @@ class TeamSeeder extends Seeder
                 'name' => $member['name'],
                 'email' => $member['email'],
                 # Fake password
-                'password' => Factory::create()->password()
+                'password' => Factory::create()->password(),
+                'role' => 'admin',
             ]));
 
             $team->href()->associate(Href::create([

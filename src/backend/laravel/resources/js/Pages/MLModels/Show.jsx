@@ -12,7 +12,7 @@ const Show = (props) => {
     return (
         <PTPumpUpLayout
             main={
-                <ShowResource elem={props.ml_model} delete_route="ml_models.destroy" auth={props.auth}>
+                <ShowResource elem={props.ml_model} delete_route="models.destroy" auth={props.auth}>
                     <GenericDivider label="Architecture" />
                     <Grid item xs={8}>
                         <FormControl fullWidth sx={{ mb: 3 }}>

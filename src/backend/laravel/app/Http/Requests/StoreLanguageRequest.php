@@ -23,8 +23,8 @@ class StoreLanguageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'iso_code' => 'required|string',
+            'name' => 'required|string:unique:languages,name',
+            'iso_code' => 'required|string:unique:languages,iso_code',
             'papers_with_code_ids' => 'required|array',
         ];
     }

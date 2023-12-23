@@ -19,6 +19,7 @@ models:
     backup: boolean
     size_gb: float nullable    
     preservation_rating: string nullable
+    state: string 
 
   
   Dataset:
@@ -29,7 +30,7 @@ models:
 
     relationships:
       belongsToMany: Author, NlpTask
-      belongsTo: Href, ResourceStats    
+      belongsTo: Href, ResourceStats, User:add_by
   
   MlModel:
     english_name: longtext
@@ -41,8 +42,8 @@ models:
 
     relationships:
       belongsToMany: Author, NlpTask
-      belongsTo: Href, ResourceStats
-      hasMany: Benchmark      
+      belongsTo: Href, ResourceStats, User:add_by
+      hasMany: Benchmark
 
   Author:
     name: longtext

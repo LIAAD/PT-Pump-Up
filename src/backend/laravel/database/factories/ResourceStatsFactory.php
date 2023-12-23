@@ -27,6 +27,7 @@ class ResourceStatsFactory extends Factory
             'backup' => $this->faker->boolean(),
             'size_gb' => $this->faker->randomFloat(0, 0, 9999999999.),
             'preservation_rating' => $this->faker->word(),
+            'state' => $this->faker->word(),
         ];
     }
 }

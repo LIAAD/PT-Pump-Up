@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('publications', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('languages', function (Blueprint $table) {
             $table->id();
-            $table->longText('title');
-            $table->integer('year');
-            $table->longText('bibtex');
-            $table->foreignId('href_id');
+            $table->longText('name');
+            $table->longText('iso_code');
+            $table->json('papers_with_code_ids');
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('publications');
+        Schema::dropIfExists('languages');
     }
 };

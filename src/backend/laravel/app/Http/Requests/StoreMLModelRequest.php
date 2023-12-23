@@ -31,8 +31,8 @@ class StoreMLModelRequest extends FormRequest
             'authors' => 'required|array',
             'authors.*' => 'required|email',
             'hrefs' => 'required|array',
+            'hrefs.link_source' => 'url',
             'hrefs.link_papers_with_code' => 'nullable|url',
-            'hrefs.link_source' => 'nullable|url',
             'hrefs.link_hf' => 'nullable|url',
             'hrefs.link_github' => 'nullable|url',
             'hrefs.doi' => 'nullable|url',
@@ -50,9 +50,9 @@ class StoreMLModelRequest extends FormRequest
 
             #TODO: Add Benchmark validation
             'benchmarks' => 'nullable|array',
-            'benchmarks.*.train_dataset' => 'required|numeric|exists:datasets,id',
-            'benchmarks.*.validation_dataset' => 'required|numeric|exists:datasets,id',
-            'benchmarks.*.test_dataset' => 'required|numeric|exists:datasets,id',
+            'benchmarks.*.train_dataset' => 'required|string|exists:datasets,english_name',
+            'benchmarks.*.validation_dataset' => 'nullable|string|exists:datasets,english_name',
+            'benchmarks.*.test_dataset' => 'required|string|exists:datasets,english_name',
             'benchmarks.*.metric' => 'required|string',
             'benchmarks.*.performance' => 'required|numeric|min:0|max:100',
 

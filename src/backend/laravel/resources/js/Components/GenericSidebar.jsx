@@ -14,6 +14,7 @@ const GenericSidebar = (props) => {
         ['Datasets', route('datasets.index_web')],
         ['Models', route('models.index_web')],
         ['Login', route('login')],
+        ['Profile', route('dashboard')],
         ['Logout', route('logout')],
     ]
     const handleClick = (e, link) => {
@@ -27,7 +28,7 @@ const GenericSidebar = (props) => {
     if (auth.user)
         menus.splice(3, 1)
     else
-        menus.splice(4, 1)
+        menus.splice(4, 2)
 
     return (
         <SwipeableDrawer open={props.showDrawer} onOpen={props.toggleDrawer} onClose={props.toggleDrawer}>

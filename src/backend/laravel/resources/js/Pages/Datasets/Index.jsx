@@ -14,14 +14,62 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
 import { router } from '@inertiajs/react'
 import { filterByNLPTask } from '@/utils'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import IconButton from '@mui/material/IconButton';
 
-const TableDataset = (props) => {    
+const TableContent = (props) => {
     return (
-        <Grid container>
-            <Grid item xs={12}>
+        <TableBody>
+            {props.datasets.map((dataset, index) =>
+                <TableRow hover={true} key={index} onClick={() => router.get(route('datasets.show', dataset.id))}>
+                    <TableCell scope="row" className="resource-name">
+                        {dataset.english_name}
+                    </TableCell>
+                    <TableCell scope="row" align="center">{dataset.year}</TableCell>
+                    <TableCell scope="row" align="center">
+                        <Button href={dataset.href.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
+                    </TableCell>
+                    <TableCell scope="row" align="center">
+                        {dataset.resource_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
+                    </TableCell>
+                    <TableCell scope="row" align="center">
+                        {dataset.resource_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
+                    </TableCell>
+                    <TableCell scope="row" align="center" className={`label-${dataset.resource_stats.preservation_rating}`}>
+                        {dataset.resource_stats.preservation_rating && dataset.resource_stats.preservation_rating.replace(dataset.resource_stats.preservation_rating[0], dataset.resource_stats.preservation_rating[0].toUpperCase())}
+                    </TableCell>
+                </TableRow>
+            )}
+        </TableBody>
+    );
+}
+
+
+const ColapsibleTable = (props) => {
+    const [state, setState] = useState({
+        expanded: false,
+    })
+
+
+    return (
+        <Grid container justifyContent="center" sx={{ mb: 5 }}>
+            <Grid item xs={11}>
                 <h2>{props.task}</h2>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
+                {!state.expanded &&
+                    <IconButton size="large" onClick={() => setState({ ...state, expanded: !state.expanded })}>
+                        <ExpandMoreIcon fontSize="large" />
+                    </IconButton>
+                }
+                {state.expanded &&
+                    <IconButton size="large" onClick={() => setState({ ...state, expanded: !state.expanded })}>
+                        <ExpandLessIcon fontSize="large" />
+                    </IconButton>
+                }
+            </Grid>
+            <Grid item xs={11}>
                 <Table stickyHeader className="table-resource">
                     <TableHead>
                         <TableRow>
@@ -33,28 +81,7 @@ const TableDataset = (props) => {
                             <TableCell align="center">Preservation Rating</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {props.datasets.map((dataset, index) =>
-                            <TableRow hover={true} key={index} onClick={() => router.get(route('datasets.show', dataset.id))}>
-                                <TableCell scope="row" className="resource-name">
-                                    {dataset.english_name}
-                                </TableCell>
-                                <TableCell scope="row" align="center">{dataset.year}</TableCell>
-                                <TableCell scope="row" align="center">
-                                    <Button href={dataset.href.link_source} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button>
-                                </TableCell>
-                                <TableCell scope="row" align="center">
-                                    {dataset.resource_stats.standard_format ? <ClearIcon /> : <CheckIcon />}
-                                </TableCell>
-                                <TableCell scope="row" align="center">
-                                    {dataset.resource_stats.off_the_shelf ? <ClearIcon /> : <CheckIcon />}
-                                </TableCell>
-                                <TableCell scope="row" align="center" className={`label-${dataset.resource_stats.preservation_rating}`}>
-                                    {dataset.resource_stats.preservation_rating && dataset.resource_stats.preservation_rating.replace(dataset.resource_stats.preservation_rating[0], dataset.resource_stats.preservation_rating[0].toUpperCase())}
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
+                    {state.expanded && <TableContent datasets={props.datasets} />}
                 </Table>
             </Grid>
         </Grid>
@@ -62,6 +89,7 @@ const TableDataset = (props) => {
 }
 
 const Index = (props) => {
+
     const [state, setState] = useState({
         datasets: [],
     })
@@ -84,8 +112,8 @@ const Index = (props) => {
                             </Grid>
                         }
                     </Grid>
-                    {Object.keys(state.datasets).map((key) =>
-                        <TableDataset task={key} datasets={state.datasets[key]} />
+                    {Object.keys(state.datasets).map((key, index) =>
+                        <ColapsibleTable key={index} task={key} datasets={state.datasets[key]} />
                     )}
                 </Grid>
             }

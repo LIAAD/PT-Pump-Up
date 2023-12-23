@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ml_models', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('publications', function (Blueprint $table) {
             $table->id();
-            $table->longText('english_name');
-            $table->longText('full_portuguese_name')->nullable();
-            $table->longText('description');
+            $table->longText('title');
             $table->integer('year');
-            $table->string('architecture');
-            $table->foreignId('href_id');
-            $table->foreignId('resource_stats_id');
+            $table->longText('bibtex');
+            $table->foreignId('href_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ml_models');
+        Schema::dropIfExists('publications');
     }
 };

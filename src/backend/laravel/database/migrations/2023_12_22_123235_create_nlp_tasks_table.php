@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('conferences', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('nlp_tasks', function (Blueprint $table) {
             $table->id();
             $table->longText('name');
             $table->longText('acronym');
-            $table->foreignId('href_id');
+            $table->json('papers_with_code_ids');
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('conferences');
+        Schema::dropIfExists('nlp_tasks');
     }
 };
