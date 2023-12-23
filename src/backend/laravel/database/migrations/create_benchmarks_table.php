@@ -19,7 +19,7 @@ return new class extends Migration
             $table->float('performance');
             $table->foreignId('ml_model_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('train_dataset_id')->references('id')->on('datasets')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('validation_dataset_id')->references('id')->on('datasets')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('validation_dataset_id')->nullable()->references('id')->on('datasets')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('test_dataset_id')->references('id')->on('datasets')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

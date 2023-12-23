@@ -125,9 +125,9 @@ const Create = (props) => {
       description: state.description,
       benchmarks: state.benchmarks.map(elem => {
         return {
-          train_dataset: elem.train_dataset.id,
-          validation_dataset: elem.validation_dataset.id,
-          test_dataset: elem.test_dataset.id,
+          train_dataset: elem.train_dataset.english_name,
+          validation_dataset: elem.validation_dataset ? elem.validation_dataset.english_name : null,
+          test_dataset: elem.test_dataset.english_name,
           metric: elem.metric,
           performance: elem.performance,
         }

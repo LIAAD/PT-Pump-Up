@@ -106,9 +106,9 @@ class MLModelController extends Controller
             foreach ($request->benchmarks as $benchmark) {
                 $ml_model->benchmarks->add(Benchmark::create([
                     'ml_model_id' => $ml_model->id,
-                    'train_dataset_id' => $benchmark['train_dataset'],
-                    'validation_dataset_id' => $benchmark['validation_dataset'],
-                    'test_dataset_id' => $benchmark['test_dataset'],
+                    'train_dataset_id' => Dataset::where('english_name', '=', $benchmark['train_dataset'])->firstorFail()->id,
+                    'validation_dataset_id' => $benchmark['validation_dataset'] ? Dataset::where('english_name', '=', $benchmark['validation_dataset'])->firstorFail()->id : null,
+                    'test_dataset_id' => Dataset::where('english_name', '=', $benchmark['test_dataset'])->firstorFail()->id,
                     'metric' => $benchmark['metric'],
                     'performance' => $benchmark['performance'],
                 ]));
