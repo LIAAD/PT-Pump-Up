@@ -38,7 +38,9 @@ class StoreDatasetRequest extends FormRequest
 
             'nlp_tasks' => 'required|array',
             'nlp_tasks.*' => 'required|string',
-
+            
+            #TODO: Change from hrefs to href
+            
             'hrefs' => 'required|array',
             'hrefs.link_papers_with_code' => 'nullable|url',
             'hrefs.link_source' => 'nullable|url',

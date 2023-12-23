@@ -1,4 +1,6 @@
 
+*.log
+
 .idea/
 
 src/pt_pump_up.egg-info/
