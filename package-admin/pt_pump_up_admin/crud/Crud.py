@@ -36,7 +36,7 @@ class Crud(ABC):
             url=f"{self.pt_pump_up.url}/{self.route}",
             json=data,
             headers={
-                "Authorization": "Bearer " + self.pt_pump_up.bearer_token,
+                "Authorization": "Bearer " + self.pt_pump_up.bearer_token,             
                 "Accept": "application/json"
             }
         )

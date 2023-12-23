@@ -4,11 +4,10 @@ from pt_pump_up_admin.crud.Crud import Crud
 
 class Dataset(Crud):
     def __init__(self, pt_pump_up) -> None:
-        super().__init__(pt_pump_up, "datasets")
+        super().__init__(pt_pump_up, "api/datasets")
 
     def insert(self,
                english_name: str,
-               portuguese_name: str,
                description: str,
                year: int,
                link_source: str,
@@ -25,14 +24,14 @@ class Dataset(Crud):
 
         data = {
             "english_name": english_name,
-            "portuguese_name": portuguese_name,
+            "full_portuguese_name": kwargs.get("full_portuguese_name", None),
             "description": description,
             "year": year,
             "hrefs": {
                 "link_source": link_source,
-                "link_papers_with_code": kwargs.get("link_papers_with_code", ""),
-                "link_hf": kwargs.get("link_hf", ""),
-                "link_doi": kwargs.get("link_doi", ""),
+                "link_papers_with_code": kwargs.get("link_papers_with_code", None),
+                "link_hf": kwargs.get("link_hf", None),
+                "doi": kwargs.get("doi", None),
             },
             "dataset_stats": {
                 "broken_link": broken_link,

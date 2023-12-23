@@ -23,8 +23,8 @@ class StoreNLPTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:nlp_tasks, name',
-            'acronym' => 'required|string|unique:nlp_tasks, acronym',
+            'name' => 'required|string|unique:nlp_tasks,name',
+            'acronym' => 'required|string|unique:nlp_tasks,acronym',
             'papers_with_code_ids' => 'required|array',
             'papers_with_code_ids.*' => 'required|int',
         ];

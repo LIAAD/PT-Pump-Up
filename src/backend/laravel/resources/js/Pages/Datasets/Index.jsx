@@ -48,7 +48,7 @@ const TableContent = (props) => {
 
 const ColapsibleTable = (props) => {
     const [state, setState] = useState({
-        expanded: props.expanded,
+        expanded: false,
     })
 
 
@@ -89,6 +89,7 @@ const ColapsibleTable = (props) => {
 }
 
 const Index = (props) => {
+
     const [state, setState] = useState({
         datasets: [],
     })
@@ -112,7 +113,7 @@ const Index = (props) => {
                         }
                     </Grid>
                     {Object.keys(state.datasets).map((key, index) =>
-                        <ColapsibleTable key={index} task={key} datasets={state.datasets[key]} expanded={index === 0} />
+                        <ColapsibleTable key={index} task={key} datasets={state.datasets[key]} />
                     )}
                 </Grid>
             }
