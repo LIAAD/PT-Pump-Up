@@ -1,4 +1,0 @@
-quart[dotenv] >= 0.19.4
-pt_pump_up >= 2.2.1
-quart-cors
-mechanize

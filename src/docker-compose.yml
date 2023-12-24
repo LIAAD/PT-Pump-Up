@@ -3,7 +3,7 @@ version: '3'
 services:
   laravel:
     build: 
-      context: ./backend/laravel
+      context: ./laravel
       dockerfile: dev.Dockerfile
     container_name: laravel    
     ports:
@@ -12,7 +12,7 @@ services:
     networks:
       - pt-pump-up
     volumes:
-      - ./backend/laravel:/app
+      - ./laravel:/app
       - node_modules:/app/node_modules
       - vendor:/app/vendor
   database:
