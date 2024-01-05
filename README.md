@@ -48,4 +48,10 @@ We welcome contributions from the community to enhance any of the four software 
 
 ### Contact Us
 
-Should you have any questions, ideas, or need further insights about contributing, feel free to reach out to any of the team members listed on our [Website](https://your-website-link). We value collaboration and are open to discussing potential contributions and ideas.
+Should you have any questions, ideas, or need further insights about contributing, feel free to reach out to any of the team members listed on our [Website](http://pt-pump-up.inesctec.pt/). We value collaboration and are open to discussing potential contributions and ideas.
+
+## Project Wiki for More Information
+
+For in-depth details, guidelines, and additional resources related to PT-Pump-Up, we encourage you to visit our [Project Wiki](https://github.com/LIAAD/PT-Pump-Up/wiki). The Wiki contains comprehensive documentation, usage guides, and other essential information to help you navigate and contribute effectively to the project.
+
+Explore the Wiki to gain a deeper understanding of PT-Pump-Up and its components. It's a valuable resource for both new contributors and experienced users seeking detailed information about the project's functionalities and development guidelines.
