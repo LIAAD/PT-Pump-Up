@@ -104,7 +104,7 @@ class PreservationRating(ABC):
 class PreservationRatingDataset(PreservationRating):
 
     def __init__(self, hf_token, hf_repo, hf_path=None, use_cache=False) -> None:
-        super().__init__(url_fetch="http://pt-pump-up.inesctec.pt/api/datasets",
+        super().__init__(url_fetch="https://pt-pump-up.inesctec.pt/api/datasets",
                          local_path=os.path.join(
                              os.getcwd(), "out", "dataset_model.pkl"),
                          hf_token=hf_token, hf_repo=hf_repo, hf_path=hf_path, use_cache=use_cache)
@@ -165,7 +165,7 @@ class PreservationRatingDataset(PreservationRating):
 class PreservationRatingModel(PreservationRating):
 
     def __init__(self, hf_token, hf_repo, hf_path=None, use_cache=False) -> None:
-        super().__init__(url_fetch="http://pt-pump-up.inesctec.pt/api/models",
+        super().__init__(url_fetch="https://pt-pump-up.inesctec.pt/api/models",
                          local_path=os.path.join(
                              os.getcwd(), "out", "model_model.pkl"),
                          hf_token=hf_token, hf_repo=hf_repo, hf_path=hf_path, use_cache=use_cache),

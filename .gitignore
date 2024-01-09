@@ -12,3 +12,5 @@ src/backend/laravel/public/images
 src/backend/laravel/.blueprint
 
 package-client/publish.sh
+
+package-admin/setup.py

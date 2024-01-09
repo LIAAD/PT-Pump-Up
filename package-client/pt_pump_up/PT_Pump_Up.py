@@ -3,7 +3,7 @@ from datasets import load_dataset as load_hf_dataset
 
 
 class PTPumpUP:
-    def __init__(self, url="http://pt-pump-up.inesctec.pt") -> None:
+    def __init__(self, url="https://pt-pump-up.inesctec.pt") -> None:
         self.url = url
         self.datasets = None
         self.models = None
