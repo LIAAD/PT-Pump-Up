@@ -48,7 +48,7 @@ We welcome contributions from the community to enhance any of the four software 
 
 ### Contact Us
 
-Should you have any questions, ideas, or need further insights about contributing, feel free to reach out to any of the team members listed on our [Website](http://pt-pump-up.inesctec.pt/). We value collaboration and are open to discussing potential contributions and ideas.
+Should you have any questions, ideas, or need further insights about contributing, feel free to reach out to any of the team members listed on our [Website](https://pt-pump-up.inesctec.pt/). We value collaboration and are open to discussing potential contributions and ideas.
 
 ## Project Wiki for More Information
 
