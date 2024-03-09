@@ -16,9 +16,9 @@ class LinkResource extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'website' => $this->website,
-            'github' => $this->github,
-            'hugging_face' => $this->hugging_face,
-            'papers_with_code' => $this->papers_with_code,
+            'github_url' => $this->github_url,
+            'hugging_face_url' => $this->hugging_face_url,
+            'papers_with_code_url' => $this->papers_with_code_url,
             'paper_url' => $this->paper_url,
         ];
     }

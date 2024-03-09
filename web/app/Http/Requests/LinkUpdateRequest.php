@@ -22,9 +22,9 @@ class LinkUpdateRequest extends FormRequest
         return [
             'email' => ['nullable', 'email'],
             'website' => ['nullable', 'string'],
-            'github' => ['nullable', 'string'],
-            'hugging_face' => ['nullable', 'string'],
-            'papers_with_code' => ['nullable', 'string'],
+            'github_url' => ['nullable', 'string'],
+            'hugging_face_url' => ['nullable', 'string'],
+            'papers_with_code_url' => ['nullable', 'string'],
             'paper_url' => ['nullable', 'string'],
         ];
     }

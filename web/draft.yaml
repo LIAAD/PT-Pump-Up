@@ -3,9 +3,9 @@ models:
   Link:
     email: string nullable
     website: url nullable
-    github: url nullable
-    hugging_face: url nullable
-    papers_with_code: url nullable
+    github_url: url nullable
+    hugging_face_url: url nullable
+    papers_with_code_url: url nullable
     paper_url: url nullable
 
   NlpTask:

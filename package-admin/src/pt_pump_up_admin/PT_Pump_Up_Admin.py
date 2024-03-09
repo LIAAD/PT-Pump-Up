@@ -1,4 +1,3 @@
-from pt_pump_up_admin import CRUD
 from requests import Request, Session
 
 

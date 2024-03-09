@@ -17,9 +17,9 @@ class Link extends Model
     protected $fillable = [
         'email',
         'website',
-        'github',
-        'hugging_face',
-        'papers_with_code',
+        'github_url',
+        'hugging_face_url',
+        'papers_with_code_url',
         'paper_url',
     ];
 

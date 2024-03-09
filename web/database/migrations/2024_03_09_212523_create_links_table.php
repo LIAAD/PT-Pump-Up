@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
-            $table->string('github')->nullable();
-            $table->string('hugging_face')->nullable();
-            $table->string('papers_with_code')->nullable();
+            $table->string('github_url')->nullable();
+            $table->string('hugging_face_url')->nullable();
+            $table->string('papers_with_code_url')->nullable();
             $table->string('paper_url')->nullable();
             $table->timestamps();
         });

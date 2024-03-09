@@ -1,6 +1,5 @@
 from pt_pump_up_admin.nlp_task import NLPTask
 from tests.lib.utils import fixture_load_admin_instance
-import pytest
 
 
 def test_index_nlp_tasks(fixture_load_admin_instance):

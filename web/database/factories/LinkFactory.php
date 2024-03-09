@@ -23,9 +23,9 @@ class LinkFactory extends Factory
         return [
             'email' => $this->faker->safeEmail(),
             'website' => $this->faker->word(),
-            'github' => $this->faker->word(),
-            'hugging_face' => $this->faker->word(),
-            'papers_with_code' => $this->faker->word(),
+            'github_url' => $this->faker->word(),
+            'hugging_face_url' => $this->faker->word(),
+            'papers_with_code_url' => $this->faker->word(),
             'paper_url' => $this->faker->word(),
         ];
     }
