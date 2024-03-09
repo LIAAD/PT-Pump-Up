@@ -23,7 +23,7 @@ class CRUD(ABC):
             url=self.route,
         )
 
-    def show(self) -> Request:
+    def show(self, identifier: int = None) -> Request:
 
         if self.identifier is None and identifier is None:
             raise ValueError("identifier cannot be None")
@@ -34,7 +34,7 @@ class CRUD(ABC):
             url=f"{self.route}/{self.identifier}",
         )
 
-    def update(self) -> Request:
+    def update(self, identifier: int = None) -> Request:
 
         if self.identifier is None and identifier is None:
             raise ValueError("identifier cannot be None")
@@ -46,7 +46,7 @@ class CRUD(ABC):
             url=f"{self.route}/{self.identifier}",
         )
 
-    def delete(self, identifier=None) -> Request:
+    def delete(self, identifier: int = None) -> Request:
 
         if self.identifier is None and identifier is None:
             raise ValueError("identifier cannot be None")

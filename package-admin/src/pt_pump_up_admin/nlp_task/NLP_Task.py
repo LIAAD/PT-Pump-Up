@@ -29,4 +29,5 @@ class NLPTask(CRUD):
         return base_request
 
     def update(self, identifier):
-        pass
+        raise NotImplementedError(
+            "Update method is not implemented for NLP Task")
