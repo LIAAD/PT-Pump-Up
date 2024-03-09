@@ -7,12 +7,12 @@ created:
     - database/factories/NlpTaskFactory.php
     - database/factories/DatasetFactory.php
     - database/factories/MachineLearningModelFactory.php
-    - database/migrations/2024_03_09_165653_create_links_table.php
-    - database/migrations/2024_03_09_165654_create_nlp_tasks_table.php
-    - database/migrations/2024_03_09_165655_create_datasets_table.php
-    - database/migrations/2024_03_09_165656_create_machine_learning_models_table.php
-    - database/migrations/2024_03_09_165657_create_dataset_nlp_task_table.php
-    - database/migrations/2024_03_09_165658_create_machine_learning_model_nlp_task_table.php
+    - database/migrations/2024_03_09_202417_create_links_table.php
+    - database/migrations/2024_03_09_202418_create_nlp_tasks_table.php
+    - database/migrations/2024_03_09_202419_create_datasets_table.php
+    - database/migrations/2024_03_09_202420_create_machine_learning_models_table.php
+    - database/migrations/2024_03_09_202421_create_dataset_nlp_task_table.php
+    - database/migrations/2024_03_09_202422_create_machine_learning_model_nlp_task_table.php
     - app/Models/Link.php
     - app/Models/NlpTask.php
     - app/Models/Dataset.php
@@ -21,6 +21,14 @@ created:
     - tests/Feature/Http/Controllers/NlpTaskControllerTest.php
     - tests/Feature/Http/Controllers/DatasetControllerTest.php
     - tests/Feature/Http/Controllers/MachineLearningModelControllerTest.php
+    - app/Http/Requests/LinkStoreRequest.php
+    - app/Http/Requests/LinkUpdateRequest.php
+    - app/Http/Requests/NlpTaskStoreRequest.php
+    - app/Http/Requests/NlpTaskUpdateRequest.php
+    - app/Http/Requests/DatasetStoreRequest.php
+    - app/Http/Requests/DatasetUpdateRequest.php
+    - app/Http/Requests/MachineLearningModelStoreRequest.php
+    - app/Http/Requests/MachineLearningModelUpdateRequest.php
     - resources/views/dataset/index.blade.php
     - resources/views/dataset/create.blade.php
     - resources/views/dataset/show.blade.php
@@ -35,6 +43,6 @@ updated:
 models:
     User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string:100 nullable' }
     Link: { email: 'string nullable', website: 'url nullable', github: 'url nullable', hugging_face: 'url nullable', papers_with_code: 'url nullable', paper_url: 'url nullable' }
-    NlpTask: { short_name: string, full_name: string, description: string, papers_with_code_ids: json }
+    NlpTask: { short_name: string, full_name: 'string nullable', description: 'string nullable', papers_with_code_ids: json }
     Dataset: { short_name: string, full_name: string, description: string, year: integer, relationships: { belongsTo: Link, belongsToMany: NlpTask } }
     MachineLearningModel: { short_name: string, full_name: string, description: string, year: integer, relationships: { belongsTo: Link, belongsToMany: NlpTask } }

@@ -1,25 +1,32 @@
 from pt_pump_up_admin import CRUD
+import requests
+import json
 
 
 class NLPTask(CRUD):
-    def __init__(self, short_name: str, papers_with_code_ids: list, id: int = None, full_name: str = None, description: str = None) -> None:
-        super().__init__(route="/nlp_task", id=id)
-        self.short_name = short_name
-        self.full_name = full_name
-        self.description = description
-        self.papers_with_code_ids = papers_with_code_ids
+    def __init__(self, identifier: int = None) -> None:
+        super().__init__(route="nlp-task", identifier=identifier)
 
     def index(self):
         return super().index()
 
-    def show(self):
-        return super().show()
+    def show(self, identifier: int = None):
+        return super().show(identifier=identifier)
 
-    def delete(self):
-        return super().delete()
+    def delete(self, identifier: int = None):
+        return super().delete(identifier=identifier)
 
-    def create(self, *args, **kwargs):
-        pass
+    def store(self, short_name: str, papers_with_code_ids: list, identifier: int = None, full_name: str = None, description: str = None):
+        base_request = super().store()
 
-    def update(self, *args, **kwargs):
+        base_request.json = {
+            "short_name": short_name,
+            "full_name": full_name,
+            "description": description,
+            "papers_with_code_ids": json.dumps(papers_with_code_ids)
+        }
+
+        return base_request
+
+    def update(self, identifier):
         pass

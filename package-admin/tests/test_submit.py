@@ -7,8 +7,8 @@ class TestSubmit(CRUD):
     def __init__(self) -> None:
         super().__init__("helloworld")
 
-    def create(self, *args, **kwargs) -> Request:
-        return super().create(*args, **kwargs)
+    def store(self, *args, **kwargs) -> Request:
+        return super().store(*args, **kwargs)
 
     def update(self, *args, **kwargs) -> Request:
         return super().update(*args, **kwargs)

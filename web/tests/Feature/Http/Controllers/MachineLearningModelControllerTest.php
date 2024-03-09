@@ -20,7 +20,7 @@ final class MachineLearningModelControllerTest extends TestCase
     #[Test]
     public function index_displays_view(): void
     {
-        $machineLearningModels = MachineLearninfgModel::factory()->count(3)->create();
+        $machineLearningModels = MachineLearningModel::factory()->count(3)->create();
 
         $response = $this->get(route('machine-learning-model.index'));
 

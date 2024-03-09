@@ -10,6 +10,11 @@ class PTPumpUpAdmin:
 
     def submit(self, request: Request):
         request.headers["Authorization"] = f"Bearer {self.bearer_token}"
+        request.headers["Content-Type"] = "application/json"
+        request.headers["Accept"] = "application/json"
+
         request.url = f"{self.url}/api/{request.url}"
+
+        print(request.url)
 
         return self.session.send(request.prepare())

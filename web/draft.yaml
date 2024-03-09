@@ -10,8 +10,8 @@ models:
 
   NlpTask:
     short_name: string
-    full_name: string
-    description: string
+    full_name: string nullable
+    description: string nullable
 
     papers_with_code_ids: json
 

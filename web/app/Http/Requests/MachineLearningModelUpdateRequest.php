@@ -24,8 +24,6 @@ class MachineLearningModelUpdateRequest extends FormRequest
             'full_name' => ['required', 'string'],
             'description' => ['required', 'string'],
             'year' => ['required', 'integer'],
-            'created_at' => ['required'],
-            'updated_at' => ['required'],
             'link_id' => ['required', 'integer', 'exists:links,id'],
         ];
     }

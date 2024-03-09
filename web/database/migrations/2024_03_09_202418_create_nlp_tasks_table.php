@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('nlp_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('short_name');
-            $table->string('full_name');
-            $table->string('description');
+            $table->string('full_name')->nullable();
+            $table->string('description')->nullable();
             $table->json('papers_with_code_ids');
             $table->timestamps();
         });

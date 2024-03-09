@@ -21,3 +21,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/helloworld', function () {
     return response()->json(['message' => 'Hello World!']);
 });
+
+Route::apiResource('link', App\Http\Controllers\LinkController::class);
+
+Route::apiResource('nlp-task', App\Http\Controllers\NlpTaskController::class);
+
+
+Route::apiResource('link', App\Http\Controllers\LinkController::class);
+
+Route::apiResource('nlp-task', App\Http\Controllers\NlpTaskController::class);
+
+
+Route::apiResource('link', App\Http\Controllers\LinkController::class);
+
+Route::apiResource('nlp-task', App\Http\Controllers\NlpTaskController::class);

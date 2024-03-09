@@ -40,13 +40,18 @@ require __DIR__.'/auth.php';
 
 Route::resource('dataset', App\Http\Controllers\DatasetController::class);
 
+Route::resource('machine-learning-model', App\Http\Controllers\MachineLearningModelController::class);
+
+
 Route::resource('dataset', App\Http\Controllers\DatasetController::class);
 
 Route::resource('machine-learning-model', App\Http\Controllers\MachineLearningModelController::class);
 
+
 Route::resource('dataset', App\Http\Controllers\DatasetController::class);
 
 Route::resource('machine-learning-model', App\Http\Controllers\MachineLearningModelController::class);
+
 
 Route::resource('dataset', App\Http\Controllers\DatasetController::class);
 

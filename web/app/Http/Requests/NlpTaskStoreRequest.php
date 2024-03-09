@@ -21,10 +21,8 @@ class NlpTaskStoreRequest extends FormRequest
     {
         return [
             'short_name' => ['required', 'string'],
-            'full_name' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'created_at' => ['required'],
-            'updated_at' => ['required'],
+            'full_name' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
             'papers_with_code_ids' => ['required', 'json'],
         ];
     }
