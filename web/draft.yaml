@@ -1,5 +1,51 @@
 models:
-  # ...
+
+  Link:
+    email: string nullable
+    website: url nullable
+    github: url nullable
+    hugging_face: url nullable
+    papers_with_code: url nullable
+    paper_url: url nullable
+
+  NlpTask:
+    short_name: string
+    full_name: string
+    description: string
+
+    papers_with_code_ids: json
+
+  Dataset:
+    short_name: string
+    full_name: string
+    description: string
+    year: integer
+
+    relationships:
+      belongsTo: Link
+      belongsToMany: NlpTask
+  
+  MachineLearningModel:
+    short_name: string
+    full_name: string
+    description: string
+    year: integer
+
+    relationships:
+      belongsTo: Link
+      belongsToMany: NlpTask
 
 controllers:
-  # ...
+    Link:
+      resource: api
+  
+    NlpTask:
+      resource: api
+  
+    Dataset:
+      resource: web
+      # resource: api 
+  
+    MachineLearningModel:
+      resource: web
+      # resource: api

@@ -6,6 +6,7 @@
 src/pt_pump_up.egg-info/
 
 thrash/*
+.vscode/*
 
 out/
 src/backend/laravel/public/images
@@ -16,3 +17,5 @@ package-client/publish.sh
 package-admin/setup.py
 
 package-client/setup.py
+web/php
+web/.blueprint
