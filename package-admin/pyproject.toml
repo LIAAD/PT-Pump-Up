@@ -1,0 +1,8 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pt_pump_up"
+version = "0.1.0"
+description = "Hub for Portuguese NLP resources"
