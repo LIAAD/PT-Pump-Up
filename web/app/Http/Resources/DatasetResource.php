@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MachineLearningModelResource extends JsonResource
+class DatasetResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,7 +14,6 @@ class MachineLearningModelResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        #TODO: Understand if this is the best way to do this
         return parent::toArray($request);
     }
 }

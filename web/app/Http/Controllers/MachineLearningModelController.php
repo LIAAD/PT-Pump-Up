@@ -31,15 +31,18 @@ class MachineLearningModelController extends Controller
         $request = $request->validated();
 
         $link = Link::create($request['link']);
-
+        
         $resourceStats = ResourceStats::create($request['resource_stats']);
         
         // Add Foreign Keys
         $request['link_id'] = $link->id;
         $request['resource_stats_id'] = $resourceStats->id;
-
+        
         $machineLearningModel = MachineLearningModel::create($request);
-
+        
+        foreach ($request['results'] as $result)
+            $machineLearningModel->results()->create($result);
+        
         return new MachineLearningModelResource($machineLearningModel);
     }
 

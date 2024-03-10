@@ -12,6 +12,7 @@ class Model(CRUD):
               year: int,
               link: Link,
               resource_stats: ResourceStats,
+              results: list = None,
               full_name: str = None,
               description: str = None,
               nlp_tasks: list = None) -> Request:
@@ -25,6 +26,7 @@ class Model(CRUD):
             "year": year,
             "link": link.json,
             "resource_stats": resource_stats.json,
+            "results": [result.json for result in results] if results else [],
             "nlp_task_ids": [nlp_task.identifier for nlp_task in nlp_tasks]
         }
 

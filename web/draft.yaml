@@ -21,28 +21,44 @@ models:
 
   Dataset:
     short_name: string
-    full_name: string
-    description: longtext
+    full_name: string nullable
+    description: longtext nullable
     year: integer
 
     relationships:
       belongsTo: Link, ResourceStats
       belongsToMany: NlpTask
+      hasMany: Author
   
   MachineLearningModel:
     short_name: string
-    full_name: string
-    description: longtext
+    full_name: string nullable
+    description: longtext nullable
     year: integer
 
     relationships:
       belongsTo: Link, ResourceStats
       belongsToMany: NlpTask
+      hasMany: Result, Author
+
+  Author:
+    name: string
+    institution: string
+    
+    relationships:
+      belongsTo: Link
+      belongsToMany: Dataset, MachineLearningModel
 
   ResourceStats:
     preservation_rating: string
     standard_format: boolean
     off_the_shelf: boolean
+
+  Result:
+    metric: string
+    value: float
+    relationships:
+      belongsTo: MachineLearningModel, Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset
 
 controllers:
     Link:
@@ -52,4 +68,10 @@ controllers:
       resource: api
     
     ResourceStats:
+      resource: api
+    
+    Result:
+      resource: api
+    
+    Author:
       resource: api

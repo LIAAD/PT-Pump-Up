@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class MachineLearningModel extends Model
+class Author extends Model
 {
     use HasFactory;
 
@@ -18,12 +17,9 @@ class MachineLearningModel extends Model
      * @var array
      */
     protected $fillable = [
-        'short_name',
-        'full_name',
-        'description',
-        'year',
+        'name',
+        'institution',
         'link_id',
-        'resource_stats_id',
     ];
 
     /**
@@ -34,7 +30,6 @@ class MachineLearningModel extends Model
     protected $casts = [
         'id' => 'integer',
         'link_id' => 'integer',
-        'resource_stats_id' => 'integer',
     ];
 
     public function link(): BelongsTo
@@ -42,23 +37,13 @@ class MachineLearningModel extends Model
         return $this->belongsTo(Link::class);
     }
 
-    public function resourceStats(): BelongsTo
+    public function datasets(): BelongsToMany
     {
-        return $this->belongsTo(ResourceStats::class);
+        return $this->belongsToMany(Dataset::class);
     }
 
-    public function nlpTasks(): BelongsToMany
+    public function machineLearningModels(): BelongsToMany
     {
-        return $this->belongsToMany(NlpTask::class);
-    }
-
-    public function results(): HasMany
-    {
-        return $this->hasMany(Result::class);
-    }
-
-    public function authors(): HasMany
-    {
-        return $this->hasMany(Author::class);
+        return $this->belongsToMany(MachineLearningModel::class);
     }
 }
