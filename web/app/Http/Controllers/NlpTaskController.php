@@ -12,7 +12,7 @@ class NLPTaskController extends Controller
      */
     public function index()
     {
-        //
+        return NlpTask::all();
     }
 
     /**
@@ -20,7 +20,7 @@ class NLPTaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort(501, 'Not Implemented');
     }
 
     /**
@@ -28,7 +28,7 @@ class NLPTaskController extends Controller
      */
     public function show(NlpTask $nlpTask)
     {
-        //
+        abort(501, 'Not Implemented');
     }
 
     /**
@@ -36,7 +36,7 @@ class NLPTaskController extends Controller
      */
     public function update(Request $request, NlpTask $nlpTask)
     {
-        //
+        abort(501, 'Not Implemented');
     }
 
     /**
@@ -44,6 +44,8 @@ class NLPTaskController extends Controller
      */
     public function destroy(NlpTask $nlpTask)
     {
-        //
+        $nlpTask->delete();
+
+        return response()->noContent();
     }
 }

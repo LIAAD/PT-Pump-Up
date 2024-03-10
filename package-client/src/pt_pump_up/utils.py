@@ -25,6 +25,5 @@ def fetch_resources(url, endpoint, element, nlp_task="all", use_cache=True):
             task["name"] == nlp_task or task["acronym"] == nlp_task for task in elem["nlp_tasks"])]
 
     element = pd.DataFrame(data=data)
-    element.set_index("english_name", inplace=True)
 
     return element

@@ -26,3 +26,4 @@ Route::apiResource('author', 'App\Http\Controllers\AuthorController');
 Route::apiResource('link', 'App\Http\Controllers\LinkController');
 Route::apiResource('dataset', 'App\Http\Controllers\DatasetController');
 Route::apiResource('machine-learning-model', 'App\Http\Controllers\MachineLearningModelController');
+Route::apiResource('nlp-task', 'App\Http\Controllers\NlpTaskController');
