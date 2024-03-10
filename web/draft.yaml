@@ -27,8 +27,7 @@ models:
 
     relationships:
       belongsTo: Link, ResourceStats
-      belongsToMany: NlpTask
-      hasMany: Author
+      belongsToMany: NlpTask, Author
   
   MachineLearningModel:
     short_name: string
@@ -38,8 +37,8 @@ models:
 
     relationships:
       belongsTo: Link, ResourceStats
-      belongsToMany: NlpTask
-      hasMany: Result, Author
+      belongsToMany: NlpTask, Author
+      hasMany: Result
 
   Author:
     name: string
@@ -59,19 +58,3 @@ models:
     value: float
     relationships:
       belongsTo: MachineLearningModel, Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset
-
-controllers:
-    Link:
-      resource: api
-  
-    NlpTask:
-      resource: api
-    
-    ResourceStats:
-      resource: api
-    
-    Result:
-      resource: api
-    
-    Author:
-      resource: api

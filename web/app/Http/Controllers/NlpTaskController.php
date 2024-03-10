@@ -2,46 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NlpTaskStoreRequest;
-use App\Http\Requests\NlpTaskUpdateRequest;
-use App\Http\Resources\NlpTaskCollection;
-use App\Http\Resources\NlpTaskResource;
 use App\Models\NlpTask;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
-class NlpTaskController extends Controller
+class NLPTaskController extends Controller
 {
-    public function index(Request $request): NlpTaskCollection
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $nlpTasks = NlpTask::all();
-
-        return new NlpTaskCollection($nlpTasks);
+        //
     }
 
-    public function store(NlpTaskStoreRequest $request): NlpTaskResource
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
-        $nlpTask = NlpTask::create($request->validated());
-
-        return new NlpTaskResource($nlpTask);
+        //
     }
 
-    public function show(Request $request, NlpTask $nlpTask): NlpTaskResource
+    /**
+     * Display the specified resource.
+     */
+    public function show(NlpTask $nlpTask)
     {
-        return new NlpTaskResource($nlpTask);
+        //
     }
 
-    public function update(NlpTaskUpdateRequest $request, NlpTask $nlpTask): NlpTaskResource
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, NlpTask $nlpTask)
     {
-        $nlpTask->update($request->validated());
-
-        return new NlpTaskResource($nlpTask);
+        //
     }
 
-    public function destroy(Request $request, NlpTask $nlpTask): Response
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(NlpTask $nlpTask)
     {
-        $nlpTask->delete();
-
-        return response()->noContent();
+        //
     }
 }

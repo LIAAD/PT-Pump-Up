@@ -2,46 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ResourceStatsStoreRequest;
-use App\Http\Requests\ResourceStatsUpdateRequest;
-use App\Http\Resources\ResourceStatCollection;
-use App\Http\Resources\ResourceStatResource;
 use App\Models\ResourceStats;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Traits\StoreResourceStatsTrait;
+use App\Http\Requests\StoreResourceStats;
 
 class ResourceStatsController extends Controller
 {
-    public function index(Request $request): ResourceStatCollection
-    {
-        $resourceStats = ResourceStat::all();
+    use StoreResourceStatsTrait;
 
-        return new ResourceStatCollection($resourceStats);
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
     }
 
-    public function store(ResourceStatsStoreRequest $request): ResourceStatResource
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreResourceStats $request)
     {
-        $resourceStat = ResourceStat::create($request->validated());
-
-        return new ResourceStatResource($resourceStat);
+        return StoreResourceStatsTrait::store($request->validated());
     }
 
-    public function show(Request $request, ResourceStat $resourceStat): ResourceStatResource
+    /**
+     * Display the specified resource.
+     */
+    public function show(ResourceStats $resourceStats)
     {
-        return new ResourceStatResource($resourceStat);
+        //
     }
 
-    public function update(ResourceStatsUpdateRequest $request, ResourceStat $resourceStat): ResourceStatResource
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, ResourceStats $resourceStats)
     {
-        $resourceStat->update($request->validated());
-
-        return new ResourceStatResource($resourceStat);
+        //
     }
 
-    public function destroy(Request $request, ResourceStat $resourceStat): Response
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(ResourceStats $resourceStats)
     {
-        $resourceStat->delete();
-
-        return response()->noContent();
+        //
     }
 }

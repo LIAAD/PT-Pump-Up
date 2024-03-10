@@ -2,46 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ResultStoreRequest;
-use App\Http\Requests\ResultUpdateRequest;
-use App\Http\Resources\ResultCollection;
-use App\Http\Resources\ResultResource;
 use App\Models\Result;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ResultController extends Controller
 {
-    public function index(Request $request): ResultCollection
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $results = Result::all();
-
-        return new ResultCollection($results);
+        //
     }
 
-    public function store(ResultStoreRequest $request): ResultResource
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
-        $result = Result::create($request->validated());
-
-        return new ResultResource($result);
+        //
     }
 
-    public function show(Request $request, Result $result): ResultResource
+    /**
+     * Display the specified resource.
+     */
+    public function show(Result $result)
     {
-        return new ResultResource($result);
+        //
     }
 
-    public function update(ResultUpdateRequest $request, Result $result): ResultResource
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Result $result)
     {
-        $result->update($request->validated());
-
-        return new ResultResource($result);
+        //
     }
 
-    public function destroy(Request $request, Result $result): Response
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Result $result)
     {
-        $result->delete();
-
-        return response()->noContent();
+        //
     }
 }

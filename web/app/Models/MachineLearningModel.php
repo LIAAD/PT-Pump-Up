@@ -52,13 +52,13 @@ class MachineLearningModel extends Model
         return $this->belongsToMany(NlpTask::class);
     }
 
+    public function authors(): BelongsToMany
+    {
+        return $this->belongsToMany(Author::class);
+    }
+
     public function results(): HasMany
     {
         return $this->hasMany(Result::class);
-    }
-
-    public function authors(): HasMany
-    {
-        return $this->hasMany(Author::class);
     }
 }

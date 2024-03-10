@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LinkUpdateRequest extends FormRequest
+class StoreMachineLearningModelRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,16 +16,13 @@ class LinkUpdateRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'email' => ['nullable', 'email'],
-            'website' => ['nullable', 'string'],
-            'github_url' => ['nullable', 'string'],
-            'hugging_face_url' => ['nullable', 'string'],
-            'papers_with_code_url' => ['nullable', 'string'],
-            'paper_url' => ['nullable', 'string'],
+            //
         ];
     }
 }

@@ -2,43 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthorStoreRequest;
-use App\Http\Requests\AuthorUpdateRequest;
-use App\Http\Resources\AuthorCollection;
-use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\StoreAuthorRequest;
+use Illuminate\Support\Facades\DB;
+use App\Traits\StoreAuthorTrait;
+use App\Models\Link;    
 
 class AuthorController extends Controller
 {
-    public function index(Request $request): AuthorCollection
+    use StoreAuthorTrait;
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $authors = Author::all();
-
-        return new AuthorCollection($authors);
+        //
     }
 
-    public function store(AuthorStoreRequest $request): AuthorResource
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreAuthorRequest $request)
     {
-        $author = Author::create($request->validated());
-
-        return new AuthorResource($author);
+        return StoreAuthorTrait::store($request->validated());
     }
 
-    public function show(Request $request, Author $author): AuthorResource
+    /**
+     * Display the specified resource.
+     */
+    public function show(Author $author)
     {
-        return new AuthorResource($author);
+        //
     }
 
-    public function update(AuthorUpdateRequest $request, Author $author): AuthorResource
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Author $author)
     {
-        $author->update($request->validated());
-
-        return new AuthorResource($author);
+        //
     }
 
-    public function destroy(Request $request, Author $author): Response
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Author $author)
     {
         $author->delete();
 

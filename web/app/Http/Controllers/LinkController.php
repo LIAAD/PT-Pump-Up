@@ -2,46 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LinkStoreRequest;
-use App\Http\Requests\LinkUpdateRequest;
-use App\Http\Resources\LinkCollection;
-use App\Http\Resources\LinkResource;
 use App\Models\Link;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Http\Requests\StoreLinkRequest;
 
 class LinkController extends Controller
 {
-    public function index(Request $request): LinkCollection
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $links = Link::all();
-
-        return new LinkCollection($links);
+        //
     }
 
-    public function store(LinkStoreRequest $request): LinkResource
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreLinkRequest $request)
     {
         $link = Link::create($request->validated());
 
-        return new LinkResource($link);
+        return response()->json($link, 201);
     }
 
-    public function show(Request $request, Link $link): LinkResource
+    /**
+     * Display the specified resource.
+     */
+    public function show(Link $link)
     {
-        return new LinkResource($link);
+        //
     }
 
-    public function update(LinkUpdateRequest $request, Link $link): LinkResource
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Link $link)
     {
-        $link->update($request->validated());
-
-        return new LinkResource($link);
+        //
     }
 
-    public function destroy(Request $request, Link $link): Response
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Link $link)
     {
-        $link->delete();
-
-        return response()->noContent();
+        //
     }
 }

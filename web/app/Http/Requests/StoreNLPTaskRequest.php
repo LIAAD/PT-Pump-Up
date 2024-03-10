@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResourceStatStoreRequest extends FormRequest
+class StoreNLPTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,13 +16,13 @@ class ResourceStatStoreRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'preservation_rating' => ['required', 'string'],
-            'standard_format' => ['required'],
-            'off_the_shelf' => ['required'],
+            //
         ];
     }
 }
