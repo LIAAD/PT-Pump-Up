@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\NlpTask;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreNLPTaskRequest;
 
 class NLPTaskController extends Controller
 {
@@ -18,9 +19,9 @@ class NLPTaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreNLPTaskRequest $request)
     {
-        abort(501, 'Not Implemented');
+        return NlpTask::create($request->validated());
     }
 
     /**

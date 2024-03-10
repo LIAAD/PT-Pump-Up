@@ -9,6 +9,7 @@ use App\Traits\StoreLinkTrait;
 use App\Traits\StoreResourceStatsTrait;
 use App\Http\Requests\StoreMachineLearningModelRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\NlpTask;
 
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class MachineLearningModelController extends Controller
      */
     public function index()
     {
-        return MachineLearningModel::with(['authors', 'link', 'resourceStats'])->get();
+        return MachineLearningModel::with(['authors', 'link', 'resourceStats','nlpTasks'])->get();
     }
 
     /**
@@ -47,6 +48,10 @@ class MachineLearningModelController extends Controller
                 }
             }
 
+            foreach($validated['nlp_task_ids'] as $key => $nlp_task_id){
+                $nlp_tasks[] = NlpTask::find($nlp_task_id);
+            }
+
             $link = StoreLinkTrait::store($validated);
             $validated['link_id'] = $link->id;
 
@@ -56,6 +61,8 @@ class MachineLearningModelController extends Controller
             $machineLearningModel = MachineLearningModel::create($validated);
 
             $machineLearningModel->authors()->saveMany($authors);
+
+            $machineLearningModel->nlpTasks()->saveMany($nlp_tasks);
 
             DB::commit();
 

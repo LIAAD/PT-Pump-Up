@@ -13,10 +13,10 @@ class Model(CRUD):
               link: Link,
               resource_stats: ResourceStats,
               authors: list,
+              nlp_tasks: list,
               results: list = None,
               full_name: str = None,
-              description: str = None,
-              nlp_tasks: list = None) -> Request:
+              description: str = None) -> Request:
 
         base_request = super().store()
 
@@ -26,6 +26,7 @@ class Model(CRUD):
             "description": description,
             "year": year,
             "authors": [author.json for author in authors],
+            "nlp_task_ids": [nlp_task.identifier for nlp_task in nlp_tasks],
             "link": link.json,
             "resource_stats": resource_stats.json,
             "results": [result.json for result in results] if results else [],

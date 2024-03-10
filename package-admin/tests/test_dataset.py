@@ -2,12 +2,16 @@ from pt_pump_up_admin.dataset import Dataset
 from pt_pump_up_admin.link import Link
 from pt_pump_up_admin.author import Author
 from pt_pump_up_admin.resource_stats import ResourceStats
+from pt_pump_up_admin.nlp_task import NLPTask
 import pytest
 from tests.lib.utils import fixture_load_admin_instance
 
 
 @pytest.fixture
-def fixture_create_dataset_object():
+def fixture_create_dataset_object(fixture_load_admin_instance):
+
+    client = fixture_load_admin_instance
+
     authors = []
 
     for _ in range(3):
@@ -40,11 +44,24 @@ def fixture_create_dataset_object():
         preservation_rating="high"
     )
 
+    nlp_task = NLPTask()
+
+    response = client.submit(nlp_task.store(
+        short_name="Semantic Role Labeling",
+        full_name="Semantic Role Labeling",
+        description="Semantic Role Labeling is the task of identifying the predicate-argument structure of a sentence.",
+        standard_format="BIO-Tagging",
+        papers_with_code_ids=[1, 2, 3]
+    ))
+
+    nlp_task.identifier = response.json()["id"]
+
     request = Dataset().store(
         short_name="Propbank-BR",
         year=2012,
         authors=authors,
         resource_stats=resource_stats,
+        nlp_tasks=[nlp_task],
         link=link,
         description="Propbank-BR is a corpus of Brazilian Portuguese annotated with semantic roles."
     )

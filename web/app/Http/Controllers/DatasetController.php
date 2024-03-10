@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 use App\Traits\StoreAuthorTrait;
 use App\Traits\StoreLinkTrait;
 use App\Traits\StoreResourceStatsTrait;
+use App\Models\Author;
+use App\Models\NlpTask;
+
 
 class DatasetController extends Controller
 {
@@ -20,7 +23,7 @@ class DatasetController extends Controller
      */
     public function index()
     {
-        return Dataset::with(['authors', 'link', 'resourceStats'])->get();
+        return Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get();
     }
 
     /**
@@ -45,6 +48,10 @@ class DatasetController extends Controller
                 }
             }
 
+            foreach($validated['nlp_task_ids'] as $key => $nlp_task_id){
+                $nlp_tasks[] = NlpTask::find($nlp_task_id);
+            }
+
             $link = StoreLinkTrait::store($validated);
             $validated['link_id'] = $link->id;
 
@@ -54,6 +61,8 @@ class DatasetController extends Controller
             $dataset = Dataset::create($validated);
 
             $dataset->authors()->saveMany($authors);
+            
+            $dataset->nlpTasks()->saveMany($nlp_tasks);
         
             DB::commit();
 

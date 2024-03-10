@@ -58,6 +58,10 @@ class StoreMachineLearningModelRequest extends FormRequest
             'authors' => ['required_without:author_ids', 'nullable', 'array'],
             'author_ids' => ['required_without:authors', 'nullable', 'array'],
             'author_ids.*' => ['required', 'integer', 'exists:authors,id'],
+
+            'nlp_task_ids' => ['required', 'array'],
+            'nlp_task_ids.*' => ['required', 'integer', 'exists:nlp_tasks,id'],
+
         ], $author_rules, $link_rules, $resource_stats_rules);    
     }
 }

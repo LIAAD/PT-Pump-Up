@@ -12,6 +12,7 @@ class Dataset(CRUD):
               year: int,
               authors: list,
               link: Link,
+              nlp_tasks: list,
               resource_stats: ResourceStats,
               description: str = None):
 
@@ -22,6 +23,7 @@ class Dataset(CRUD):
             "year": year,
             "authors": authors,
             "link_id": link.identifier,
+            "nlp_task_ids": [nlp_task.identifier for nlp_task in nlp_tasks],
             "resource_stats": resource_stats.json,
             "link": link.json,
             "description": description

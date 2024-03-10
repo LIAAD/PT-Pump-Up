@@ -58,6 +58,9 @@ class StoreDatasetRequest extends FormRequest
 
                 'author_ids' => ['required_without:authors', 'nullable', 'array'],
                 'author_ids.*' => ['required', 'integer', 'exists:authors,id'],
+
+                'nlp_task_ids' => ['required', 'array'],
+                'nlp_task_ids.*' => ['required', 'integer', 'exists:nlp_tasks,id'],
             ],
             $author_rules,
             $link_rules,

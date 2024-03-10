@@ -7,6 +7,7 @@ from pt_pump_up_admin.author import Author
 from tests.lib.utils import fixture_load_admin_instance
 import pytest
 
+
 @pytest.fixture
 def fixture_create_authors():
     author = Author()
@@ -34,7 +35,7 @@ def fixture_create_nlp_tasks(fixture_load_admin_instance):
     for i in range(1, 4):
         nlp_task = NLPTask(identifier=i)
         client.submit(nlp_task.store(
-            short_name=f"nlp_task_{i}", papers_with_code_ids=[i, i+1, i+2, i+3, i+4]))
+            short_name=f"nlp_task_{i}", papers_with_code_ids=[i, i+1, i+2, i+3, i+4], standard_format="BIO-Tagging"))
 
         nlp_tasks.append(nlp_task)
 
@@ -131,7 +132,7 @@ def test_model_delete(fixture_create_model):
 
     assert response.status_code == 201
 
-    model = Model(identifier=response.json()['data']['id'])
+    model = Model(identifier=response.json()['id'])
 
     response = client.submit(model.delete())
 
