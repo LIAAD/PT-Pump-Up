@@ -1,5 +1,6 @@
 from pt_pump_up.utils import fetch_resources
 from datasets import load_dataset as load_hf_dataset
+from transformers import AutoModel
 
 
 class PTPumpUpClient:
@@ -32,14 +33,36 @@ class PTPumpUpClient:
         datasets = fetch_resources(
             url=self.url, endpoint="dataset", element=self.datasets, use_cache=use_cache)
 
+        datasets.set_index('short_name', inplace=True)
+
         dataset = datasets.loc[dataset_name]
 
         if dataset is None:
             raise Exception("Dataset not found")
 
-        if dataset['hrefs']['link_hf'] is None:
+        if dataset['link']['hugging_face_url'] is None:
             raise Exception("Dataset not found in HuggingFace")
 
-        dataset_name = dataset['hrefs']['link_hf'].split('/')[-1]
+        dataset_name = dataset['link']['hugging_face_url'].split(
+            "datasets/")[1]
 
         return load_hf_dataset(dataset_name)
+
+    def load_model(self, model_name, use_cache=True):
+        models = fetch_resources(
+            url=self.url, endpoint="machine-learning-model", element=self.models, use_cache=use_cache)
+
+        models.set_index('short_name', inplace=True)
+
+        model = models.loc[model_name]
+
+        if model is None:
+            raise Exception("Model not found")
+
+        if model['link']['hugging_face_url'] is None:
+            raise Exception("Model not found in HuggingFace")
+
+        model_name = model['link']['hugging_face_url'].split(
+            "huggingface.co/")[1]
+
+        return AutoModel.from_pretrained(model_name)

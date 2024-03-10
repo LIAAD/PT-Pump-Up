@@ -38,10 +38,16 @@ def test_all_models(fixture_pt_pump_up_client):
 
 
 def test_load_dataset(fixture_pt_pump_up_client):
-    pass
+    client = fixture_pt_pump_up_client
 
-# TODO: Add transformers to the requirements
+    dataset = client.load_dataset("Propbank-BR")
+
+    assert dataset is not None
 
 
-def test_load_model():
-    pass
+def test_load_model(fixture_pt_pump_up_client):
+    client = fixture_pt_pump_up_client
+
+    model = client.load_model("POS-Tagger Bio Portuguese")
+
+    assert model is not None
