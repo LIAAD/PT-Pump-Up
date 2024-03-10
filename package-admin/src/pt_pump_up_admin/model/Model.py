@@ -1,5 +1,7 @@
 from pt_pump_up_admin import CRUD
 from requests import Request
+from pt_pump_up_admin.link import Link
+from pt_pump_up_admin.resource_stats import ResourceStats
 
 
 class Model(CRUD):
@@ -8,14 +10,12 @@ class Model(CRUD):
 
     def store(self, short_name: str,
               year: int,
+              link: Link,
+              resource_stats: ResourceStats,
               full_name: str = None,
               description: str = None,
-              website_url: str = None,
-              github_url: str = None,
-              paper_url: str = None,
-              huging_face_url: str = None,
-              papers_with_code_url: str = None) -> Request:
-        
+              nlp_tasks: list = None) -> Request:
+
         base_request = super().store()
 
         base_request.json = {
@@ -23,4 +23,9 @@ class Model(CRUD):
             "full_name": full_name,
             "description": description,
             "year": year,
+            "link": link.json,
+            "resource_stats": resource_stats.json,
+            "nlp_task_ids": [nlp_task.identifier for nlp_task in nlp_tasks]
         }
+
+        return base_request

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NlpTaskStoreRequest extends FormRequest
+class ResourceStatUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,11 +20,9 @@ class NlpTaskStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'short_name' => ['required', 'string'],
-            'full_name' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-            'standard_format' => ['required', 'string'],
-            'papers_with_code_ids' => ['required', 'json'],
+            'preservation_rating' => ['required', 'string'],
+            'standard_format' => ['required'],
+            'off_the_shelf' => ['required'],
         ];
     }
 }

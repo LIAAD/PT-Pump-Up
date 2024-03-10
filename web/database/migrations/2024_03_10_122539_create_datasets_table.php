@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('machine_learning_models', function (Blueprint $table) {
+        Schema::create('datasets', function (Blueprint $table) {
             $table->id();
             $table->string('short_name');
             $table->string('full_name');
-            $table->string('description');
+            $table->longText('description');
             $table->integer('year');
             $table->foreignId('link_id');
+            $table->foreignId('resource_stats_id');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('machine_learning_models');
+        Schema::dropIfExists('datasets');
     }
 };

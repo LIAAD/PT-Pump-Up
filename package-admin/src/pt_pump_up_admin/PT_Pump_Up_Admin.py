@@ -1,5 +1,5 @@
 from requests import Request, Session
-
+import json
 
 class PTPumpUpAdmin:
     def __init__(self, bearer_token, url="https://pt-pump-up.inesctec.pt") -> None:
@@ -13,7 +13,7 @@ class PTPumpUpAdmin:
         request.headers["Accept"] = "application/json"
 
         request.url = f"{self.url}/api/{request.url}"
-
+        
         print(request.url)
 
         return self.session.send(request.prepare())

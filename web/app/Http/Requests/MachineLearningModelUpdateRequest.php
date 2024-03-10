@@ -11,20 +11,18 @@ class MachineLearningModelUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'short_name' => ['required', 'string'],
-            'full_name' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'year' => ['required', 'integer'],
-            'link_id' => ['required', 'integer', 'exists:links,id'],
+            //
         ];
     }
 }

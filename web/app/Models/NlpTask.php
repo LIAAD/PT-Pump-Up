@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class NlpTask extends Model
 {
@@ -18,6 +19,7 @@ class NlpTask extends Model
         'short_name',
         'full_name',
         'description',
+        'standard_format',
         'papers_with_code_ids',
     ];
 
@@ -30,4 +32,14 @@ class NlpTask extends Model
         'id' => 'integer',
         'papers_with_code_ids' => 'array',
     ];
+
+    public function datasets(): BelongsToMany
+    {
+        return $this->belongsToMany(Dataset::class);
+    }
+
+    public function machineLearningModels(): BelongsToMany
+    {
+        return $this->belongsToMany(MachineLearningModel::class);
+    }
 }

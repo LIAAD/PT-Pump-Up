@@ -23,6 +23,7 @@ class NlpTaskUpdateRequest extends FormRequest
             'short_name' => ['required', 'string'],
             'full_name' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
+            'standard_format' => ['required', 'string'],
             'papers_with_code_ids' => ['required', 'json'],
         ];
     }

@@ -26,6 +26,12 @@ Route::apiResource('link', App\Http\Controllers\LinkController::class);
 
 Route::apiResource('nlp-task', App\Http\Controllers\NlpTaskController::class);
 
+Route::apiResource('resource-stats', App\Http\Controllers\ResourceStatsController::class);
+
+Route::resource('machine-learning-model', App\Http\Controllers\MachineLearningModelController::class);
+
 Route::apiResource('link', App\Http\Controllers\LinkController::class);
 
 Route::apiResource('nlp-task', App\Http\Controllers\NlpTaskController::class);
+
+Route::apiResource('resource-stats', App\Http\Controllers\ResourceStatsController::class);

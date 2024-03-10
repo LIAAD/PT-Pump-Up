@@ -4,16 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\NlpTask;
+use App\Models\ResourceStats;
 
-class NlpTaskFactory extends Factory
+class ResourceStatsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = NlpTask::class;
+    protected $model = ResourceStats::class;
 
     /**
      * Define the model's default state.
@@ -21,11 +21,9 @@ class NlpTaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'short_name' => $this->faker->word(),
-            'full_name' => $this->faker->word(),
-            'description' => $this->faker->text(),
-            'standard_format' => $this->faker->word(),
-            'papers_with_code_ids' => '{}',
+            'preservation_rating' => $this->faker->word(),
+            'standard_format' => $this->faker->boolean(),
+            'off_the_shelf' => $this->faker->boolean(),
         ];
     }
 }

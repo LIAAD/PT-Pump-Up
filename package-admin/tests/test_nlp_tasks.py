@@ -30,6 +30,7 @@ def test_store_nlp_task_minimum_values(fixture_load_admin_instance):
     assert request.json == {
         "short_name": "NER",
         "full_name": None,
+        "standard_format": "BIO-Tagging",
         "description": None,
         "papers_with_code_ids": "[0, 100]"
     }
@@ -52,6 +53,7 @@ def test_store_nlp_task_all_values(fixture_load_admin_instance):
     assert request.json == {
         "short_name": "NER",
         "full_name": "Named Entity Recognition",
+        "standard_format": "BIO-Tagging",
         "description": "Named Entity Recognition is a task in NLP that aims to identify named entities in a text.",
         "papers_with_code_ids": "[0, 100]"
     }

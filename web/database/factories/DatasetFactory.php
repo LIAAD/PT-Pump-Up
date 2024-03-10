@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Dataset;
 use App\Models\Link;
+use App\Models\ResourceStats;
 
 class DatasetFactory extends Factory
 {
@@ -27,6 +28,7 @@ class DatasetFactory extends Factory
             'description' => $this->faker->text(),
             'year' => $this->faker->numberBetween(-10000, 10000),
             'link_id' => Link::factory(),
+            'resource_stats_id' => ResourceStats::factory(),
         ];
     }
 }

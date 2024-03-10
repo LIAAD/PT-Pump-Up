@@ -23,5 +23,7 @@ class Link(CRUD):
             "papers_with_code_url": papers_with_code_url,
             "paper_url": paper_url
         }
+        # Keep state to be used in datasets and models
+        self.json = base_request.json
 
         return base_request

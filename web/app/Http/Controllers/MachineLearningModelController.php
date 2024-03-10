@@ -2,59 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MachineLearningModel;
+use App\Models\Link;
+use App\Models\ResourceStats;
+use Illuminate\Http\Request;
 use App\Http\Requests\MachineLearningModelStoreRequest;
 use App\Http\Requests\MachineLearningModelUpdateRequest;
-use App\Models\MachineLearningModel;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
+use App\Http\Resources\MachineLearningModelCollection;
+use App\Http\Resources\MachineLearningModelResource;
 
 class MachineLearningModelController extends Controller
 {
-    public function index(Request $request): View
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
         $machineLearningModels = MachineLearningModel::all();
-
-        return view('machineLearningModel.index', compact('machineLearningModels'));
+        
+        return new MachineLearningModelCollection($machineLearningModels);
     }
 
-    public function create(Request $request): View
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(MachineLearningModelStoreRequest $request)
     {
-        return view('machineLearningModel.create');
+        $request = $request->validated();
+
+        $link = Link::create($request['link']);
+
+        $resourceStats = ResourceStats::create($request['resource_stats']);
+        
+        // Add Foreign Keys
+        $request['link_id'] = $link->id;
+        $request['resource_stats_id'] = $resourceStats->id;
+
+        $machineLearningModel = MachineLearningModel::create($request);
+
+        return new MachineLearningModelResource($machineLearningModel);
     }
 
-    public function store(MachineLearningModelStoreRequest $request): RedirectResponse
+    /**
+     * Display the specified resource.
+     */
+    public function show(MachineLearningModel $machineLearningModel)
     {
-        $machineLearningModel = MachineLearningModel::create($request->validated());
-
-        $request->session()->flash('machineLearningModel.id', $machineLearningModel->id);
-
-        return redirect()->route('machineLearningModel.index');
+        //
     }
 
-    public function show(Request $request, MachineLearningModel $machineLearningModel): View
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(MachineLearningModelUpdateRequest $request, MachineLearningModel $machineLearningModel)
     {
-        return view('machineLearningModel.show', compact('machineLearningModel'));
+        //
     }
 
-    public function edit(Request $request, MachineLearningModel $machineLearningModel): View
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(MachineLearningModel $machineLearningModel)
     {
-        return view('machineLearningModel.edit', compact('machineLearningModel'));
-    }
-
-    public function update(MachineLearningModelUpdateRequest $request, MachineLearningModel $machineLearningModel): RedirectResponse
-    {
-        $machineLearningModel->update($request->validated());
-
-        $request->session()->flash('machineLearningModel.id', $machineLearningModel->id);
-
-        return redirect()->route('machineLearningModel.index');
-    }
-
-    public function destroy(Request $request, MachineLearningModel $machineLearningModel): RedirectResponse
-    {
-        $machineLearningModel->delete();
-
-        return redirect()->route('machineLearningModel.index');
+        //
     }
 }

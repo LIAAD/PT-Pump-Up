@@ -42,15 +42,18 @@ final class NlpTaskControllerTest extends TestCase
     public function store_saves(): void
     {
         $short_name = $this->faker->word();
+        $standard_format = $this->faker->word();
         $papers_with_code_ids = $this->faker->;
 
         $response = $this->post(route('nlp-task.store'), [
             'short_name' => $short_name,
+            'standard_format' => $standard_format,
             'papers_with_code_ids' => $papers_with_code_ids,
         ]);
 
         $nlpTasks = NlpTask::query()
             ->where('short_name', $short_name)
+            ->where('standard_format', $standard_format)
             ->where('papers_with_code_ids', $papers_with_code_ids)
             ->get();
         $this->assertCount(1, $nlpTasks);
@@ -88,10 +91,12 @@ final class NlpTaskControllerTest extends TestCase
     {
         $nlpTask = NlpTask::factory()->create();
         $short_name = $this->faker->word();
+        $standard_format = $this->faker->word();
         $papers_with_code_ids = $this->faker->;
 
         $response = $this->put(route('nlp-task.update', $nlpTask), [
             'short_name' => $short_name,
+            'standard_format' => $standard_format,
             'papers_with_code_ids' => $papers_with_code_ids,
         ]);
 
@@ -101,6 +106,7 @@ final class NlpTaskControllerTest extends TestCase
         $response->assertJsonStructure([]);
 
         $this->assertEquals($short_name, $nlpTask->short_name);
+        $this->assertEquals($standard_format, $nlpTask->standard_format);
         $this->assertEquals($papers_with_code_ids, $nlpTask->papers_with_code_ids);
     }
 

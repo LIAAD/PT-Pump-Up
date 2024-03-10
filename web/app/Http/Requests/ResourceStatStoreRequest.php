@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DatasetStoreRequest extends FormRequest
+class ResourceStatStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,11 +20,9 @@ class DatasetStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'short_name' => ['required', 'string'],
-            'full_name' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'year' => ['required', 'integer'],
-            'link_id' => ['required', 'integer', 'exists:links,id'],
+            'preservation_rating' => ['required', 'string'],
+            'standard_format' => ['required'],
+            'off_the_shelf' => ['required'],
         ];
     }
 }

@@ -22,6 +22,7 @@ class Dataset extends Model
         'description',
         'year',
         'link_id',
+        'resource_stats_id',
     ];
 
     /**
@@ -32,11 +33,17 @@ class Dataset extends Model
     protected $casts = [
         'id' => 'integer',
         'link_id' => 'integer',
+        'resource_stats_id' => 'integer',
     ];
 
     public function link(): BelongsTo
     {
         return $this->belongsTo(Link::class);
+    }
+
+    public function resourceStats(): BelongsTo
+    {
+        return $this->belongsTo(ResourceStats::class);
     }
 
     public function nlpTasks(): BelongsToMany

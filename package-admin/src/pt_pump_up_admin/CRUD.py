@@ -10,6 +10,7 @@ class CRUD(ABC):
 
         self.route = route.replace("/", "")
         self.identifier = identifier
+        self.json = None
 
     def index(self) -> Request:
         return Request(

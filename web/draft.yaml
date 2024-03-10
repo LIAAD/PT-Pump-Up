@@ -11,29 +11,38 @@ models:
   NlpTask:
     short_name: string
     full_name: string nullable
-    description: string nullable
+    description: longtext nullable
+    standard_format: string
 
     papers_with_code_ids: json
+
+    relationships:
+      belongsToMany: Dataset, MachineLearningModel
 
   Dataset:
     short_name: string
     full_name: string
-    description: string
+    description: longtext
     year: integer
 
     relationships:
-      belongsTo: Link
+      belongsTo: Link, ResourceStats
       belongsToMany: NlpTask
   
   MachineLearningModel:
     short_name: string
     full_name: string
-    description: string
+    description: longtext
     year: integer
 
     relationships:
-      belongsTo: Link
+      belongsTo: Link, ResourceStats
       belongsToMany: NlpTask
+
+  ResourceStats:
+    preservation_rating: string
+    standard_format: boolean
+    off_the_shelf: boolean
 
 controllers:
     Link:
@@ -41,11 +50,6 @@ controllers:
   
     NlpTask:
       resource: api
-  
-    Dataset:
-      resource: web
-      # resource: api 
-  
-    MachineLearningModel:
-      resource: web
-      # resource: api
+    
+    ResourceStats:
+      resource: api
