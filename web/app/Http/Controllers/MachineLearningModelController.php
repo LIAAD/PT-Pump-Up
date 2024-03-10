@@ -3,47 +3,73 @@
 namespace App\Http\Controllers;
 
 use App\Models\MachineLearningModel;
-use App\Models\Link;
-use App\Models\ResourceStats;
+use App\Models\Author;
+use App\Traits\StoreAuthorTrait;
+use App\Traits\StoreLinkTrait;
+use App\Traits\StoreResourceStatsTrait;
+use App\Http\Requests\StoreMachineLearningModelRequest;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
-use App\Http\Requests\MachineLearningModelStoreRequest;
-use App\Http\Requests\MachineLearningModelUpdateRequest;
-use App\Http\Resources\MachineLearningModelCollection;
-use App\Http\Resources\MachineLearningModelResource;
 
 class MachineLearningModelController extends Controller
 {
+    use StoreAuthorTrait;
+    use StoreLinkTrait;
+    use StoreResourceStatsTrait;    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $machineLearningModels = MachineLearningModel::all();
-        
-        return new MachineLearningModelCollection($machineLearningModels);
+        return MachineLearningModel::with(['authors', 'link', 'resourceStats'])->get();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(MachineLearningModelStoreRequest $request)
+    public function store(StoreMachineLearningModelRequest $request)
     {
-        $request = $request->validated();
+        $validated = $request->validated();
 
-        $link = Link::create($request['link']);
-        
-        $resourceStats = ResourceStats::create($request['resource_stats']);
-        
-        // Add Foreign Keys
-        $request['link_id'] = $link->id;
-        $request['resource_stats_id'] = $resourceStats->id;
-        
-        $machineLearningModel = MachineLearningModel::create($request);
-        
-        foreach ($request['results'] as $result)
-            $machineLearningModel->results()->create($result);
-        
-        return new MachineLearningModelResource($machineLearningModel);
+        DB::beginTransaction();
+
+        try {
+            if($validated['authors']){
+                foreach($validated['authors'] as $key => $author){
+                    $response = StoreAuthorTrait::store($author);
+                    #Load Authors object from json response
+                    $authors[] = $response->original;            
+                }                        
+            }else{
+                foreach($validated['author_ids'] as $key => $author_id){
+                    $authors[] = Author::find($author_id);
+                }
+            }
+
+            $link = StoreLinkTrait::store($validated);
+            $validated['link_id'] = $link->id;
+
+            $resource_stats = StoreResourceStatsTrait::store($validated);
+            $validated['resource_stats_id'] = $resource_stats->id;
+
+            $machineLearningModel = MachineLearningModel::create($validated);
+
+            $machineLearningModel->authors()->saveMany($authors);
+
+            DB::commit();
+
+            return response()->json($machineLearningModel, 201);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        abort(500, 'An error occurred while creating the machine learning model');
     }
 
     /**
@@ -51,13 +77,13 @@ class MachineLearningModelController extends Controller
      */
     public function show(MachineLearningModel $machineLearningModel)
     {
-        return new MachineLearningModelResource($machineLearningModel);
+        abort(501, 'Not implemented');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(MachineLearningModelUpdateRequest $request, MachineLearningModel $machineLearningModel)
+    public function update(Request $request, MachineLearningModel $machineLearningModel)
     {
         abort(501, 'Not implemented');
     }

@@ -20,7 +20,7 @@ class DatasetController extends Controller
      */
     public function index()
     {
-        return Dataset::all();
+        return Dataset::with(['authors', 'link', 'resourceStats'])->get();
     }
 
     /**
@@ -46,7 +46,6 @@ class DatasetController extends Controller
             }
 
             $link = StoreLinkTrait::store($validated);
-
             $validated['link_id'] = $link->id;
 
             $resource_stats = StoreResourceStatsTrait::store($validated);
