@@ -48,7 +48,7 @@ class MachineLearningModelController extends Controller
      */
     public function show(MachineLearningModel $machineLearningModel)
     {
-        //
+        return new MachineLearningModelResource($machineLearningModel);
     }
 
     /**
@@ -56,7 +56,7 @@ class MachineLearningModelController extends Controller
      */
     public function update(MachineLearningModelUpdateRequest $request, MachineLearningModel $machineLearningModel)
     {
-        //
+        abort(501, 'Not implemented');
     }
 
     /**
@@ -64,6 +64,8 @@ class MachineLearningModelController extends Controller
      */
     public function destroy(MachineLearningModel $machineLearningModel)
     {
-        //
+        $machineLearningModel->delete();
+
+        return response()->noContent();
     }
 }

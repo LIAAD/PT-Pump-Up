@@ -3,9 +3,12 @@ from pt_pump_up_admin.link import Link
 from pt_pump_up_admin.resource_stats import ResourceStats
 from pt_pump_up_admin.nlp_task import NLPTask
 from tests.lib.utils import fixture_load_admin_instance
+import pytest
 
 
-def test_model_store(fixture_load_admin_instance):
+@pytest.fixture
+def fixture_create_model(fixture_load_admin_instance):
+
     client = fixture_load_admin_instance
 
     model = Model()
@@ -39,6 +42,12 @@ def test_model_store(fixture_load_admin_instance):
                           resource_stats=resource_stats,
                           nlp_tasks=nlp_tasks)
 
+    return client, request, nlp_tasks
+
+
+def test_model_store(fixture_create_model):
+    client, request, nlp_tasks = fixture_create_model
+
     assert request.json['short_name'] == "Propbank-BR"
     assert request.json['full_name'] == "Propbank-Br: a Brazilian Treebank annotated with semantic role labels"
     assert request.json['description'] == "This paper reports the annotation of a Brazilian Portuguese Treebank with semantic role labels following Propbank guidelines. A different language and a different parser output impact the task and require some decisions on how to annotate the corpus. Therefore, a new annotation guide â€• called Propbank-Br - has been generated to deal with specific language phenomena and parser problems. In this phase of the project, the corpus was annotated by a unique linguist. The annotation task reported here is inserted in a larger projet for the Brazilian Portuguese language. This project aims to build Brazilian verbs frames files and a broader and distributed annotation of semantic role labels in Brazilian Portuguese, allowing inter-annotator agreement measures. The corpus, available in web, is already being used to build a semantic tagger for Portuguese language."
@@ -56,3 +65,17 @@ def test_model_store(fixture_load_admin_instance):
     response = client.submit(request)
 
     assert response.status_code == 201
+
+
+def test_model_delete(fixture_create_model):
+    client, request, nlp_tasks = fixture_create_model
+
+    response = client.submit(request)
+
+    assert response.status_code == 201
+
+    model = Model(identifier=response.json()['data']['id'])
+
+    response = client.submit(model.delete())
+
+    assert response.status_code == 204
