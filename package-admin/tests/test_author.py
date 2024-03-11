@@ -31,3 +31,6 @@ def test_author_store(fixture_load_admin_instance, fixture_create_link_author):
     assert response.json()["name"] == author.json["name"]
     assert response.json()["institution"] == author.json["institution"]
     assert response.json()["link_id"] is not None
+
+    assert response.json()["link"]["email"] == link.json["email"]
+    assert response.json()["link"]["website"] == link.json["website"]
