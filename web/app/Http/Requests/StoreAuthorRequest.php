@@ -3,11 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Traits\AuthorRulesTrait;
+use App\Traits\LinkRulesTrait;
 
 class StoreAuthorRequest extends FormRequest
 {
-    use AuthorRulesTrait;
+    use LinkRulesTrait;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,17 @@ class StoreAuthorRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public static function rules(): array
     {
-        return AuthorRulesTrait::rules();
+        foreach(LinkRulesTrait::rules() as $key => $value){
+            $link_rules['link.' . $key] = $value;
+            unset($link_rules[$key]);
+        }
+
+        return array_merge([
+            'name' => ['required', 'string'],
+            'institution' => ['required', 'string'],
+            'link' => ['required', 'array'],
+        ], $link_rules);
     }
 }

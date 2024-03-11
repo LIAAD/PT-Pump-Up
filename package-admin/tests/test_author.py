@@ -5,55 +5,29 @@ import pytest
 
 
 @pytest.fixture
-def fixture_create_link():
+def fixture_create_link_author(fixture_load_admin_instance):
+    client = fixture_load_admin_instance
 
-    link = Link()
+    link = Link(email="ruben.f.almeida@inesctec.pt",
+                website="https://www.inesctec.pt/pt/pessoas/ruben-filipe-seabra-almeida")
 
-    link.store(
-        email="ruben.f.almeida@inesctec.pt",
-        website="https://www.inesctec.pt/pt/pessoas/ruben-filipe-seabra-almeida"
-    )
+    client.submit(link.store())
 
     return link
 
 
-def test_author_create_id(fixture_load_admin_instance, fixture_create_link):
+def test_author_store(fixture_load_admin_instance, fixture_create_link_author):
     client = fixture_load_admin_instance
-    link = fixture_create_link
+    link = fixture_create_link_author
 
-    response = client.submit(link.store())
-    identifier = response.json()["id"]
+    author = Author(name="Rúben Almeida",
+                    institution="INESC TEC",
+                    link=link)
 
-    request = Author().store(
-        name="John Doe",
-        institution="University of California",
-        link=Link(identifier=response.json()["id"])
-    )
-
-    response = client.submit(request)
-
-    assert response.status_code == 201
-
-    assert response.json()["id"] is not None
-    assert response.json()["name"] == "John Doe"
-    assert response.json()["institution"] == "University of California"
-    assert response.json()["link_id"] == identifier
-
-
-def test_author_create_no_id(fixture_load_admin_instance, fixture_create_link):
-    client = fixture_load_admin_instance
-    link = fixture_create_link
-
-    request = Author().store(
-        name="John Doe",
-        institution="University of California",
-        link=link
-    )
-
-    response = client.submit(request)
+    response = client.submit(author.store())
 
     assert response.status_code == 201
     assert response.json()["id"] is not None
-    assert response.json()["name"] == "John Doe"
-    assert response.json()["institution"] == "University of California"
+    assert response.json()["name"] == author.json["name"]
+    assert response.json()["institution"] == author.json["institution"]
     assert response.json()["link_id"] is not None

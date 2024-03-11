@@ -4,29 +4,25 @@ from pt_pump_up_admin.resource_stats import ResourceStats
 
 
 class Dataset(CRUD):
-    def __init__(self, identifier: int = None) -> None:
-        super().__init__("dataset", identifier)
+    def __init__(self,
+                 id: int = None,
+                 short_name: str = None,
+                 full_name: str = None,
+                 description: str = None,
+                 year: int = None,
+                 link: Link = None,
+                 resource_stats: ResourceStats = None,
+                 authors: list = None,
+                 nlp_tasks: list = None) -> None:
 
-    def store(self,
-              short_name: str,
-              year: int,
-              authors: list,
-              link: Link,
-              nlp_tasks: list,
-              resource_stats: ResourceStats,
-              description: str = None):
-
-        base_request = super().store()
-
-        base_request.json = {
-            "short_name": short_name,
-            "year": year,
-            "authors": authors,
-            "link_id": link.identifier,
-            "nlp_task_ids": [nlp_task.identifier for nlp_task in nlp_tasks],
-            "resource_stats": resource_stats.json,
-            "link": link.json,
-            "description": description
-        }
-
-        return base_request
+        super().__init__("dataset",
+                         id=id,
+                         short_name=short_name,
+                         full_name=full_name,
+                         description=description,
+                         year=year,
+                         link=link.json,
+                         resource_stats=resource_stats.json,
+                         author_emails=[
+                             author.json['link']['email'] for author in authors],
+                         nlp_tasks_short_names=[nlp_task.json['short_name'] for nlp_task in nlp_tasks])

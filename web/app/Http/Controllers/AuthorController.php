@@ -5,19 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAuthorRequest;
-use Illuminate\Support\Facades\DB;
-use App\Traits\StoreAuthorTrait;
 use App\Models\Link;    
 
 class AuthorController extends Controller
 {
-    use StoreAuthorTrait;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return Author::all();
     }
 
     /**
@@ -25,7 +22,13 @@ class AuthorController extends Controller
      */
     public function store(StoreAuthorRequest $request)
     {
-        return StoreAuthorTrait::store($request->validated());
+        $validated = $request->validated();
+
+        $link = Link::create($validated['link']);
+
+        $validated['link_id'] = $link->id;
+
+        return Author::create($validated);
     }
 
     /**
@@ -33,7 +36,7 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        //
+        return $author;
     }
 
     /**
@@ -41,7 +44,7 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        abort(501, 'Not implemented');
     }
 
     /**

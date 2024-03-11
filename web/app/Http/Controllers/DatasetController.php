@@ -6,7 +6,6 @@ use App\Models\Dataset;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreDatasetRequest;
 use Illuminate\Support\Facades\DB;
-use App\Traits\StoreAuthorTrait;
 use App\Traits\StoreLinkTrait;
 use App\Traits\StoreResourceStatsTrait;
 use App\Models\Author;
@@ -15,7 +14,6 @@ use App\Models\NlpTask;
 
 class DatasetController extends Controller
 {
-    use StoreAuthorTrait;
     use StoreLinkTrait;
     use StoreResourceStatsTrait;
     /**
