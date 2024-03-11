@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\ResourceStats;
 use Illuminate\Http\Request;
-use App\Traits\StoreResourceStatsTrait;
 use App\Http\Requests\StoreResourceStatsRequest;
 
 class ResourceStatsController extends Controller
 {
-    use StoreResourceStatsTrait;
-
     /**
      * Display a listing of the resource.
      */
@@ -24,7 +21,7 @@ class ResourceStatsController extends Controller
      */
     public function store(StoreResourceStatsRequest $request)
     {
-        return StoreResourceStatsTrait::store($request->validated());
+        return ResourceStats::create($request->validated());
     }
 
     /**

@@ -6,15 +6,16 @@ use App\Models\Dataset;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreDatasetRequest;
 use Illuminate\Support\Facades\DB;
-use App\Traits\StoreResourceStatsTrait;
+use App\Traits\StoreResourceTrait;
 use App\Models\Author;
 use App\Models\NlpTask;
 use App\Models\Link;
+use App\Models\ResourceStats;
 
 
 class DatasetController extends Controller
 {
-    use StoreResourceStatsTrait;
+    use StoreResourceTrait;
     /**
      * Display a listing of the resource.
      */
@@ -32,33 +33,18 @@ class DatasetController extends Controller
 
         $validated = $request->validated();
         
-        try {
-          
+        try {          
             $link = Link::create($validated['link']);        
             $validated['link_id'] = $link->id;
 
-            $resource_stats = StoreResourceStatsTrait::store($validated['resource_stats']);
+            $resource_stats = ResourceStats::create($validated['resource_stats']);
             $validated['resource_stats_id'] = $resource_stats->id;
             
             $dataset = Dataset::create($validated);
+
+            StoreResourceTrait::create_authors($dataset, $validated['author_emails']);
+            StoreResourceTrait::create_nlp_tasks($dataset, $validated['nlp_tasks_short_names']);
             
-            foreach ($validated['author_emails'] as $author_email) {
-                $author_id = Author::join('links', 'authors.link_id', '=', 'links.id')
-                                ->where('email', $author_email)
-                                ->firstOrFail()
-                                ->id;
-                                
-                $dataset->authors()->attach($author_id);
-            }
-
-            foreach($validated['nlp_tasks_short_names'] as $nlp_task_short_name) {
-                $nlp_task_id = NlpTask::where('short_name', $nlp_task_short_name)
-                                    ->firstOrFail()
-                                    ->id;
-
-                $dataset->nlpTasks()->attach($nlp_task_id);
-            }
-
             $dataset->save();
         
             DB::commit();
@@ -87,7 +73,7 @@ class DatasetController extends Controller
      */
     public function show(Dataset $dataset)
     {
-        //
+        return $dataset;
     }
 
     /**

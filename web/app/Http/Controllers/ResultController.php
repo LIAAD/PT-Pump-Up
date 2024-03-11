@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Result;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreResultRequest;
 
 class ResultController extends Controller
 {
@@ -12,15 +13,15 @@ class ResultController extends Controller
      */
     public function index()
     {
-        //
+        return Result::all();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreResultRequest $request)
     {
-        //
+        return Result::create($request->validated());
     }
 
     /**
@@ -28,7 +29,7 @@ class ResultController extends Controller
      */
     public function show(Result $result)
     {
-        //
+        return $result;
     }
 
     /**
@@ -36,7 +37,7 @@ class ResultController extends Controller
      */
     public function update(Request $request, Result $result)
     {
-        //
+        abort(501, 'Not implemented');
     }
 
     /**
@@ -44,6 +45,8 @@ class ResultController extends Controller
      */
     public function destroy(Result $result)
     {
-        //
+        $result->delete();
+        
+        return response()->noContent();
     }
 }

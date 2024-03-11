@@ -45,7 +45,7 @@ class StoreDatasetRequest extends FormRequest
                 'year' => ['required', 'integer'],
         
                 'link' => ['required', 'array'],
-                'resource_stats' => ['required', 'array'],
+                'resource_stats' => ['required', 'array'],          
                 
                 'author_emails' => ['required', 'nullable', 'array'],
                 'author_emails.*' => ['required', 'email', 'exists:links,email'],
@@ -54,7 +54,7 @@ class StoreDatasetRequest extends FormRequest
                 'nlp_tasks_short_names.*' => ['required', 'string', 'exists:nlp_tasks,short_name'],
             ],            
             $link_rules,
-            $resource_stats_rules  
+            $resource_stats_rules     
         );
     }
 }

@@ -4,20 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\MachineLearningModel;
 use App\Models\Author;
-use App\Traits\StoreAuthorTrait;
-use App\Traits\StoreLinkTrait;
-use App\Traits\StoreResourceStatsTrait;
+use App\Traits\StoreResourceTrait;
 use App\Http\Requests\StoreMachineLearningModelRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\NlpTask;
+use App\Models\Link;
+use App\Models\ResourceStats;
+use App\Models\Result;
 
 use Illuminate\Http\Request;
 
 class MachineLearningModelController extends Controller
-{
-    use StoreAuthorTrait;
-    use StoreLinkTrait;
-    use StoreResourceStatsTrait;    
+{ 
+    use StoreResourceTrait;
     /**
      * Display a listing of the resource.
      */
@@ -31,40 +30,33 @@ class MachineLearningModelController extends Controller
      */
     public function store(StoreMachineLearningModelRequest $request)
     {
+        
+        DB::beginTransaction();
+        
         $validated = $request->validated();
 
-        DB::beginTransaction();
-
         try {
-            if($validated['authors']){
-                foreach($validated['authors'] as $key => $author){
-                    $response = StoreAuthorTrait::store($author);
-                    #Load Authors object from json response
-                    $authors[] = $response->original;            
-                }                        
-            }else{
-                foreach($validated['author_ids'] as $key => $author_id){
-                    $authors[] = Author::find($author_id);
-                }
-            }
-
-            foreach($validated['nlp_task_ids'] as $key => $nlp_task_id){
-                $nlp_tasks[] = NlpTask::find($nlp_task_id);
-            }
-
-            $link = StoreLinkTrait::store($validated);
+            $link = Link::create($validated['link']);
             $validated['link_id'] = $link->id;
 
-            $resource_stats = StoreResourceStatsTrait::store($validated);
+            $resource_stats = ResourceStats::create($validated['resource_stats']);
             $validated['resource_stats_id'] = $resource_stats->id;
 
             $machineLearningModel = MachineLearningModel::create($validated);
 
-            $machineLearningModel->authors()->saveMany($authors);
+            foreach($validated['results'] as $key => $result)
+                $machineLearningModel->results()->save(new Result($result));
+        
+            StoreResourceTrait::create_authors($machineLearningModel, $validated['author_emails']);
+            StoreResourceTrait::create_nlp_tasks($machineLearningModel, $validated['nlp_tasks_short_names']);
 
-            $machineLearningModel->nlpTasks()->saveMany($nlp_tasks);
-
+            $machineLearningModel->save();            
+            
             DB::commit();
+            
+            $machineLearningModel = MachineLearningModel::with(['authors', 'link', 'resourceStats', 'nlpTasks'])
+                            ->where('id', $machineLearningModel->id)
+                            ->first();
 
             return response()->json($machineLearningModel, 201);
 
@@ -75,7 +67,7 @@ class MachineLearningModelController extends Controller
             DB::rollBack();
             throw $e;
         }
-
+        
         abort(500, 'An error occurred while creating the machine learning model');
     }
 

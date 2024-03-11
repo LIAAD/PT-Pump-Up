@@ -21,8 +21,8 @@ class Dataset(CRUD):
                          full_name=full_name,
                          description=description,
                          year=year,
-                         link=link.json,
-                         resource_stats=resource_stats.json,
+                         link=link.json if link else None,
+                         resource_stats=resource_stats.json if resource_stats else None,
                          author_emails=[
-                             author.json['link']['email'] for author in authors],
-                         nlp_tasks_short_names=[nlp_task.json['short_name'] for nlp_task in nlp_tasks])
+                             author.json['link']['email'] for author in authors] if authors else None,
+                         nlp_tasks_short_names=[nlp_task.json['short_name'] for nlp_task in nlp_tasks] if nlp_tasks else None)

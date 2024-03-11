@@ -1,5 +1,6 @@
 from requests import Session
 import traceback
+from environs import Env
 
 
 class PTPumpUpAdmin:
@@ -26,8 +27,19 @@ class PTPumpUpAdmin:
         try:
             if request.method == "POST" and response.json()['id'] is not None:
                 crud.json['id'] = response.json()['id']
+
+            if request.method == "DELETE":
+                crud.json = dict()
         except:
             traceback.print_exc()
 
         finally:
             return response
+
+
+class PTPumpAdminFactory:
+    @staticmethod
+    def create():
+        env = Env()
+        env.read_env()
+        return PTPumpUpAdmin(bearer_token=env.str("BEARER_TOKEN"), url=env.str("URL"))

@@ -1,25 +1,21 @@
 from pt_pump_up_admin.CRUD import CRUD
+from pt_pump_up_admin.dataset import Dataset
 
 
 class Result(CRUD):
-    def __init__(self, identifier: int = None) -> None:
-        super().__init__("result", identifier)
+    def __init__(self,
+                 id: int = None,
+                 metric: str = None,
+                 value: float = None,
+                 train_dataset: Dataset = None,
+                 validation_dataset: Dataset = None,
+                 test_dataset: Dataset = None,
+                 ) -> None:
 
-    def store(self, metric, value,
-              train_dataset_id,
-              validation_dataset_id,
-              test_dataset_id):
-
-        base_request = super().store()
-
-        base_request.json = {
-            "metric": metric,
-            "value": value,
-            "train_dataset_id": train_dataset_id,
-            "validation_dataset_id": validation_dataset_id,
-            "test_dataset_id": test_dataset_id
-        }
-
-        self.json = base_request.json
-
-        return base_request
+        super().__init__("result",
+                         id=id,
+                         metric=metric,
+                         value=value,
+                         train_dataset_id=train_dataset.json['id'] if train_dataset else None,
+                         validation_dataset_id=validation_dataset.json['id'] if validation_dataset else None,
+                         test_dataset_id=test_dataset.json['id'] if test_dataset else None)

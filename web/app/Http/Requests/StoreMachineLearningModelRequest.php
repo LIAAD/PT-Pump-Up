@@ -3,17 +3,16 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Traits\AuthorRulesTrait;
 use App\Traits\LinkRulesTrait;
 use App\Traits\ResourceStatsRulesTrait;
+use App\Traits\ResultsRulesTrait;
 
 
 class StoreMachineLearningModelRequest extends FormRequest
 {
-    use AuthorRulesTrait;
     use LinkRulesTrait;
     use ResourceStatsRulesTrait;
-
+    use ResultsRulesTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -30,9 +29,9 @@ class StoreMachineLearningModelRequest extends FormRequest
     public function rules(): array
     {
         
-        foreach (AuthorRulesTrait::rules() as $key => $value) {
-            $author_rules['authors.*' . $key] = $value;
-            unset($author_rules[$key]);
+        foreach (ResultsRulesTrait::rules() as $key => $value) {
+            $result_rules['results.*' . $key] = $value;
+            unset($result_rules[$key]);
         }
 
         foreach (LinkRulesTrait::rules() as $key => $value) {
@@ -54,14 +53,14 @@ class StoreMachineLearningModelRequest extends FormRequest
             
             'link' => ['required', 'array'],
             'resource_stats' => ['required', 'array'],
+            'results' => ['nullable', 'array'],
             
-            'authors' => ['required_without:author_ids', 'nullable', 'array'],
-            'author_ids' => ['required_without:authors', 'nullable', 'array'],
-            'author_ids.*' => ['required', 'integer', 'exists:authors,id'],
+            'author_emails' => ['required', 'nullable', 'array'],
+            'author_emails.*' => ['required', 'email', 'exists:links,email'],
 
-            'nlp_task_ids' => ['required', 'array'],
-            'nlp_task_ids.*' => ['required', 'integer', 'exists:nlp_tasks,id'],
+            'nlp_tasks_short_names' => ['required', 'array'],
+            'nlp_tasks_short_names.*' => ['required', 'string', 'exists:nlp_tasks,short_name'],
 
-        ], $author_rules, $link_rules, $resource_stats_rules);    
+        ], $link_rules, $resource_stats_rules, $result_rules);    
     }
 }

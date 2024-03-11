@@ -1,6 +1,8 @@
 <?php
 
-trait ResultRulesTrait
+namespace App\Traits;
+
+trait ResultsRulesTrait
 {
     /**
      * Get the validation rules that apply to the request.

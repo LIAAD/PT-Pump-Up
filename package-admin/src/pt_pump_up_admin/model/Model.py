@@ -5,32 +5,31 @@ from pt_pump_up_admin.resource_stats import ResourceStats
 
 
 class Model(CRUD):
-    def __init__(self, identifier: int = None) -> None:
-        super().__init__('machine-learning-model', identifier)
+    def __init__(self,
+                 id: int = None,
+                 short_name: str = None,
+                 full_name: str = None,
+                 description: str = None,
+                 year: int = None,
+                 authors: list = None,
+                 nlp_tasks: list = None,
+                 link: Link = None,
+                 resource_stats: ResourceStats = None,
+                 results: list = None) -> None:
 
-    def store(self, short_name: str,
-              year: int,
-              link: Link,
-              resource_stats: ResourceStats,
-              authors: list,
-              nlp_tasks: list,
-              results: list = None,
-              full_name: str = None,
-              description: str = None) -> Request:
+        super().__init__('machine-learning-model',
+                         id=id,
+                         short_name=short_name,
+                         full_name=full_name,
+                         description=description,
+                         year=year,
 
-        base_request = super().store()
+                         author_emails=[author.json['link']['email']
+                                        for author in authors] if authors else None,
 
-        base_request.json = {
-            "short_name": short_name,
-            "full_name": full_name,
-            "description": description,
-            "year": year,
-            "authors": [author.json for author in authors],
-            "nlp_task_ids": [nlp_task.identifier for nlp_task in nlp_tasks],
-            "link": link.json,
-            "resource_stats": resource_stats.json,
-            "results": [result.json for result in results] if results else [],
-            "nlp_task_ids": [nlp_task.identifier for nlp_task in nlp_tasks]
-        }
+                         nlp_tasks_short_names=[
+                             nlp_task.json['short_name'] for nlp_task in nlp_tasks] if nlp_tasks else None,
 
-        return base_request
+                         link=link.json if link else None,
+                         resource_stats=resource_stats.json if resource_stats else None,
+                         results=[result.json for result in results] if results else None)

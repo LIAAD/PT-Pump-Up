@@ -1,21 +1,36 @@
 from abc import ABC
 from requests import Request
+from pt_pump_up_admin import PTPumpAdminFactory
 
 
 class CRUD(ABC):
-
-    def __init__(self, route, *args, **kwargs) -> None:
+    # id is a propriety of the class
+    def __init__(self, route, **kwargs) -> None:
         if route is None:
             raise ValueError("route cannot be None")
 
         self.route = route.replace("/", "")
-        self.json = dict()
-
-        for arg in args:
-            self.json.update(arg)
+        self._id = None
+        self._json = dict()
 
         for key, value in kwargs.items():
-            self.json[key] = value
+            if key == "id":
+                self._id = value
+            elif value is not None:
+                self._json[key] = value
+
+    @property
+    def json(self):
+
+        if not self._json and self._id is not None:
+            client = PTPumpAdminFactory.create()
+
+            print(f"JSON is empty for id: {self._id}, fetching from server")
+
+            response = client.submit(self.show())
+            self._json = response.json()
+
+        return self._json
 
     def index(self) -> Request:
         return self, Request(
@@ -27,7 +42,7 @@ class CRUD(ABC):
         return self, Request(
             method="POST",
             url=self.route,
-            json=self.json
+            json=self._json
         )
 
     def show(self) -> Request:
@@ -40,7 +55,7 @@ class CRUD(ABC):
 
         return self, Request(
             method="GET",
-            url=f"{self.route}/{self.json.id}",
+            url=f"{self.route}/{self._id}",
         )
 
     def update(self) -> Request:
@@ -53,15 +68,15 @@ class CRUD(ABC):
 
         return self, Request(
             method="PUT",
-            url=f"{self.route}/{self.json.id}",
+            url=f"{self.route}/{self._id}",
         )
 
     def destroy(self) -> Request:
 
-        if self.json['id'] is None:
+        if self._id is None:
             raise ValueError("id cannot be None")
 
         return self, Request(
             method="DELETE",
-            url=f"{self.route}/{self.json['id']}",
+            url=f"{self.route}/{self._id}",
         )
