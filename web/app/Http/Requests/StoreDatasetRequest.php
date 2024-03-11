@@ -48,12 +48,11 @@ class StoreDatasetRequest extends FormRequest
                 'resource_stats' => ['required', 'array'],
                 
                 'author_emails' => ['required', 'nullable', 'array'],
-                'author_emails.*' => ['required', 'email', 'exists:authors.link,email'],
+                'author_emails.*' => ['required', 'email', 'exists:links,email'],
 
                 'nlp_tasks_short_names' => ['required', 'array'],
                 'nlp_tasks_short_names.*' => ['required', 'string', 'exists:nlp_tasks,short_name'],
-            ],
-            $author_rules,
+            ],            
             $link_rules,
             $resource_stats_rules  
         );

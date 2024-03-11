@@ -122,11 +122,16 @@ def test_dataset_store(fixture_load_admin_instance, fixture_create_authors, fixt
     assert response.json()["id"] is not None
     assert response.json()["short_name"] == "Propbank-BR"
     assert response.json()["year"] == 2012
-    # assert response.json()["authors"] is not None
-    assert response.json()["link_id"] == fixture_create_dataset_link.json["id"]
+    assert response.json()["link_id"] is not None
     assert response.json()[
         "description"] == "Propbank-BR is a corpus of Brazilian Portuguese annotated with semantic roles."
 
-    # assert response.json()["resource_stats"]["standard_format"] is True
-    # assert response.json()["resource_stats"]["off_the_shelf"] is False
-    # assert response.json()["resource_stats"]["preservation_rating"] == "high"
+    assert response.json()["authors"] is not None
+    assert len(response.json()["authors"]) == 3
+    assert response.json()["authors"][0]["name"] == "Ruben Almeida"
+    assert response.json()["authors"][1]["name"] == "Alipio Jorge"
+    assert response.json()["authors"][2]["name"] == "Sergio Nunes"
+
+    assert response.json()["resource_stats"]["standard_format"] is True
+    assert response.json()["resource_stats"]["off_the_shelf"] is False
+    assert response.json()["resource_stats"]["preservation_rating"] == "high"
