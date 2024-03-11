@@ -8,6 +8,6 @@ trait StoreResourceStatsTrait
 {
    public static function store($validated)
    {
-       return ResourceStats::create($validated['resource_stats']);
+       return ResourceStats::create($validated);
    }
 }

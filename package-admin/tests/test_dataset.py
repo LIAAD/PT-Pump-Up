@@ -8,70 +8,114 @@ from tests.lib.utils import fixture_load_admin_instance
 
 
 @pytest.fixture
-def fixture_create_dataset_object(fixture_load_admin_instance):
-
-    client = fixture_load_admin_instance
-
-    authors = []
-
-    for _ in range(3):
-        author = Author()
-        link = Link()
-
-        link.store(
-            email="ruben.f.almeida@inesctec.pt"
-        )
-
-        author.store(
-            name="John Doe",
-            institution="University of California",
-            link=link
-        )
-
-        authors.append(author.json)
-
+def fixture_create_dataset_link():
     link = Link()
 
     link.store(
-        hugging_face_url="https://huggingface.co/datasets/propbank_br",
-        paper_url="https://www.aclweb.org/anthology/W12-2713.pdf"
+        hugging_face_url="https://huggingface.co/datasets/liaad/Propbank-BR",
+        papers_with_code_url="https://paperswithcode.com/paper/propbank-br-a-brazilian-treebank-annotated",
+        website="http://143.107.183.175:21380/portlex/index.php/pt/projetos/propbankbr",
+        paper_url="https://www.researchgate.net/profile/Sandra-Aluisio/publication/267227963_Propbank-Br_a_Brazilian_treebank_annotated_with_semantic_role_labels/links/54d388e60cf2b0c6146daa5a/Propbank-Br-a-Brazilian-treebank-annotated-with-semantic-role-labels.pdf",
     )
 
+    return link
+
+
+@pytest.fixture
+def fixture_create_authors():
+    link_author_1 = Link()
+    link_author_2 = Link()
+    link_author_3 = Link()
+
+    link_author_1.store(
+        email="ruben.f.almeida@inesctec.pt",
+        website="https://www.inesctec.pt/pt/pessoas/ruben-filipe-seabra-almeida"
+    )
+
+    link_author_2.store(
+        email="alipio.jorge@inesctec.pt",
+        website="https://www.inesctec.pt/pt/pessoas/alipio-jorge"
+    )
+
+    link_author_3.store(
+        email="sergio.nunes@inesctec.pt",
+        website="https://www.inesctec.pt/pt/pessoas/sergio-nunes"
+    )
+
+    author_1 = Author()
+    author_2 = Author()
+    author_3 = Author()
+
+    author_1.store(
+        name="Ruben Almeida",
+        institution="INESC TEC",
+        link=link_author_1
+    )
+
+    author_2.store(
+        name="Alipio Jorge",
+        institution="INESC TEC",
+        link=link_author_2
+    )
+
+    author_3.store(
+        name="Sergio Nunes",
+        institution="INESC TEC",
+        link=link_author_3
+    )
+
+    return [author_1, author_2, author_3]
+
+
+@pytest.fixture
+def fixture_create_nlp_tasks():
+    nlp_task_1 = NLPTask()
+    nlp_task_2 = NLPTask()
+
+    nlp_task_1.store(
+        short_name="SRL",
+        full_name="Semantic Role Labeling",
+        description="Semantic Role Labeling is the task of identifying the predicate-argument structure of a sentence.",
+        standard_format="BIO-Tagging",
+        papers_with_code_ids=[1, 2, 3]
+    )
+
+    nlp_task_2.store(
+        short_name="NER",
+        full_name="Named Entity Recognition",
+        description="Named Entity Recognition is the task of identifying named entities in a text.",
+        standard_format="BIO-Tagging",
+        papers_with_code_ids=[4, 5, 6]
+    )
+
+    return [nlp_task_1, nlp_task_2]
+
+
+@pytest.fixture
+def fixture_create_resource_stats():
     resource_stats = ResourceStats()
+
     resource_stats.store(
         standard_format=True,
         off_the_shelf=False,
         preservation_rating="high"
     )
 
-    nlp_task = NLPTask()
+    return resource_stats
 
-    response = client.submit(nlp_task.store(
-        short_name="Semantic Role Labeling",
-        full_name="Semantic Role Labeling",
-        description="Semantic Role Labeling is the task of identifying the predicate-argument structure of a sentence.",
-        standard_format="BIO-Tagging",
-        papers_with_code_ids=[1, 2, 3]
-    ))
 
-    nlp_task.identifier = response.json()["id"]
+def test_dataset_store(fixture_load_admin_instance):
+    client = fixture_load_admin_instance
 
     request = Dataset().store(
         short_name="Propbank-BR",
+        description="Propbank-BR is a corpus of Brazilian Portuguese annotated with semantic roles.",
         year=2012,
-        authors=authors,
-        resource_stats=resource_stats,
-        nlp_tasks=[nlp_task],
-        link=link,
-        description="Propbank-BR is a corpus of Brazilian Portuguese annotated with semantic roles."
+        authors=fixture_create_authors,
+        resource_stats=fixture_create_resource_stats,
+        nlp_tasks=fixture_create_nlp_tasks,
+        link=fixture_create_dataset_link,
     )
-
-    return request
-
-
-def test_dataset_create_id(fixture_load_admin_instance, fixture_create_dataset_object):
-    client = fixture_load_admin_instance
-    request = fixture_create_dataset_object
 
     response = client.submit(request)
 

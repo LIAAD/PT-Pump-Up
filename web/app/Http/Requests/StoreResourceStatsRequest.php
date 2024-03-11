@@ -3,11 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Traits\StoreResourceStatsTrait;
+use App\Traits\ResourceStatsRulesTrait;
 
 class StoreResourceStatsRequest extends FormRequest
 {
-    use StoreResourceStatsTrait;
+    use ResourceStatsRulesTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,6 +23,6 @@ class StoreResourceStatsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return StoreResourceStatsTrait::rules();
+        return ResourceStatsRulesTrait::rules();
     }
 }

@@ -21,9 +21,7 @@ trait AuthorRulesTrait
         return array_merge([
             'name' => ['required', 'string'],
             'institution' => ['required', 'string'],
-            #TODO: Simplify Link Id is unlikely to be used
-            'link_id' => ['required_without:link', 'nullable', 'integer', 'exists:links,id'],
-            'link' => ['required_without:link_id', 'nullable', 'array'],
+            'link' => ['required', 'array'],
         ], $link_rules);
     }
 }

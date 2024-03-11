@@ -3,13 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Traits\AuthorRulesTrait;
 use App\Traits\LinkRulesTrait;
 use App\Traits\ResourceStatsRulesTrait;
 
 class StoreDatasetRequest extends FormRequest
 {
-    use AuthorRulesTrait;
     use LinkRulesTrait;
     use ResourceStatsRulesTrait;
 
@@ -28,11 +26,6 @@ class StoreDatasetRequest extends FormRequest
      */
     public function rules(): array
     {
-
-        foreach (AuthorRulesTrait::rules() as $key => $value) {
-            $author_rules['authors.*' . $key] = $value;
-            unset($author_rules[$key]);
-        }
 
         foreach (LinkRulesTrait::rules() as $key => $value) {
             $link_rules['link.' . $key] = $value;
@@ -54,13 +47,11 @@ class StoreDatasetRequest extends FormRequest
                 'link' => ['required', 'array'],
                 'resource_stats' => ['required', 'array'],
                 
-                'authors' => ['required_without:author_ids', 'nullable', 'array'],
+                'author_emails' => ['required', 'nullable', 'array'],
+                'author_emails.*' => ['required', 'email', 'exists:authors.link,email'],
 
-                'author_ids' => ['required_without:authors', 'nullable', 'array'],
-                'author_ids.*' => ['required', 'integer', 'exists:authors,id'],
-
-                'nlp_task_ids' => ['required', 'array'],
-                'nlp_task_ids.*' => ['required', 'integer', 'exists:nlp_tasks,id'],
+                'nlp_tasks_short_names' => ['required', 'array'],
+                'nlp_tasks_short_names.*' => ['required', 'string', 'exists:nlp_tasks,short_name'],
             ],
             $author_rules,
             $link_rules,

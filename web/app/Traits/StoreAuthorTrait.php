@@ -6,6 +6,7 @@ use App\Http\Requests\StoreAuthorRequest;
 use App\Models\Author;
 use App\Models\Link;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 trait StoreAuthorTrait{
@@ -14,8 +15,16 @@ trait StoreAuthorTrait{
     public static function store($validated){
     
         try {
+
             DB::beginTransaction();
 
+            $author = Author::with('link')->where('email', $validated['email'])->first();
+
+            if($author){
+                Log::warning('Author already exists');
+                return response()->json($author, 409);
+            }
+                
             if($validated['link']){
                 $link = StoreLinkTrait::store($validated);
                 $validated['link_id'] = $link->id;
@@ -36,6 +45,5 @@ trait StoreAuthorTrait{
         }
 
         return abort(500, 'An error occurred while processing your request');
-
     }
 }

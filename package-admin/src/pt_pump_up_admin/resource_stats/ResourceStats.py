@@ -1,20 +1,18 @@
 from pt_pump_up_admin import CRUD
-from requests import Request
 
 
 class ResourceStats(CRUD):
-    def __init__(self, identifier: int = None) -> None:
-        super().__init__("resource-stats", identifier)
+    def __init__(self,
+                 id: int = None,
+                 standard_format: bool = None,
+                 off_the_shelf: bool = None,
+                 preservation_rating: str = None) -> None:
 
-    def store(self, standard_format: bool, off_the_shelf: bool, preservation_rating: str = None) -> Request:
-        base_request = super().store()
+        preservation_rating = preservation_rating.lower(
+        ) if preservation_rating is not None else None
 
-        base_request.json = {
-            "standard_format": standard_format,
-            "off_the_shelf": off_the_shelf,
-            "preservation_rating": preservation_rating.lower()
-        }
-
-        self.json = base_request.json
-
-        return base_request
+        super().__init__("resource-stats",
+                         id=id,
+                         standard_format=standard_format,
+                         off_the_shelf=off_the_shelf,
+                         preservation_rating=preservation_rating)

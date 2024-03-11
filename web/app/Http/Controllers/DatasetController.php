@@ -31,40 +31,40 @@ class DatasetController extends Controller
      */
     public function store(StoreDatasetRequest $request)
     {
+        DB::beginTransaction();
+
         $validated = $request->validated();
         
-        DB::beginTransaction();
-        
-        try {            
-            if($validated['authors']){
-                foreach($validated['authors'] as $key => $author){
-                    $response = StoreAuthorTrait::store($author);
-                    #Load Authors object from json response
-                    $authors[] = $response->original;            
-                }                        
-            }else{
-                foreach($validated['author_ids'] as $key => $author_id){
-                    $authors[] = Author::find($author_id);
-                }
-            }
-
-            foreach($validated['nlp_task_ids'] as $key => $nlp_task_id){
-                $nlp_tasks[] = NlpTask::find($nlp_task_id);
-            }
-
-            $link = StoreLinkTrait::store($validated);
-            $validated['link_id'] = $link->id;
+        try {
+          
+            $link = StoreLinkTrait::store($validated);        
+            validated['link_id'] = $link->id;
 
             $resource_stats = StoreResourceStatsTrait::store($validated);
             $validated['resource_stats_id'] = $resource_stats->id;
             
             $dataset = Dataset::create($validated);
+            
+            foreach ($validated['author_emails'] as $author_email) {
+                $authors[] = Author::with('link')
+                                ->where('email', $author_email)
+                                ->firstOrFail();
+            }
+
+            foreach($validated['nlp_tasks_short_names'] as $nlp_task_short_name) {
+                $nlp_tasks[] = NlpTask::where('short_name', $nlp_task_short_name)
+                                    ->firstOrFail();
+            }
 
             $dataset->authors()->saveMany($authors);
             
             $dataset->nlpTasks()->saveMany($nlp_tasks);
         
             DB::commit();
+
+            $dataset = Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])
+                            ->where('id', $dataset->id)
+                            ->first();
 
             return response()->json($dataset, 201);
 
@@ -78,7 +78,7 @@ class DatasetController extends Controller
             throw $e;
         }
 
-        abort(500);
+        abort(500, 'An error occurred while trying to store the dataset');
     }
 
     /**

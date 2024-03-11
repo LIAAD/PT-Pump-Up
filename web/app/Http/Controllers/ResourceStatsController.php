@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ResourceStats;
 use Illuminate\Http\Request;
 use App\Traits\StoreResourceStatsTrait;
-use App\Http\Requests\StoreResourceStats;
+use App\Http\Requests\StoreResourceStatsRequest;
 
 class ResourceStatsController extends Controller
 {
@@ -16,13 +16,13 @@ class ResourceStatsController extends Controller
      */
     public function index()
     {
-        //
+        return ResourceStats::all();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreResourceStats $request)
+    public function store(StoreResourceStatsRequest $request)
     {
         return StoreResourceStatsTrait::store($request->validated());
     }
@@ -32,7 +32,7 @@ class ResourceStatsController extends Controller
      */
     public function show(ResourceStats $resourceStats)
     {
-        //
+        return $resourceStats;
     }
 
     /**
@@ -40,7 +40,7 @@ class ResourceStatsController extends Controller
      */
     public function update(Request $request, ResourceStats $resourceStats)
     {
-        //
+        abort(501, 'Not implemented');
     }
 
     /**
@@ -48,6 +48,8 @@ class ResourceStatsController extends Controller
      */
     public function destroy(ResourceStats $resourceStats)
     {
-        //
+        $resourceStats->delete();
+
+        return response()->noContent();
     }
 }

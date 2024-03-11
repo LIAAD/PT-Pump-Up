@@ -7,6 +7,6 @@ trait StoreLinkTrait
 {
     public static function store($validated)
     {
-        return Link::create($validated['link']);
+        return Link::create($validated);
     }
 }

@@ -134,6 +134,6 @@ def test_model_delete(fixture_create_model):
 
     model = Model(identifier=response.json()['id'])
 
-    response = client.submit(model.delete())
+    response = client.submit(model.destroy())
 
     assert response.status_code == 204
