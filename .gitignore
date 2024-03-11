@@ -20,3 +20,5 @@ package-client/setup.py
 web/php
 web/.blueprint
 web/.blueprint
+
+package-admin/.vscode/
