@@ -30,7 +30,7 @@ const TableModel = (props) => {
             {props.expanded &&
                 <TableBody>
                     {props.models.map((model, key) =>
-                        <TableRow key={key}>
+                        <TableRow key={key} hover={true}>
                             <TableCell>
                                 {model.short_name}
                             </TableCell>

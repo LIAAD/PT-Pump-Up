@@ -31,7 +31,7 @@ const TableDataset = (props) => {
             {props.expanded &&
                 <TableBody>
                     {props.datasets.map((dataset, key) =>
-                        <TableRow key={key}>
+                        <TableRow key={key} hover={true}>
                             <TableCell>
                                 {dataset.short_name}
                             </TableCell>
