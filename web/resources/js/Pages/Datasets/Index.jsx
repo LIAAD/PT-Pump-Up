@@ -1,5 +1,5 @@
 import React from 'react'
-import ColapsibleTable from '@/Components/table/ColapsibleTableDataset'
+import ColapsibleTable from '@/Components/table/ColapsibleTable'
 import PTPumpUpLayout from '@/Layouts/PTPumpUpLayout'
 import Grid from '@mui/material/Grid'
 import TableDataset from '@/Components/table/TableDataset'
@@ -14,8 +14,7 @@ const Index = (props) => {
                         <Grid item><h2>Dataset Index</h2></Grid>
                     </Grid>
                     {props.nlp_tasks.map((elem, key) => {
-                        const entries = props.datasets.filter(dataset => dataset.nlp_tasks.some(task => task.short_name === props.nlp_task))
-                        return <ColapsibleTable key={key} order={key} nlp_task={elem} datasets={props.datasets} table={<TableDataset entries={entries} />} />
+                        return <ColapsibleTable key={key} order={key} type={"dataset"} nlp_task={elem} entries={props.datasets} />
                     })}
                 </Grid>
             }

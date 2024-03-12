@@ -10,10 +10,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import Button from '@mui/material/Button';
 import LinkIcon from '@mui/icons-material/Link';
 
-
-
-
 const TableDataset = (props) => {
+
+    props.datasets.sort((a, b) => (a.year > b.year) ? -1 : 1)
+
     return (
         <Table stickyHeader className="table-resource">
             <TableHead>
