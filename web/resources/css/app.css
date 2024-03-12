@@ -1,3 +1,134 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*Load the font from google*/
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Press+Start+2P&display=swap');
+
+:root {
+    --background-color: #F2F2F2;
+    --blue-inesc: #0091BE;
+}
+
+html,
+body {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: "IBM Plex Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.blue-inesc {
+    color: var(--blue-inesc) !important;
+}
+
+
+.divider {
+    width: 100% !important;
+}
+
+.divider span div {
+    background-color: var(--blue-inesc) !important;
+    height: 60px !important;
+    width: fit-content !important;
+    color: white !important;
+    font-size: large !important;
+    font-weight: bolder !important;
+}
+
+.divider::before,
+.divider::after {
+    border-top: 2px solid var(--blue-inesc) !important;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    min-height: 160px;
+    object-fit: contain;
+}
+
+.figure {
+    font-family: "Press Start 2P", cursive;
+    text-align: center;
+}
+
+.figure h3 {
+    font-size: 3rem;
+    font-weight: bolder;
+}
+
+.figure h4 {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+#sidebar-list {
+    width: 250px !important;
+    background-color: var(--background-color) !important;
+    height: 100%;
+}
+
+#sidebar-list .sidebar-button {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    width: 80%;
+    font-size: larger;
+    font-weight: 900;
+}
+
+#small-title {
+    font-size: 1.3rem;
+    font-weight: bolder;
+}
+
+.table-resource thead th {
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    font-size: 1.2rem;
+}
+
+.table-resource {
+    border: gray 2px solid;
+    border-radius: 3px;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-resource tr:hover {
+    color: white !important;
+}
+
+.table-resource td {
+    color: inherit !important;
+    font-weight: inherit;
+}
+
+.table-resource .MuiTableRow-hover:hover {
+    background-color: var(--blue-inesc) !important;
+    cursor: pointer;
+}
+
+header {
+    border-bottom: var(--blue-inesc) 2px solid;
+}
+
+#logo {
+    max-width: 50px;
+}
+
+.collapsed-table-preview {
+    font-size: larger;
+    font-weight: bolder;
+}

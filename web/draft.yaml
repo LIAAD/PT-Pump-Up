@@ -58,3 +58,14 @@ models:
     value: float
     relationships:
       belongsTo: MachineLearningModel, Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset
+
+  Publication:
+    title: string
+    year: integer
+    bibtext: string
+
+  File:
+    path: string
+
+    relationships:
+      hasOne: User

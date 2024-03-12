@@ -11,6 +11,7 @@ use App\Models\Author;
 use App\Models\NlpTask;
 use App\Models\Link;
 use App\Models\ResourceStats;
+use Inertia\Inertia;
 
 
 class DatasetController extends Controller
@@ -19,11 +20,16 @@ class DatasetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get();
+    public function index(Request $request)
+    {   
+        # Test if the request is an API request
+        if ($request->wantsJson() || $request->is('api/*'))
+            return Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get();
+        
+        return Inertia::render('Datasets/Index',[
+            'datasets' => Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get()
+        ]);        
     }
-
     /**
      * Store a newly created resource in storage.
      */
