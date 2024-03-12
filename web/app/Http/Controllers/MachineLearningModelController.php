@@ -11,6 +11,7 @@ use App\Models\NlpTask;
 use App\Models\Link;
 use App\Models\ResourceStats;
 use App\Models\Result;
+use Inertia\Inertia;
 
 use Illuminate\Http\Request;
 
@@ -20,9 +21,25 @@ class MachineLearningModelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return MachineLearningModel::with(['authors', 'link', 'resourceStats','nlpTasks', 'results'])->get();
+        $models = MachineLearningModel::with(['authors', 'link', 'resourceStats','nlpTasks', 'results'])->get();
+
+        if($request->wantsJson() || $request->is('api/*'))
+            return $models;
+
+        $nlp_task_names = array();
+
+        foreach ($models as $model) {
+            foreach ($model->nlpTasks as $nlp_task) {
+                array_push($nlp_task_names, $nlp_task->full_name ?? $nlp_task->short_name);
+            }
+        }
+        
+        return Inertia::render('Models/Index',[
+            'models' => MachineLearningModel::with(['authors', 'link', 'resourceStats','nlpTasks', 'results'])->get(),
+            'nlp_tasks' => collect($nlp_task_names)->unique()->values()->shuffle()->all(), 
+        ]);
     }
 
     /**

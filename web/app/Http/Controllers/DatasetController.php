@@ -22,12 +22,23 @@ class DatasetController extends Controller
      */
     public function index(Request $request)
     {   
+        $datasets = Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get();
+
         # Test if the request is an API request
         if ($request->wantsJson() || $request->is('api/*'))
-            return Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get();
+            return $datasets;
         
+        $nlp_task_names = array();
+
+        foreach ($datasets as $dataset) {
+            foreach ($dataset->nlpTasks as $nlp_task) {
+                array_push($nlp_task_names, $nlp_task->full_name ?? $nlp_task->short_name);
+            }
+        }        
+
         return Inertia::render('Datasets/Index',[
-            'datasets' => Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get()
+            'datasets' => Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->get(),
+            'nlp_tasks' => collect($nlp_task_names)->unique()->values()->shuffle()->all(), 
         ]);        
     }
     /**
