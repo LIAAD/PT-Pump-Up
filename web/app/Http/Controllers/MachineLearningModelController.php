@@ -22,7 +22,7 @@ class MachineLearningModelController extends Controller
      */
     public function index()
     {
-        return MachineLearningModel::with(['authors', 'link', 'resourceStats','nlpTasks'])->get();
+        return MachineLearningModel::with(['authors', 'link', 'resourceStats','nlpTasks', 'results'])->get();
     }
 
     /**

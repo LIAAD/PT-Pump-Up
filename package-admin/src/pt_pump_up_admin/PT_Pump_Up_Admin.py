@@ -1,6 +1,7 @@
 from requests import Session
 import traceback
 from environs import Env
+import numpy as np
 
 
 class PTPumpUpAdmin:

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('resource_stats', function (Blueprint $table) {
             $table->id();
             $table->string('preservation_rating');
-            $table->boolean('standard_format');
+            $table->boolean('standard_format')->nullable();
             $table->boolean('off_the_shelf');
             $table->timestamps();
         });

@@ -15,13 +15,30 @@ class CRUD(ABC):
 
         for key, value in kwargs.items():
             if key == "id":
-                self._id = value
+                self.id = value
             elif value is not None:
                 self._json[key] = value
 
     @property
-    def json(self):
+    def id(self):
+        if self._id is None and self._json:
+            self._id = self._json.get("id")
 
+        if self._id is None:
+            raise ValueError("Id is None")
+
+        return self._id
+
+    # Avoid numpy 64-bit integer that are not JSON serializable
+    @id.setter
+    def id(self, value):
+        if value is not None:
+            self._id = int(value)
+        else:
+            self._id = None
+
+    @property
+    def json(self):
         if not self._json and self._id is not None:
             client = PTPumpAdminFactory.create()
 

@@ -50,7 +50,7 @@ models:
 
   ResourceStats:
     preservation_rating: string
-    standard_format: boolean
+    standard_format: boolean nullable
     off_the_shelf: boolean
 
   Result:

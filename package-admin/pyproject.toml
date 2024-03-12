@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pt_pump_up_admin"
-version = "0.1.0"
+version = "0.0.4"
 description = "Administrative tools to interact with PT-Pump-Up Platform"
 readme = "README.md"
 authors = [
@@ -18,8 +18,10 @@ requires-python = ">=3.10"
 
 dependencies = [
     "requests>=2.31.0",
-    "pytest >= 8.0.2",
+    "pytest>=8.0.2",
     "environs>=10.3.0",
+    "pandas>=2.2.1",
+    "numpy>=1.26.4"
 ]
 
 [tool.setuptools.packages.find]

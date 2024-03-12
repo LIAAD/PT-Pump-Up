@@ -16,6 +16,6 @@ class Result(CRUD):
                          id=id,
                          metric=metric,
                          value=value,
-                         train_dataset_id=train_dataset.json['id'] if train_dataset else None,
-                         validation_dataset_id=validation_dataset.json['id'] if validation_dataset else None,
-                         test_dataset_id=test_dataset.json['id'] if test_dataset else None)
+                         train_dataset_id=train_dataset.id if train_dataset else None,
+                         validation_dataset_id=validation_dataset.id if validation_dataset else None,
+                         test_dataset_id=test_dataset.id if test_dataset else None)
