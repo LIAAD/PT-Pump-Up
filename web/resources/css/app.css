@@ -149,3 +149,16 @@ header {
     color: var(--blue-inesc) !important;
     font-size: x-large;
 }
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: fit-content;
+}
+
+.modal .sc-guDLey{
+    padding-right: 100px;
+}

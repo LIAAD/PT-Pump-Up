@@ -26,6 +26,7 @@
         "@mui/icons-material": "^5.15.12",
         "@mui/material": "^5.15.12",
         "bibtex-js-parser": "^1.1.6",
-        "citation-js": "^0.7.9"
+        "citation-js": "^0.7.9",
+        "react-code-blocks": "^0.1.6"
     }
 }

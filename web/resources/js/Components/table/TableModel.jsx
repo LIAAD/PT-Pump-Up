@@ -20,8 +20,7 @@ const TableModel = (props) => {
                 <TableRow>
                     <TableCell>Name</TableCell>
                     <TableCell align="center">Year</TableCell>
-                    <TableCell align="center">Source URL</TableCell>
-                    <TableCell align="center">Hugging Face URL</TableCell>
+                    <TableCell align="center">Website</TableCell>
                     <TableCell align="center">Paper URL</TableCell>
                     <TableCell align="center">Off the Shelf</TableCell>
                     <TableCell align="center">Preservation Rating</TableCell>
@@ -39,9 +38,6 @@ const TableModel = (props) => {
                             </TableCell>
                             <TableCell align="center">
                                 {model.link.website ? <Button href={model.link.website} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button> : "?"}
-                            </TableCell>
-                            <TableCell align="center">
-                                {model.link.hugging_face_url ? <Button href={model.link.hugging_face_url} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button> : "?"}
                             </TableCell>
                             <TableCell align="center">
                                 {model.link.paper_url ? <Button href={model.link.paper_url} target="_blank" rel="noopener noreferrer"><LinkIcon /></Button> : "?"}
