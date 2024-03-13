@@ -36,3 +36,7 @@ Route::resource('dataset', App\Http\Controllers\DatasetController::class);
 Route::resource('machine-learning-model', App\Http\Controllers\MachineLearningModelController::class);
 
 Route::resource('users', App\Http\Controllers\UserController::class);
+
+Route::get('show_mail', function () {
+    return new App\Mail\Welcome("Ruben");
+});
