@@ -4,7 +4,6 @@ import pandas as pd
 
 # TODO: Reduce the size of the function, by creating a function to fetch the data and another to filter it
 
-
 def fetch_resources(url, endpoint, element, nlp_task="all", use_cache=True):
     if element is not None and use_cache:
         logging.info(f"Using cached")

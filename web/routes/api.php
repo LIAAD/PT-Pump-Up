@@ -22,9 +22,9 @@ Route::get('/helloworld', function () {
     return response()->json(['message' => 'Hello World!']);
 });
 
-Route::apiResource('author', 'App\Http\Controllers\AuthorController');
-Route::apiResource('link', 'App\Http\Controllers\LinkController');
-Route::apiResource('dataset', 'App\Http\Controllers\DatasetController');
-Route::apiResource('machine-learning-model', 'App\Http\Controllers\MachineLearningModelController');
-Route::apiResource('nlp-task', 'App\Http\Controllers\NlpTaskController');
-Route::apiResource('resource-stats', 'App\Http\Controllers\ResourceStatsController');
+Route::apiResource('author', App\Http\Controllers\AuthorController::class);
+Route::apiResource('link', App\Http\Controllers\LinkController::class);
+Route::apiResource('dataset', App\Http\Controllers\DatasetController::class);
+Route::apiResource('machine-learning-model', App\Http\Controllers\MachineLearningModelController::class);
+Route::apiResource('nlp-task', App\Http\Controllers\NLPTaskController::class);
+Route::apiResource('resource-stats', App\Http\Controllers\ResourceStatsController::class);
