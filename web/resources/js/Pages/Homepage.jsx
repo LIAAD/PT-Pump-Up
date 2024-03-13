@@ -1,5 +1,5 @@
-import PTPumpUpLayout from '@/Layouts/PTPumpUpLayout'
 import React from 'react'
+import PTPumpUpLayout from '@/Layouts/PTPumpUpLayout'
 import Grid from '@mui/material/Grid'
 import ListIcon from '@mui/icons-material/List';
 import GenericDivider from '@/Components/divider/GenericDivider';
@@ -8,8 +8,8 @@ import Button from '@mui/material/Button';
 import EmailIcon from '@mui/icons-material/Email';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import Cite from 'citation-js'
-
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const FigureItem = (props) => {
@@ -83,11 +83,14 @@ const Index = (props) => {
                     <GenericDivider label="Publications" />
                     <Grid container justifyContent="center">
                         {props.publications.map((publication, index) =>
-                            <Grid item xs={8} lg={4} sx={{ my: 5 }}>
+                            <Grid item xs={12} lg={4} sx={{ my: 5 }}>
                                 <Publication key={index} publication={publication} />
                             </Grid>
                         )}
                     </Grid>
+                    <Fab id="fab-homepage" variant="circle" href={route('users.create')} sx={{ mt: 2 }}>
+                        <AddIcon />
+                    </Fab>
                 </Grid>
             }
         />

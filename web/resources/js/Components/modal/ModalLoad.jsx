@@ -15,9 +15,6 @@ const ModalLoad = (props) => {
     client = PTPumpUpClient()
     
     elem = client.${function_str}(${resource_str})
-
-    print(elem)
-
     `
 
     return (

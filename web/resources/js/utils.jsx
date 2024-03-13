@@ -25,3 +25,8 @@ export const ExtractHuggingFaceId = (url) => {
     if (url.includes("huggingface.co"))
         return url.split("huggingface.co/")[1];
 }
+
+export const handleChangeTextFields = (event, state, setState) => {
+    const { name, value } = event.target;
+    setState({ ...state, [name]: value });
+}

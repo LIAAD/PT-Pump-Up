@@ -159,6 +159,17 @@ header {
     height: fit-content;
 }
 
-.modal .sc-guDLey{
+.modal .sc-guDLey {
     padding-right: 100px;
+}
+
+#fab-homepage {
+    background-color: var(--blue-inesc) !important;
+    position: absolute;
+    bottom: 3%;
+    right: 5%;
+    color: white;
+    font-size: larger;
+    font-weight: 600;
+    border: white 2px solid;
 }
