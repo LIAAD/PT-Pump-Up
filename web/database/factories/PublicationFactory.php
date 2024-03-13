@@ -21,9 +21,7 @@ class PublicationFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(4),
-            'year' => $this->faker->numberBetween(-10000, 10000),
-            'bibtext' => $this->faker->word(),
+            'bibtex' => $this->faker->text(),
         ];
     }
 }

@@ -132,3 +132,20 @@ header {
     font-size: larger;
     font-weight: bolder;
 }
+
+.publication {
+    border-radius: 5px;
+    min-height: 100px;
+    height: 100%;
+    background-color: var(--blue-inesc);
+}
+
+.publication * {
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.circle-main-page {
+    color: var(--blue-inesc) !important;
+    font-size: x-large;
+}

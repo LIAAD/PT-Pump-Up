@@ -8,3 +8,9 @@ export const ToProperCase = (str) => {
         }
     );
 }
+//There is 4 digits in the string provided by the bibtex
+export const ExtractYearFromBibtex = (bibtex) => {
+    const regex = /(\d{4})/g;
+    const year = bibtex.match(regex);
+    return year[0];
+}

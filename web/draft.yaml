@@ -59,10 +59,8 @@ models:
     relationships:
       belongsTo: MachineLearningModel, Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset
 
-  Publication:
-    title: string
-    year: integer
-    bibtext: string
+  Publication:    
+    bibtex: longtext
 
   File:
     path: string

@@ -15,9 +15,7 @@ class Publication extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
-        'year',
-        'bibtext',
+        'bibtex',
     ];
 
     /**

@@ -24,7 +24,7 @@ const FigureItem = (props) => {
 const Profile = (props) => {
     return (
         <Grid item xs={8} md={2} xl={1.5} sx={{ textAlign: "center", mb: { xs: 3 } }} >
-            <img src={"/storage/"+ props.admin.photo.path} className="profile-img" />
+            <img src={"/storage/" + props.admin.photo.path} className="profile-img" />
             <h3>{props.admin.name}</h3>
             <h4>{props.admin.title}</h4>
             <h4>{props.admin.affiliation}</h4>
@@ -81,11 +81,13 @@ const Index = (props) => {
                         )}
                     </Grid>
                     <GenericDivider label="Publications" />
-                    <ul>
+                    <Grid container justifyContent="center">
                         {props.publications.map((publication, index) =>
-                            <Publication key={index} publication={publication} />
+                            <Grid item xs={8} lg={4} sx={{ my: 5 }}>
+                                <Publication key={index} publication={publication} />
+                            </Grid>
                         )}
-                    </ul>
+                    </Grid>
                 </Grid>
             }
         />

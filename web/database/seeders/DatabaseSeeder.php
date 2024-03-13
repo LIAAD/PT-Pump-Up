@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use Faker\Factory;
 use App\Models\File;
+use App\Models\Publication;
 
 class DatabaseSeeder extends Seeder
 {
@@ -70,5 +71,23 @@ class DatabaseSeeder extends Seeder
         ]));
 
         $ricardo->save();
+
+        Publication::create([
+            'bibtex' => '@article{de2023building,
+                title={Building portuguese language resources for natural language processing tasks},
+                author={de Almeida, Rúben Filipe Seabra},
+                year={2023},
+                note={Master Thesis},
+              }'
+            ]);
+        
+        Publication::create([
+            'bibtex'=> '@article{almeida2024indexing,
+                title={Indexing Portuguese NLP Resources with PT-Pump-Up},
+                author={Almeida, R{\'u}ben and Campos, Ricardo and Jorge, Al{\'\i}pio and Nunes, S{\'e}rgio},
+                journal={arXiv preprint arXiv:2401.15400},
+                year={2024}
+            }'
+        ]);
     }
 }
