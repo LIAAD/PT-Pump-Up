@@ -51,3 +51,13 @@ def test_load_model(fixture_pt_pump_up_client):
     model = client.load_model("POS-Tagger Bio Portuguese")
 
     assert model is not None
+
+
+def test_leaderboard(fixture_pt_pump_up_client):
+    client = fixture_pt_pump_up_client
+
+    leaderboard = client.leaderboard(nlp_task="NER")
+
+    assert leaderboard is not None
+
+    assert len(leaderboard) > 0

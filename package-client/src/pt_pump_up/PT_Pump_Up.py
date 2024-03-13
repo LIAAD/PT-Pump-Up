@@ -1,6 +1,7 @@
 from pt_pump_up.utils import fetch_resources
 from datasets import load_dataset as load_hf_dataset
 from transformers import AutoModel
+import pandas as pd
 
 
 class PTPumpUpClient:
@@ -66,3 +67,27 @@ class PTPumpUpClient:
             "huggingface.co/")[1]
 
         return AutoModel.from_pretrained(model_name)
+
+    def leaderboard(self, nlp_task, use_cache=True):
+        leaderboard = fetch_resources(
+            url=self.url, endpoint="machine-learning-model", element=self.nlp_tasks, nlp_task=nlp_task, use_cache=use_cache)
+
+        if len(leaderboard) == 0:
+            raise Exception("No leaderboard found")
+
+        new_df = pd.DataFrame(columns=[
+                              'short_name', 'website', 'hugging_face_url', 'paper_url', 'metric', 'value'])
+
+        for _, row in leaderboard.iterrows():
+            # Iterate results series
+            for result in row['results']:
+                new_df = pd.concat([new_df, pd.DataFrame({
+                    'short_name': row['short_name'],
+                    'website': row['link']['website'],
+                    'hugging_face_url': row['link']['hugging_face_url'],
+                    'paper_url': row['link']['paper_url'],
+                    'metric': result['metric'],
+                    'value': result['value']
+                }, index=[0])])
+
+        return new_df.sort_values(by='value', ascending=False)

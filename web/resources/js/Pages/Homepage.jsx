@@ -77,8 +77,8 @@ const Index = (props) => {
                         <FigureItem number={props.num_authors} title="Authors" />
                         <FigureItem number={props.num_nlp_tasks} title="NLP Tasks" />
                     </Grid>
-                    <GenericDivider label="How to Install PT-Pump-Up?" />
-                    <Grid item xs={5} sx={{ mx: "auto" }}>
+                    <GenericDivider label="Install PT-Pump-Up" />
+                    <Grid item xs={12} sm={6} md={5} sx={{ mx: "auto" }}>
                         <Box id="codeblock-homepage">
                             <CopyBlock text={"pip install -U pt_pump_up"} language={"bash"} theme={dracula} showLineNumbers={false} />
                         </Box>

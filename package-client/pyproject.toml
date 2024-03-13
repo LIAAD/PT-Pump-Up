@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pt_pump_up"
-version = "0.0.3"
+version = "0.0.4"
 description = "Hub for Portuguese NLP resources"
 readme = "README.md"
 authors = [
@@ -21,6 +21,7 @@ dependencies = [
     "pytest >= 8.0.2",
     "transformers >= 4.38.2",
     "torch >= 2.2.0",
+    "pandsa >= 2.2.1",
 ]
 
 [tool.setuptools.packages.find]

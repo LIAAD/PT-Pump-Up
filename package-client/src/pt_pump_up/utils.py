@@ -22,7 +22,7 @@ def fetch_resources(url, endpoint, element, nlp_task="all", use_cache=True):
 
     if nlp_task != "all":
         data = [elem for elem in data if any(
-            task["name"] == nlp_task or task["acronym"] == nlp_task for task in elem["nlp_tasks"])]
+            task["short_name"] == nlp_task or task["full_name"] == nlp_task for task in elem["nlp_tasks"])]
 
     element = pd.DataFrame(data=data)
 
