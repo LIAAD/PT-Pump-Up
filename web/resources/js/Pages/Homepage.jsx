@@ -10,6 +10,9 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import { CopyBlock, dracula } from 'react-code-blocks';
+import Box from '@mui/material/Box';
+
 
 
 const FigureItem = (props) => {
@@ -73,6 +76,12 @@ const Index = (props) => {
                         <FigureItem number={props.num_models} title="Models" />
                         <FigureItem number={props.num_authors} title="Authors" />
                         <FigureItem number={props.num_nlp_tasks} title="NLP Tasks" />
+                    </Grid>
+                    <GenericDivider label="How to Install PT-Pump-Up?" />
+                    <Grid item xs={5} sx={{ mx: "auto" }}>
+                        <Box id="codeblock-homepage">
+                            <CopyBlock text={"pip install -U pt_pump_up"} language={"bash"} theme={dracula} showLineNumbers={false} />
+                        </Box>
                     </Grid>
                     <GenericDivider label="Our Team" />
                     <Grid container alignItems="center" justifyContent="space-around">

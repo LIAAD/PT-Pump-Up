@@ -7,6 +7,9 @@ import { handleChangeTextFields } from '@/utils'
 import Button from '@mui/material/Button'
 import { router, usePage } from '@inertiajs/react'
 import FormHelperText from '@mui/material/FormHelperText'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 
 
 const Create = (props) => {
@@ -19,6 +22,7 @@ const Create = (props) => {
         email: '',
         institution: '',
         linkedin: '',
+        agree: false,
     })
 
     const handleSubmit = (e) => {
@@ -28,20 +32,13 @@ const Create = (props) => {
 
         setState({ ...state, saving: true })
 
-        router.post(route('users.store'), {
-            name: state.name,
-            email: state.email,
-            institution: state.institution,
-            linkedin: state.linkedin,
-        },
+        router.post(route('users.store'), { ...state },
             {
                 onFinish: () => {
                     setState({ ...state, saving: false })
                 },
             })
     }
-
-    console.log(errors);
 
     return (
         <PTPumpUpLayout
@@ -91,6 +88,15 @@ const Create = (props) => {
                                 onChange={(e) => handleChangeTextFields(e, state, setState)} />
                             <FormHelperText error>{errors.linkedin}</FormHelperText>
                         </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={8} sx={{ textAlign: "center" }}>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={<Checkbox checked={state.agree} onChange={(e) => setState({ ...state, agree: e.target.checked })} />}
+                                label="I accept my Name, Email, Institution and LinkedIn to be stored in our database for future contact."
+                            />
+                            <FormHelperText error>{errors.agree}</FormHelperText>
+                        </FormGroup>
                     </Grid>
                     <Grid item xs={12} md={8} sx={{ textAlign: "center" }}>
                         {!state.saving && <Button variant="contained" color="primary" size="large" sx={{ mt: 5 }} onClick={handleSubmit}>

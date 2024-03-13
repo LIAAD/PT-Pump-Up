@@ -25,6 +25,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'institution' => ['required', 'string', 'max:255'],
+            'agree' => ['required', 'boolean'],
             'linkedin' => ['nullable', 'url', 'max:255'],
         ];
     }

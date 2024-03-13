@@ -173,3 +173,12 @@ header {
     font-weight: 600;
     border: white 2px solid;
 }
+
+#codeblock-homepage .sc-guDLey {
+    text-align: center;
+    min-width: 100px;
+    min-height: fit-content;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: x-large;
+}
