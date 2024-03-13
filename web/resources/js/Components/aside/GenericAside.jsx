@@ -12,9 +12,9 @@ const GenericAside = (props) => {
         ['Home', route('homepage')],
         ['Datasets', route('dataset.index')],
         ['Models', route('machine-learning-model.index')],
-        ['Login', route('login')],
-        ['Profile', route('dashboard')],
-        ['Logout', route('logout')],
+        //['Login', route('login')],
+       // ['Profile', route('dashboard')],
+        //['Logout', route('logout')],
     ]
     const handleClick = (e, link) => {
         if (link === route('logout'))

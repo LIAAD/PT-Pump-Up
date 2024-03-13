@@ -60,7 +60,7 @@ class MachineLearningModelController extends Controller
             $validated['resource_stats_id'] = $resource_stats->id;
 
             $machineLearningModel = MachineLearningModel::create($validated);
-
+            
             foreach($validated['results'] as $key => $result)
                 $machineLearningModel->results()->save(new Result($result));
         

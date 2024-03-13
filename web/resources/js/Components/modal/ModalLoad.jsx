@@ -6,15 +6,15 @@ import { ExtractHuggingFaceId } from '@/utils';
 
 const ModalLoad = (props) => {
     const function_str = props.dataset ? "load_dataset" : "load_model"
-    const resource_str = ExtractHuggingFaceId(props.dataset.link.hugging_face_url ?? props.model.link.hugging_face_url)
-
+    //const resource_str = ExtractHuggingFaceId(props.dataset.link.hugging_face_url ?? props.model.link.hugging_face_url)
+    const resource_str = props.dataset ? ExtractHuggingFaceId(props.dataset.link.hugging_face_url) : ExtractHuggingFaceId(props.model.link.hugging_face_url)
     const code_str =
         `
     from pt_pump_up import PTPumpUpClient
     
     client = PTPumpUpClient()
     
-    elem = client.${function_str}(${resource_str})
+    elem = client.${function_str}("${resource_str}")
     `
 
     return (
