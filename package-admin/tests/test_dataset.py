@@ -41,7 +41,7 @@ def test_dataset_store(fixture_create_authors, fixture_create_resource_stats, fi
     assert len(response.json()["authors"]) == 3
     assert response.json()["authors"][0]["name"] == "Rúben Almeida"
     assert response.json()["authors"][1]["name"] == "Alípio Jorge"
-    assert response.json()["authors"][2]["name"] == "Sergio Nunes"
+    assert response.json()["authors"][2]["name"] == "Sérgio Nunes"
 
     assert response.json()["resource_stats"]["standard_format"] is True
     assert response.json()["resource_stats"]["off_the_shelf"] is False

@@ -27,8 +27,10 @@ class AuthorController extends Controller
         $link = Link::create($validated['link']);
 
         $validated['link_id'] = $link->id;
+        
+        $author = Author::create($validated);
 
-        return response()->json(Author::create($validated)->with('link')->firstOrFail(), 201);
+        return response()->json(Author::with('link')->findOrFail($author->id), 201);
     }
 
     /**
