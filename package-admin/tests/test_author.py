@@ -1,36 +1,32 @@
-from tests.lib.utils import fixture_load_admin_instance
 from pt_pump_up_admin.author import Author
 from pt_pump_up_admin.link import Link
 import pytest
 
 
 @pytest.fixture
-def fixture_create_link_author(fixture_load_admin_instance):
-    client = fixture_load_admin_instance
-
+def fixture_create_link_author():
     link = Link(email="ruben.f.almeida@inesctec.pt",
                 website="https://www.inesctec.pt/pt/pessoas/ruben-filipe-seabra-almeida")
 
-    client.submit(link.store())
+    link.store()
 
     return link
 
 
-def test_author_store(fixture_load_admin_instance, fixture_create_link_author):
-    client = fixture_load_admin_instance
+def test_author_store(fixture_create_link_author):
     link = fixture_create_link_author
 
     author = Author(name="Rúben Almeida",
                     institution="INESC TEC",
                     link=link)
 
-    response = client.submit(author.store())
+    response = author.store()
 
     assert response.status_code == 201
-    assert response.json()["id"] is not None
-    assert response.json()["name"] == author.json["name"]
-    assert response.json()["institution"] == author.json["institution"]
-    assert response.json()["link_id"] is not None
+    assert response.json().get("id") == author.id
+    assert response.json().get("name") == author.json.get("name")
+    assert response.json().get("institution") == author.json.get("institution")
+    assert response.json().get("link_id") is not None
 
-    assert response.json()["link"]["email"] == link.json["email"]
-    assert response.json()["link"]["website"] == link.json["website"]
+    assert response.json().get("link")["email"] == link.json.get("email")
+    assert response.json().get("link")["website"] == link.json.get("website")

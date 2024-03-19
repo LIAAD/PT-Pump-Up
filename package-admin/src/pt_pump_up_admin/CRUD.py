@@ -1,6 +1,8 @@
 from abc import ABC
 from requests import Request
 from pt_pump_up_admin import PTPumpAdminFactory
+import traceback
+from pt_pump_up_admin.exceptions import HTTPException
 
 
 class CRUD(ABC):
@@ -12,6 +14,7 @@ class CRUD(ABC):
         self.route = route.replace("/", "")
         self._id = None
         self._json = dict()
+        self.client = PTPumpAdminFactory.create()
 
         for key, value in kwargs.items():
             if key == "id":
@@ -21,12 +24,6 @@ class CRUD(ABC):
 
     @property
     def id(self):
-        if self._id is None and self._json:
-            self._id = self._json.get("id")
-
-        if self._id is None:
-            raise ValueError("Id is None")
-
         return self._id
 
     # Avoid numpy 64-bit integer that are not JSON serializable
@@ -39,61 +36,83 @@ class CRUD(ABC):
 
     @property
     def json(self):
-        if not self._json and self._id is not None:
-            client = PTPumpAdminFactory.create()
-
-            print(f"JSON is empty for id: {self._id}, fetching from server")
-
-            response = client.submit(self.show())
-            self._json = response.json()
+        if self._json is None:
+            raise ValueError("JSON is empty")
 
         return self._json
 
-    def index(self) -> Request:
-        return self, Request(
-            method="GET",
-            url=self.route,
-        )
+    def index(self):
+        try:
+            response = self.client.submit(
+                Request(method="GET", url=self.route))
+        except HTTPException as e:
+            traceback.print_exc()
+            response = e.response
+        finally:
+            return response
 
-    def store(self) -> Request:
-        return self, Request(
-            method="POST",
-            url=self.route,
-            json=self._json
-        )
+    def store(self):
+        if self._id is not None:
+            raise ValueError("id cannot be set for POST request")
 
-    def show(self) -> Request:
-        """
-        if self.identifier is None and identifier is None:
-            raise ValueError("identifier cannot be None")
-        elif self.identifier is None and identifier is not None:
-            self.identifier = identifier
-        """
+        if not self._json:
+            raise ValueError("json cannot be empty for POST request")
 
-        return self, Request(
-            method="GET",
-            url=f"{self.route}/{self._id}",
-        )
+        try:
+            response = self.client.submit(
+                Request(method="POST", url=self.route, json=self._json))
 
-    def update(self) -> Request:
-        """
-        if self.identifier is None and identifier is None:
-            raise ValueError("identifier cannot be None")
-        elif self.identifier is None and identifier is not None:
-            self.identifier = identifier
-        """
+            self._id = response.json().get("id")
+            self._json = response.json()
 
-        return self, Request(
-            method="PUT",
-            url=f"{self.route}/{self._id}",
-        )
+        except HTTPException as e:
+            traceback.print_exc()
+            response = e.response
+            self.id = None
+        finally:
+            return response
 
-    def destroy(self) -> Request:
+    def show(self):
+        if self._id is None:
+            raise ValueError("id cannot be None")
+        try:
+            response = self.client.submit(
+                Request(method="GET", url=f"{self.route}/{self._id}"))
+            self._json = response.json()
+        except HTTPException as e:
+            traceback.print_exc()
+            response = e.response
+            self._json = dict()
+        finally:
+            return response
 
+    def update(self):
         if self._id is None:
             raise ValueError("id cannot be None")
 
-        return self, Request(
-            method="DELETE",
-            url=f"{self.route}/{self._id}",
-        )
+        if not self._json:
+            raise ValueError("json cannot be empty for PUT request")
+
+        try:
+            response = self.client.submit(
+                Request(method="PUT", url=f"{self.route}/{self._id}", json=self._json))
+        except HTTPException as e:
+            traceback.print_exc()
+            response = e.response
+        finally:
+            return response
+
+    def destroy(self):
+        if self._id is None:
+            raise ValueError("id cannot be None")
+
+        try:
+            response = self.client.submit(
+                Request(method="DELETE", url=f"{self.route}/{self._id}"))
+            self._json = dict()
+            self._id = None
+        except HTTPException as e:
+            response = e.response
+            traceback.print_exc()
+        finally:
+            return response

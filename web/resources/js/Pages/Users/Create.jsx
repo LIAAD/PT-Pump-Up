@@ -28,8 +28,6 @@ const Create = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        console.log(state)
-
         setState({ ...state, saving: true })
 
         router.post(route('users.store'), { ...state },

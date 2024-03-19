@@ -5,14 +5,12 @@ from pt_pump_up_admin.nlp_task import NLPTask
 from pt_pump_up_admin.result import Result
 from pt_pump_up_admin.author import Author
 from pt_pump_up_admin.dataset import Dataset
-from tests.lib.utils import fixture_load_admin_instance
 from tests.lib.resources import fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks
 import pytest
 
 
 @pytest.fixture
-def fixture_create_datasets_for_benchmarks(fixture_load_admin_instance):
-    client = fixture_load_admin_instance
+def fixture_create_datasets_for_benchmarks():
     link = Link(website="https://www.kaggle.com/c/nlp-getting-started/data",
                 email="ruben.f.almeida@inesctec.pt")
     author = Author(name="John Doe",
@@ -21,8 +19,8 @@ def fixture_create_datasets_for_benchmarks(fixture_load_admin_instance):
     nlp_tasks = [NLPTask(short_name="nlp_task_1", papers_with_code_ids=[
                          1, 2, 3, 4, 5], standard_format="BIO-Tagging")]
 
-    client.submit(author.store())
-    client.submit(nlp_tasks[0].store())
+    author.store()
+    nlp_tasks[0].store()
 
     resource_stats = ResourceStats(
         off_the_shelf=True, standard_format=True, preservation_rating="High")
@@ -57,16 +55,15 @@ def fixture_create_datasets_for_benchmarks(fixture_load_admin_instance):
         description="This is the test dataset for the benchmark"
     )
 
-    r1 = client.submit(dataset_1.store())
-    r2 = client.submit(dataset_2.store())
-    r3 = client.submit(dataset_3.store())
+    r1 = dataset_1.store()
+    r2 = dataset_2.store()
+    r3 = dataset_3.store()
 
     return [dataset_1.json['id'], dataset_2.json['id'], dataset_3.json['id']]
 
 
 @pytest.fixture
-def fixture_create_results(fixture_load_admin_instance, fixture_create_datasets_for_benchmarks):
-    client = fixture_load_admin_instance
+def fixture_create_results(fixture_create_datasets_for_benchmarks):
 
     results = [Result(
         metric="F1",
@@ -79,7 +76,7 @@ def fixture_create_results(fixture_load_admin_instance, fixture_create_datasets_
             id=fixture_create_datasets_for_benchmarks[2])  # test_dataset=
     )]
 
-    client.submit(results[0].store())
+    results[0].store()
 
     results.append(results[0])
 
@@ -87,19 +84,16 @@ def fixture_create_results(fixture_load_admin_instance, fixture_create_datasets_
 
 
 @pytest.fixture
-def fixture_create_model_link(fixture_load_admin_instance):
-    client = fixture_load_admin_instance
-
+def fixture_create_model_link():
     link = Link(
         hugging_face_url="https://huggingface.co/pucpr-br/postagger-bio-portuguese",)
 
-    client.submit(link.store())
+    link.store()
 
     return link
 
 
-def test_model_store(fixture_load_admin_instance, fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks, fixture_create_model_link, fixture_create_results):
-    client = fixture_load_admin_instance
+def test_model_store(fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks, fixture_create_model_link, fixture_create_results):
 
     authors = fixture_create_authors
     resource_stats = fixture_create_resource_stats
@@ -118,21 +112,19 @@ def test_model_store(fixture_load_admin_instance, fixture_create_authors, fixtur
         link=link,
     )
 
-    response = client.submit(model.store())
+    response = model.store()
 
     assert response.status_code == 201
-    assert response.json()['id'] is not None
+    assert response.json()['id'] == model.id
     assert response.json()['short_name'] == "POS-Tagger Bio Portuguese"
     assert response.json()['year'] == 2023
     assert response.json()[
         'description'] == "This is a POS-Tagger for Portuguese language"
 
 
-def test_model_destroy(fixture_load_admin_instance):
-    client = fixture_load_admin_instance
-
+def test_model_destroy():
     model = Model(id=1)
 
-    response = client.submit(model.destroy())
+    response = model.destroy()
 
     assert response.status_code == 204

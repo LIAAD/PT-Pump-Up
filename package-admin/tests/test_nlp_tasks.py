@@ -1,27 +1,24 @@
 from pt_pump_up_admin.nlp_task import NLPTask
-from tests.lib.utils import fixture_load_admin_instance
 import pytest
 
 
 @pytest.fixture
-def fixture_create_nlp_task(fixture_load_admin_instance):
-    client = fixture_load_admin_instance
+def fixture_create_nlp_task():    
 
     nlp_task = NLPTask(short_name="NER", papers_with_code_ids=[
         0, 100], standard_format="BIO-Tagging")
 
-    client.submit(nlp_task.store())
+    nlp_task.store()
 
     return nlp_task
 
 
-def test_index_nlp_tasks(fixture_create_nlp_task, fixture_load_admin_instance):
-    client = fixture_load_admin_instance
+def test_index_nlp_tasks(fixture_create_nlp_task ):    
     nlp_task_created = fixture_create_nlp_task
 
     nlp_task = NLPTask()
 
-    response = client.submit(nlp_task.index())
+    response = nlp_task.index()
 
     assert response.status_code == 200
 
@@ -33,15 +30,14 @@ def test_index_nlp_tasks(fixture_create_nlp_task, fixture_load_admin_instance):
     assert data[-1]['id'] == nlp_task_created.json['id']
 
 
-def test_store_nlp_task_minimum_values(fixture_load_admin_instance):
-    client = fixture_load_admin_instance
+def test_store_nlp_task_minimum_values():    
 
     nlp_task = NLPTask(
         short_name="NER",
         papers_with_code_ids=[0, 100],
         standard_format="BIO-Tagging")
 
-    response = client.submit(nlp_task.store())
+    response = nlp_task.store()
 
     assert response.status_code == 201
     assert response.json()['short_name'] == "NER"
@@ -51,8 +47,7 @@ def test_store_nlp_task_minimum_values(fixture_load_admin_instance):
     assert response.json()['papers_with_code_ids'] == [0, 100]
 
 
-def test_store_nlp_task_all_values(fixture_load_admin_instance):
-    client = fixture_load_admin_instance
+def test_store_nlp_task_all_values():    
 
     nlp_task = NLPTask(short_name="NER",
                        full_name="Named Entity Recognition",
@@ -60,7 +55,7 @@ def test_store_nlp_task_all_values(fixture_load_admin_instance):
                        standard_format="BIO-Tagging",
                        papers_with_code_ids=[0, 100])
 
-    response = client.submit(nlp_task.store())
+    response = nlp_task.store()
 
     assert response.status_code == 201
     assert response.json()['short_name'] == "NER"
@@ -71,15 +66,14 @@ def test_store_nlp_task_all_values(fixture_load_admin_instance):
     assert response.json()['papers_with_code_ids'] == [0, 100]
 
 
-def test_delete_nlp_task(fixture_load_admin_instance, fixture_create_nlp_task):
-    client = fixture_load_admin_instance
+def test_delete_nlp_task(fixture_create_nlp_task):    
 
     nlp_task = fixture_create_nlp_task
 
-    response = client.submit(nlp_task.destroy())
+    response = nlp_task.destroy()
 
     assert response.status_code == 204
 
 
-def test_show_nlp_task(fixture_load_admin_instance):
+def test_show_nlp_task():
     pass
