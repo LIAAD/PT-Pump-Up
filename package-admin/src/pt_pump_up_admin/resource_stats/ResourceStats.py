@@ -1,6 +1,5 @@
 from pt_pump_up_admin import CRUD
 
-
 class ResourceStats(CRUD):
     def __init__(self,
                  id: int = None,

@@ -1,7 +1,7 @@
 models:
 
   Link:
-    email: string nullable unique
+    email: string nullable
     website: url nullable
     github_url: url nullable
     hugging_face_url: url nullable
@@ -53,11 +53,11 @@ models:
     standard_format: boolean nullable
     off_the_shelf: boolean
 
-  Result:
-    metric: string
-    value: float
-    relationships:
-      belongsTo: MachineLearningModel, Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset
+  #Result:
+   # metric: string
+    #value: float
+    #relationships:
+    #  belongsTo: MachineLearningModel, Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset
 
   Publication:    
     bibtex: longtext

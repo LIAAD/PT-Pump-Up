@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('value');
             $table->foreignId('machine_learning_model_id');
             $table->foreignId('train_dataset_id');
-            $table->foreignId('validation_dataset_id');
+            $table->foreignId('validation_dataset_id')->nullable();
             $table->foreignId('test_dataset_id');
             $table->timestamps();
         });

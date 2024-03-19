@@ -13,4 +13,4 @@ class Author(CRUD):
                          id=id,
                          name=name,
                          institution=institution,
-                         link=link.json)
+                         link=link.json if link else None)

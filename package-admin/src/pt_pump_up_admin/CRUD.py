@@ -8,6 +8,8 @@ from pt_pump_up_admin.exceptions import HTTPException
 class CRUD(ABC):
     # id is a propriety of the class
     def __init__(self, route, **kwargs) -> None:
+        super().__init__()
+
         if route is None:
             raise ValueError("route cannot be None")
 
@@ -18,7 +20,7 @@ class CRUD(ABC):
 
         for key, value in kwargs.items():
             if key == "id":
-                self.id = value
+                self._id = value
             elif value is not None:
                 self._json[key] = value
 
@@ -36,8 +38,12 @@ class CRUD(ABC):
 
     @property
     def json(self):
-        if self._json is None:
-            raise ValueError("JSON is empty")
+
+        if not self._json and self._id is not None:
+            print(f"JSON is empty, fetching from server with id{self._id}")
+            self.show()
+        elif not self._json and self._id is None:
+            raise ValueError(f"JSON is empty and id is None")
 
         return self._json
 

@@ -2,6 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\LinkController;
+use App\Http\Controllers\DatasetController;
+use App\Http\Controllers\MachineLearningModelController;
+use App\Http\Controllers\NLPTaskController;
+use App\Http\Controllers\ResourceStatsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +30,10 @@ Route::get('/helloworld', function () {
     return response()->json(['message' => 'Hello World!']);
 });
 
-Route::apiResource('author', App\Http\Controllers\AuthorController::class);
-Route::apiResource('link', App\Http\Controllers\LinkController::class);
-Route::apiResource('dataset', App\Http\Controllers\DatasetController::class);
-Route::apiResource('machine-learning-model', App\Http\Controllers\MachineLearningModelController::class);
-Route::apiResource('nlp-task', App\Http\Controllers\NLPTaskController::class);
-Route::apiResource('resource-stats', App\Http\Controllers\ResourceStatsController::class);
+Route::apiResource('author', AuthorController::class);
+Route::apiResource('link', LinkController::class);
+Route::apiResource('dataset', DatasetController::class);
+Route::apiResource('machine-learning-model', MachineLearningModelController::class);
+Route::apiResource('nlp-task', NLPTaskController::class);
+Route::apiResource('resource-stats', ResourceStatsController::class);
+Route::apiResource('database', DatabaseController::class)->only('destroy');

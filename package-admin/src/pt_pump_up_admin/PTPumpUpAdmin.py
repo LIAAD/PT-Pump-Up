@@ -33,3 +33,7 @@ class PTPumpUpAdmin:
                 f"Error {response.status_code}: {response.text}", response)
 
         return response
+
+    def reset_database(self):
+        request = Request(method="DELETE", url="database")
+        return self.submit(request)

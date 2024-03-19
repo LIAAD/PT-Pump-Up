@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->nullable()->unique();
+            $table->string('email')->nullable();
             $table->string('website')->nullable();
             $table->string('github_url')->nullable();
             $table->string('hugging_face_url')->nullable();

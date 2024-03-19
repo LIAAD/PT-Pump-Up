@@ -24,6 +24,12 @@ class AuthorController extends Controller
     {
         $validated = $request->validated();
 
+        $existing_authors = Author::join('links', 'authors.link_id', '=', 'links.id')->where('email', $validated['link']['email'])->get();
+
+        if($existing_authors->isNotEmpty())        
+            return response()->json($existing_authors, 409);
+        
+
         $link = Link::create($validated['link']);
 
         $validated['link_id'] = $link->id;

@@ -21,7 +21,8 @@ dependencies = [
     "pytest>=8.0.2",
     "environs>=10.3.0",
     "pandas>=2.2.1",
-    "numpy>=1.26.4"
+    "numpy>=1.26.4",
+    "tqdm>=4.66.2",
 ]
 
 [tool.setuptools.packages.find]
