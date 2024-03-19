@@ -8,19 +8,19 @@ created:
     - database/factories/ResultFactory.php
     - database/factories/PublicationFactory.php
     - database/factories/FileFactory.php
-    - database/migrations/2024_03_12_214124_create_links_table.php
-    - database/migrations/2024_03_12_214125_create_nlp_tasks_table.php
-    - database/migrations/2024_03_12_214126_create_datasets_table.php
-    - database/migrations/2024_03_12_214127_create_machine_learning_models_table.php
-    - database/migrations/2024_03_12_214128_create_authors_table.php
-    - database/migrations/2024_03_12_214129_create_resource_stats_table.php
-    - database/migrations/2024_03_12_214130_create_results_table.php
-    - database/migrations/2024_03_12_214131_create_publications_table.php
-    - database/migrations/2024_03_12_214132_create_files_table.php
-    - database/migrations/2024_03_12_214133_create_dataset_nlp_task_table.php
-    - database/migrations/2024_03_12_214134_create_machine_learning_model_nlp_task_table.php
-    - database/migrations/2024_03_12_214135_create_author_dataset_table.php
-    - database/migrations/2024_03_12_214136_create_author_machine_learning_model_table.php
+    - database/migrations/2024_03_19_125515_create_links_table.php
+    - database/migrations/2024_03_19_125516_create_nlp_tasks_table.php
+    - database/migrations/2024_03_19_125517_create_datasets_table.php
+    - database/migrations/2024_03_19_125518_create_machine_learning_models_table.php
+    - database/migrations/2024_03_19_125519_create_authors_table.php
+    - database/migrations/2024_03_19_125520_create_resource_stats_table.php
+    - database/migrations/2024_03_19_125521_create_results_table.php
+    - database/migrations/2024_03_19_125522_create_publications_table.php
+    - database/migrations/2024_03_19_125523_create_files_table.php
+    - database/migrations/2024_03_19_125524_create_dataset_nlp_task_table.php
+    - database/migrations/2024_03_19_125525_create_machine_learning_model_nlp_task_table.php
+    - database/migrations/2024_03_19_125526_create_author_dataset_table.php
+    - database/migrations/2024_03_19_125527_create_author_machine_learning_model_table.php
     - app/Models/Link.php
     - app/Models/NlpTask.php
     - app/Models/Dataset.php
@@ -32,10 +32,10 @@ created:
     - app/Models/File.php
 models:
     User: { name: string, email: string, linkedin: 'string nullable', github: 'string nullable', huggingface: 'string nullable', email_verified_at: 'datetime nullable', password: string, role: 'string default:user', photo_id: 'biginteger unsigned nullable', remember_token: 'string:100 nullable' }
-    Link: { email: 'string nullable', website: 'url nullable', github_url: 'url nullable', hugging_face_url: 'url nullable', papers_with_code_url: 'url nullable', paper_url: 'url nullable' }
-    NlpTask: { short_name: string, full_name: 'string nullable', description: 'longtext nullable', standard_format: string, papers_with_code_ids: json, relationships: { belongsToMany: 'Dataset, MachineLearningModel' } }
-    Dataset: { short_name: string, full_name: 'string nullable', description: 'longtext nullable', year: integer, relationships: { belongsTo: 'Link, ResourceStats', belongsToMany: 'NlpTask, Author' } }
-    MachineLearningModel: { short_name: string, full_name: 'string nullable', description: 'longtext nullable', year: integer, relationships: { belongsTo: 'Link, ResourceStats', belongsToMany: 'NlpTask, Author', hasMany: Result } }
+    Link: { email: 'string nullable unique', website: 'url nullable', github_url: 'url nullable', hugging_face_url: 'url nullable', papers_with_code_url: 'url nullable', paper_url: 'url nullable' }
+    NlpTask: { short_name: 'string unique', full_name: 'string nullable unique', description: 'longtext nullable', standard_format: string, papers_with_code_ids: json, relationships: { belongsToMany: 'Dataset, MachineLearningModel' } }
+    Dataset: { short_name: 'string unique', full_name: 'string nullable unique', description: 'longtext nullable', year: integer, relationships: { belongsTo: 'Link, ResourceStats', belongsToMany: 'NlpTask, Author' } }
+    MachineLearningModel: { short_name: 'string unique', full_name: 'string nullable unique', description: 'longtext nullable', year: integer, relationships: { belongsTo: 'Link, ResourceStats', belongsToMany: 'NlpTask, Author', hasMany: Result } }
     Author: { name: string, institution: string, relationships: { belongsTo: Link, belongsToMany: 'Dataset, MachineLearningModel' } }
     ResourceStats: { preservation_rating: string, standard_format: 'boolean nullable', off_the_shelf: boolean }
     Result: { metric: string, value: float, relationships: { belongsTo: 'MachineLearningModel, Dataset:train_dataset, Dataset:validation_dataset, Dataset:test_dataset' } }

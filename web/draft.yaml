@@ -1,7 +1,7 @@
 models:
 
   Link:
-    email: string nullable
+    email: string nullable unique
     website: url nullable
     github_url: url nullable
     hugging_face_url: url nullable
@@ -9,8 +9,8 @@ models:
     paper_url: url nullable
 
   NlpTask:
-    short_name: string
-    full_name: string nullable
+    short_name: string unique
+    full_name: string nullable unique
     description: longtext nullable
     standard_format: string
 
@@ -20,8 +20,8 @@ models:
       belongsToMany: Dataset, MachineLearningModel
 
   Dataset:
-    short_name: string
-    full_name: string nullable
+    short_name: string unique
+    full_name: string nullable unique
     description: longtext nullable
     year: integer
 
@@ -30,8 +30,8 @@ models:
       belongsToMany: NlpTask, Author
   
   MachineLearningModel:
-    short_name: string
-    full_name: string nullable
+    short_name: string unique
+    full_name: string nullable unique
     description: longtext nullable
     year: integer
 

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nlp_tasks', function (Blueprint $table) {
+        Schema::create('machine_learning_models', function (Blueprint $table) {
             $table->id();
-            $table->string('short_name');
-            $table->string('full_name')->nullable();
+            $table->string('short_name')->unique();
+            $table->string('full_name')->nullable()->unique();
             $table->longText('description')->nullable();
-            $table->string('standard_format');
-            $table->json('papers_with_code_ids');
+            $table->integer('year');
+            $table->foreignId('link_id');
+            $table->foreignId('resource_stats_id');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nlp_tasks');
+        Schema::dropIfExists('machine_learning_models');
     }
 };
