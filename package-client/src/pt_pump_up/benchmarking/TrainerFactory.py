@@ -3,6 +3,8 @@ from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 from pt_pump_up import PTPumpUpClient
 from pt_pump_up.benchmarking.training_strategies import TokenClassificationStrategy, TextClassificationStrategy
 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 class TrainerFactory:
     @staticmethod
@@ -38,7 +40,7 @@ class TrainerFactory:
             raise Exception("Strategy not found for NLP Task")
 
         args = TrainingArguments(
-            output_dir=os.path.join(os.getcwd(), 'output'),
+            output_dir=os.path.join(CURRENT_DIR, "output"),
             evaluation_strategy="epoch",
             learning_rate=lr,
             save_strategy="epoch",
@@ -47,7 +49,7 @@ class TrainerFactory:
             load_best_model_at_end=True,
             metric_for_best_model=strategy.metric_for_best_model,
             hub_model_id=repository_name,
-            label_names=strategy.label_names,
+            save_total_limit=1,
             bf16=True,
             push_to_hub=True,
         )

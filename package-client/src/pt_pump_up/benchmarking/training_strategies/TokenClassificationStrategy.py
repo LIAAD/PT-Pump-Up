@@ -8,8 +8,11 @@ class TokenClassificationStrategy(TrainingStrategy):
     def __init__(self, model_name, task, label_names, label_all_tokens: bool = False) -> None:
         super().__init__(model_name, label_names, "f1")
 
+        id2label = {i: label for i, label in enumerate(label_names)}
+        label2id = {v: k for k, v in id2label.items()}
+
         self.model = AutoModelForTokenClassification.from_pretrained(
-            model_name, num_labels=len(label_names))
+            model_name, num_labels=len(label_names), id2label=id2label, label2id=label2id)
 
         self.collator = DataCollatorForTokenClassification(
             tokenizer=self.tokenizer)
@@ -17,57 +20,64 @@ class TokenClassificationStrategy(TrainingStrategy):
         self.task = task
         self.label_all_tokens = label_all_tokens
 
+    def align_labels_with_tokens(self, labels, word_ids):
+        new_labels = []
+        current_word = None
+        for word_id in word_ids:
+            if word_id != current_word:
+                # Start of a new word!
+                current_word = word_id
+                label = -100 if word_id is None else labels[word_id]
+                new_labels.append(label)
+            elif word_id is None:
+                # Special token
+                new_labels.append(-100)
+            else:
+                # Same word as previous token
+                label = labels[word_id]
+                # If the label is B-XXX we change it to I-XXX
+                if label % 2 == 1:
+                    label += 1
+                new_labels.append(label)
+
+        return new_labels
+
     def prepare_data(self, examples):
         tokenized_inputs = self.tokenizer(
-            examples["tokens"], truncation=True, is_split_into_words=True, max_length=self.model.config.max_position_embeddings)
+            examples["tokens"], truncation=True, is_split_into_words=True)
 
-        labels = []
-        for i, label in enumerate(examples[f"{self.task}_tags"]):
-            word_ids = tokenized_inputs.word_ids(batch_index=i)
-            previous_word_idx = None
-            label_ids = []
-            for word_idx in word_ids:
-                # Special tokens have a word id that is None. We set the label to -100 so they are automatically
-                # ignored in the loss function.
-                if word_idx is None:
-                    label_ids.append(-100)
-                # We set the label for the first token of each word.
-                elif word_idx != previous_word_idx:
-                    label_ids.append(label[word_idx])
-                # For the other tokens in a word, we set the label to either the current label or -100, depending on
-                # the label_all_tokens flag.
-                else:
-                    label_ids.append(
-                        label[word_idx] if self.label_all_tokens else -100)
-                previous_word_idx = word_idx
+        all_labels = examples[f"{self.task.lower()}_tags"]
 
-            labels.append(label_ids)
+        new_labels = []
 
-        tokenized_inputs["labels"] = labels
+        for i, labels in enumerate(all_labels):
+            word_ids = tokenized_inputs.word_ids(i)
+            new_labels.append(self.align_labels_with_tokens(labels, word_ids))
+
+        tokenized_inputs["labels"] = new_labels
 
         return tokenized_inputs
 
     def compute_metrics(self, eval_pred):
-        predictions, labels = eval_pred
-        predictions = np.argmax(predictions, axis=2)
+        logits, labels = eval_pred
 
-        # Remove ignored index (special tokens)
+        predictions = np.argmax(logits, axis=-1)
+
+        # Remove ignored index (special tokens) and convert to labels
+        true_labels = [[self.label_names[l]
+                        for l in label if l != -100] for label in labels]
         true_predictions = [
             [self.label_names[p]
                 for (p, l) in zip(prediction, label) if l != -100]
             for prediction, label in zip(predictions, labels)
         ]
-        true_labels = [
-            [self.label_names[l]
-                for (p, l) in zip(prediction, label) if l != -100]
-            for prediction, label in zip(predictions, labels)
-        ]
 
-        results = self.metric.compute(
+        all_metrics = self.metric.compute(
             predictions=true_predictions, references=true_labels)
+
         return {
-            "precision": results["overall_precision"],
-            "recall": results["overall_recall"],
-            "f1": results["overall_f1"],
-            "accuracy": results["overall_accuracy"],
+            "precision": all_metrics["overall_precision"],
+            "recall": all_metrics["overall_recall"],
+            "f1": all_metrics["overall_f1"],
+            "accuracy": all_metrics["overall_accuracy"],
         }

@@ -8,7 +8,7 @@ class TrainingStrategy(ABC):
         self._collator = None
         self._metric = None
         self._model = None
-        self._tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self._tokenizer = AutoTokenizer.from_pretrained(model_name, add_prefix_space=False)
         self._label_names = label_names
         self._metric_for_best_model = metric_for_best_model
 
