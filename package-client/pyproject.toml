@@ -22,6 +22,10 @@ dependencies = [
     "transformers >= 4.38.2",
     "torch >= 2.2.0",
     "pandas >= 2.2.1",
+    "accelerate >= 0.28.0",
+    "numpy >= 1.26.4",
+    "evaluate >= 0.4.1",
+    "seqeval >= 0.0.10",
 ]
 
 [tool.setuptools.packages.find]
