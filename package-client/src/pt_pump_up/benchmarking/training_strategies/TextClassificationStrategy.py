@@ -13,7 +13,7 @@ class TextClassificationStrategy(TrainingStrategy):
         self.metric = evaluate.load("accuracy")
 
     def prepare_data(self, examples):
-        return examples
+        return self.tokenizer(examples["text"], truncation=True, max_length=self.model.config.max_position_embeddings)
 
     def compute_metrics(self, eval_pred):
         predictions, labels = eval_pred
