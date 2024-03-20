@@ -5,18 +5,17 @@ import numpy as np
 
 
 class TokenClassificationStrategy(TrainingStrategy):
-    def __init__(self, model_name, task, label_list, label_all_tokens: bool = False) -> None:
-        super().__init__(model_name)
+    def __init__(self, model_name, task, label_names, label_all_tokens: bool = False) -> None:
+        super().__init__(model_name, label_names, "f1")
 
         self.model = AutoModelForTokenClassification.from_pretrained(
-            model_name, num_labels=len(label_list))
+            model_name, num_labels=len(label_names))
 
         self.collator = DataCollatorForTokenClassification(
             tokenizer=self.tokenizer)
         self.metric = evaluate.load("seqeval")
         self.task = task
         self.label_all_tokens = label_all_tokens
-        self.label_list = label_list
 
     def prepare_data(self, examples):
         tokenized_inputs = self.tokenizer(
@@ -54,12 +53,12 @@ class TokenClassificationStrategy(TrainingStrategy):
 
         # Remove ignored index (special tokens)
         true_predictions = [
-            [self.label_list[p]
+            [self.label_names[p]
                 for (p, l) in zip(prediction, label) if l != -100]
             for prediction, label in zip(predictions, labels)
         ]
         true_labels = [
-            [self.label_list[l]
+            [self.label_names[l]
                 for (p, l) in zip(prediction, label) if l != -100]
             for prediction, label in zip(predictions, labels)
         ]

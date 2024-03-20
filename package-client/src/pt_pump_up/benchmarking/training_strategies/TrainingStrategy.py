@@ -3,12 +3,14 @@ from transformers import AutoTokenizer
 
 
 class TrainingStrategy(ABC):
-    def __init__(self, model_name) -> None:
+    def __init__(self, model_name, label_names, metric_for_best_model) -> None:
         self._model_name = model_name
         self._collator = None
         self._metric = None
         self._model = None
         self._tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self._label_names = label_names
+        self._metric_for_best_model = metric_for_best_model
 
     @abstractmethod
     def prepare_data(self, examples):
@@ -62,3 +64,22 @@ class TrainingStrategy(ABC):
     @model.setter
     def model(self, model):
         self._model = model
+
+    @property
+    def label_names(self):
+        return self._label_names
+
+    @label_names.setter
+    def label_names(self, label_names):
+        self._label_names = label_names
+
+    @property
+    def metric_for_best_model(self):
+        if self._metric_for_best_model is None:
+            raise Exception("Metric for best model not set")
+
+        return self._metric_for_best_model
+
+    @metric_for_best_model.setter
+    def metric_for_best_model(self, metric_for_best_model):
+        self._metric_for_best_model = metric_for_best_model

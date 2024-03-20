@@ -1,13 +1,12 @@
 import os
-from transformers import Trainer
-from transformers import TrainingArguments
+from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 from pt_pump_up import PTPumpUpClient
 from pt_pump_up.benchmarking.training_strategies import TokenClassificationStrategy, TextClassificationStrategy
 
 
 class TrainerFactory:
     @staticmethod
-    def create(nlp_task: str, repository_name: str, model_name: str, lr: float, batch_size: int, max_epochs: int, train_dataset, eval_dataset=None):
+    def create(nlp_task: str, repository_name: str, model_name: str, lr: float, max_epochs: int, train_dataset, eval_dataset=None):
         strategy = None
         nlp_tasks = PTPumpUpClient().all_nlp_tasks()
 
@@ -22,7 +21,8 @@ class TrainerFactory:
                 model_name, nlp_task['short_name'].lower(), train_dataset.features[f"{nlp_task['short_name'].lower()}_tags"].feature.names)
 
         elif nlp_task['standard_format'] == 'Text Classification':
-            strategy = TextClassificationStrategy()
+            strategy = TextClassificationStrategy(
+                model_name, train_dataset.features['label'].feature.names)
 
         elif nlp_task['standard_format'] == 'Question Answering':
             raise Exception("Not implemented")
@@ -42,11 +42,13 @@ class TrainerFactory:
             evaluation_strategy="epoch",
             learning_rate=lr,
             save_strategy="epoch",
-            per_device_train_batch_size=batch_size,
-            per_device_eval_batch_size=batch_size,
+            auto_find_batch_size=True,
             num_train_epochs=max_epochs,
             load_best_model_at_end=True,
+            metric_for_best_model=strategy.metric_for_best_model,
             hub_model_id=repository_name,
+            label_names=strategy.label_names,
+            bf16=True,
             push_to_hub=True,
         )
 
@@ -64,4 +66,5 @@ class TrainerFactory:
             eval_dataset=eval_dataset,
             data_collator=strategy.collator,
             tokenizer=strategy.tokenizer,
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=3)]
         )
