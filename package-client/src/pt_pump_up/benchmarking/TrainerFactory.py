@@ -12,8 +12,7 @@ class TrainerFactory:
         strategy = None
         nlp_tasks = PTPumpUpClient().all_nlp_tasks()
 
-        nlp_task = nlp_tasks[nlp_tasks['short_name'] == nlp_task].to_dict('records')[
-            0]
+        nlp_task = nlp_tasks[nlp_tasks['short_name'] == nlp_task].to_dict('records')[0]
 
         if nlp_task is None:
             raise Exception("NLP Task not found")
@@ -23,8 +22,11 @@ class TrainerFactory:
                 model_name, nlp_task['short_name'].lower(), train_dataset.features[f"{nlp_task['short_name'].lower()}_tags"].feature.names)
 
         elif nlp_task['standard_format'] == 'Text Classification':
+            
+            #print(train_dataset.features['label'])
+            #TODO: This is a temporary fix, the label name should be extracted from the dataset
             strategy = TextClassificationStrategy(
-                model_name, train_dataset.features['label'].feature.names)
+                model_name, ['PT-PT', 'PT-BR', 'BOTH'])
 
         elif nlp_task['standard_format'] == 'Question Answering':
             raise Exception("Not implemented")
@@ -41,8 +43,9 @@ class TrainerFactory:
 
         args = TrainingArguments(
             output_dir=os.path.join(CURRENT_DIR, "output"),
-            evaluation_strategy="epoch",
+            overwrite_output_dir = True,
             learning_rate=lr,
+            evaluation_strategy="epoch",
             save_strategy="epoch",
             auto_find_batch_size=True,
             num_train_epochs=max_epochs,

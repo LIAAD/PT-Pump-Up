@@ -12,7 +12,7 @@ class TokenClassificationStrategy(TrainingStrategy):
         label2id = {v: k for k, v in id2label.items()}
 
         self.model = AutoModelForTokenClassification.from_pretrained(
-            model_name, num_labels=len(label_names), id2label=id2label, label2id=label2id)
+            model_name, id2label=id2label, label2id=label2id)
 
         self.collator = DataCollatorForTokenClassification(
             tokenizer=self.tokenizer)
