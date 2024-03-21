@@ -15,6 +15,7 @@ class TextClassificationStrategy(TrainingStrategy):
             model_name, id2label=id2label, label2id=label2id)
 
         self.collator = DataCollatorWithPadding(tokenizer=self.tokenizer)
+
         self.accuracy = evaluate.load("accuracy")
         self.f1 = evaluate.load("f1")
         self.precision = evaluate.load("precision")
@@ -30,8 +31,8 @@ class TextClassificationStrategy(TrainingStrategy):
         predictions = np.argmax(predictions, axis=1)
 
         return {
-            "accuracy": self.accuracy(predictions, labels),
-            "f1": self.f1(predictions, labels),
-            "precision": self.precision(predictions, labels),
-            "recall": self.recall(predictions, labels)
+            "accuracy": self.accuracy.compute(predictions=predictions, references=labels)['accuracy'],
+            "f1": self.f1.compute(predictions=predictions, references=labels)['f1'],
+            "precision": self.precision.compute(predictions=predictions, references=labels)['precision'],
+            "recall": self.recall.compute(predictions=predictions, references=labels)['recall']
         }

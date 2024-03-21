@@ -2,6 +2,7 @@ import os
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 from pt_pump_up import PTPumpUpClient
 from pt_pump_up.benchmarking.training_strategies import TokenClassificationStrategy, TextClassificationStrategy
+from pt_pump_up.benchmarking.callbacks import EvalLossCallback
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -72,5 +73,6 @@ class TrainerFactory:
             eval_dataset=eval_dataset,
             data_collator=strategy.collator,
             tokenizer=strategy.tokenizer,
-            callbacks=[EarlyStoppingCallback(early_stopping_patience=3)]
+            callbacks=[EarlyStoppingCallback(
+                early_stopping_patience=3), EvalLossCallback()]
         )
