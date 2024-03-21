@@ -1,4 +1,4 @@
-from pt_pump_up_admin.CRUD import CRUD
+from pt_pump_up_admin.crud.CRUD import CRUD
 from pt_pump_up_admin.dataset import Dataset
 
 
