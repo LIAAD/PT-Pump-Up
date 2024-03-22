@@ -1,7 +1,6 @@
-from pt_pump_up_admin import CRUD
+from pt_pump_up_orms import ORM
 
-
-class Link(CRUD):
+class Link(ORM):
     def __init__(self,
                  id: int = None,
                  email: str = None,

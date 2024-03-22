@@ -1,5 +1,6 @@
-from pt_pump_up_admin.nlp_task import NLPTask
 import pytest
+from pt_pump_up_orms import NLPTask
+from pt_pump_up_admin import CRUD
 
 
 @pytest.fixture
@@ -8,7 +9,7 @@ def fixture_create_nlp_task():
     nlp_task = NLPTask(short_name="NER", papers_with_code_ids=[
         0, 100], standard_format="BIO-Tagging")
 
-    nlp_task.store()
+    CRUD.store(nlp_task)
 
     return nlp_task
 
@@ -18,7 +19,7 @@ def test_index_nlp_tasks(fixture_create_nlp_task):
 
     nlp_task = NLPTask()
 
-    response = nlp_task.index()
+    response = CRUD.index(nlp_task)
 
     assert response.status_code == 200
 
@@ -37,7 +38,7 @@ def test_store_nlp_task_minimum_values():
         papers_with_code_ids=[0, 100],
         standard_format="BIO-Tagging")
 
-    response = nlp_task.store()
+    response = CRUD.store(nlp_task)
 
     assert response.status_code == 201
     assert response.json().get('short_name') == "NER"
@@ -55,7 +56,7 @@ def test_store_nlp_task_all_values():
                        standard_format="BIO-Tagging",
                        papers_with_code_ids=[0, 100])
 
-    response = nlp_task.store()
+    response = CRUD.store(nlp_task)
 
     assert response.status_code == 201
     assert response.json()['short_name'] == "NER"
@@ -70,7 +71,7 @@ def test_delete_nlp_task(fixture_create_nlp_task):
 
     nlp_task = fixture_create_nlp_task
 
-    response = nlp_task.destroy()
+    response = CRUD.destroy(nlp_task)
 
     assert response.status_code == 204
 

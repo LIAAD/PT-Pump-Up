@@ -1,10 +1,9 @@
-from pt_pump_up_admin import CRUD
-from requests import Request
-from pt_pump_up_admin.link import Link
-from pt_pump_up_admin.resource_stats import ResourceStats
+from pt_pump_up_orms import ORM
+from pt_pump_up_orms.orms import Link
+from pt_pump_up_orms.orms import ResourceStats
 
 
-class Model(CRUD):
+class Model(ORM):
     def __init__(self,
                  id: int = None,
                  short_name: str = None,

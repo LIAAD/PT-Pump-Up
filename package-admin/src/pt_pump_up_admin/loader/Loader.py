@@ -1,13 +1,13 @@
 
 import json
 import traceback
-from pt_pump_up_admin.dataset import Dataset
-from pt_pump_up_admin.author import Author
-from pt_pump_up_admin.link import Link
-from pt_pump_up_admin.nlp_task import NLPTask
-from pt_pump_up_admin.resource_stats import ResourceStats
-from pt_pump_up_admin.model import Model
-from pt_pump_up_admin.result import Result
+from pt_pump_up_orms import Dataset
+from pt_pump_up_orms import Author
+from pt_pump_up_orms import Link
+from pt_pump_up_orms import NLPTask
+from pt_pump_up_orms import ResourceStats
+from pt_pump_up_orms import Model
+from pt_pump_up_orms import Result
 from tqdm import tqdm
 from time import sleep
 

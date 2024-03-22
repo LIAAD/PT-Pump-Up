@@ -3,7 +3,7 @@ from pt_pump_up_admin.integration.papers_with_code.utils import bypass_select
 
 
 class Dataset(Element):
-    def __init__(self, name, full_name, url, introduced_data, license_name, license_url, modalities, languages, tasks, br=None):
+    def __init__(self, dataset, br=None):
         super().__init__(post_url="https://paperswithcode.com/contribute/dataset/new", br=br)
         self.name = name
         self.full_name = full_name
@@ -11,7 +11,9 @@ class Dataset(Element):
         self.introduced_data = introduced_data
         self.license_name = license_name
         self.license_url = license_url
+        # Text Modality is 6
         self.modalities = modalities
+        # Portuguese language id is 22
         self.languages = languages
         self.tasks = tasks
 

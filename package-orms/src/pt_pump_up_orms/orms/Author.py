@@ -1,8 +1,8 @@
-from pt_pump_up_admin import CRUD
-from pt_pump_up_admin.link import Link
+from pt_pump_up_orms import ORM
+from pt_pump_up_orms.orms import Link
 
 
-class Author(CRUD):
+class Author(ORM):
     def __init__(self,
                  id: int = None,
                  name: str = None,

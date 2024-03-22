@@ -1,8 +1,8 @@
-from pt_pump_up_admin.crud.CRUD import CRUD
-from pt_pump_up_admin.dataset import Dataset
+from pt_pump_up_orms.ORM import ORM
+from pt_pump_up_orms.orms import Dataset
 
 
-class Result(CRUD):
+class Result(ORM):
     def __init__(self,
                  id: int = None,
                  metric: str = None,

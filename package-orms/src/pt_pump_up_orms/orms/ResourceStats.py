@@ -1,6 +1,6 @@
-from pt_pump_up_admin import CRUD
+from pt_pump_up_orms import ORM
 
-class ResourceStats(CRUD):
+class ResourceStats(ORM):
     def __init__(self,
                  id: int = None,
                  standard_format: bool = None,

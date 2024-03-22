@@ -2,7 +2,7 @@ from pt_pump_up_admin.integration.papers_with_code import Element
 
 
 class Paper(Element):
-    def __init__(self, title, abstract, authors, url_abstract, url_pdf, published_date, journal, github_url, br=None):
+    def __init__(self, paper, br=None):
         super().__init__(post_url="https://paperswithcode.com/submit-paper", br=br)
         self.title = title
         self.abstract = abstract

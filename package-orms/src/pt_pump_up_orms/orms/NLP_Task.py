@@ -1,7 +1,6 @@
-from pt_pump_up_admin import CRUD
+from pt_pump_up_orms import ORM
 
-
-class NLPTask(CRUD):
+class NLPTask(ORM):
     def __init__(self,
                  id: int = None,
                  short_name: str = None,

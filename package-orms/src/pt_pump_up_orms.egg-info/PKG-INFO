@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: pt_pump_up_orms
+Version: 0.0.8
+Summary: ORMs to interact with PT-Pump-Up Platform
+Author-email: Rúben Almeida <ruben.f.almeida@inesctec.pt>, Alípio Jorge <alipio.jorge@inesctec.pt>, Ricardo Campos <ricardo.campos@inesctec.pt>, Sérgio Nunes <sergio.nunes@inesctec.pt>
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pytest>=8.0.2

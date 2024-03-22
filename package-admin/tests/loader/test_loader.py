@@ -1,9 +1,9 @@
 import os
 from pt_pump_up_admin.loader import Loader
-from pt_pump_up_admin.dataset import Dataset
-from pt_pump_up_admin.author import Author
-from pt_pump_up_admin.model import Model
-from pt_pump_up_admin.nlp_task import NLPTask
+from pt_pump_up_orms import Dataset
+from pt_pump_up_orms import Author
+from pt_pump_up_orms import Model
+from pt_pump_up_orms import NLPTask
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 

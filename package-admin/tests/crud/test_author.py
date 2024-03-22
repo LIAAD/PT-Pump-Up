@@ -1,6 +1,7 @@
-from pt_pump_up_admin.author import Author
-from pt_pump_up_admin.link import Link
 import pytest
+from pt_pump_up_orms import Author
+from pt_pump_up_orms import Link
+from pt_pump_up_admin import CRUD
 
 
 @pytest.fixture
@@ -8,7 +9,7 @@ def fixture_create_link_author():
     link = Link(email="ruben.f.almeida@inesctec.pt",
                 website="https://www.inesctec.pt/pt/pessoas/ruben-filipe-seabra-almeida")
 
-    link.store()
+    CRUD.store(link)
 
     return link
 
@@ -20,7 +21,7 @@ def test_author_store(fixture_create_link_author):
                     institution="INESC TEC",
                     link=link)
 
-    response = author.store()
+    response = CRUD.store(author)
 
     assert response.status_code == 201
     assert response.json().get("id") == author.id

@@ -1,12 +1,13 @@
-from pt_pump_up_admin.model import Model
-from pt_pump_up_admin.link import Link
-from pt_pump_up_admin.resource_stats import ResourceStats
-from pt_pump_up_admin.nlp_task import NLPTask
-from pt_pump_up_admin.result import Result
-from pt_pump_up_admin.author import Author
-from pt_pump_up_admin.dataset import Dataset
-from tests.lib.resources import fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks
 import pytest
+from pt_pump_up_orms import Model
+from pt_pump_up_orms import Link
+from pt_pump_up_orms import ResourceStats
+from pt_pump_up_orms import NLPTask
+from pt_pump_up_orms import Result
+from pt_pump_up_orms import Author
+from pt_pump_up_orms import Dataset
+from tests.lib.resources import fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks
+from pt_pump_up_admin import CRUD
 
 
 @pytest.fixture
@@ -18,9 +19,8 @@ def fixture_create_datasets_for_benchmarks():
 
     nlp_tasks = [NLPTask(short_name="nlp_task_1", papers_with_code_ids=[
                          1, 2, 3, 4, 5], standard_format="BIO-Tagging")]
-
-    author.store()
-    nlp_tasks[0].store()
+    CRUD.store(author)
+    CRUD.store(nlp_tasks[0])
 
     resource_stats = ResourceStats(
         off_the_shelf=True, standard_format=True, preservation_rating="High")
@@ -55,9 +55,8 @@ def fixture_create_datasets_for_benchmarks():
         description="This is the test dataset for the benchmark"
     )
 
-    r1 = dataset_1.store()
-    r2 = dataset_2.store()
-    r3 = dataset_3.store()
+    for dataset in [dataset_1, dataset_2, dataset_3]:
+        CRUD.store(dataset)
 
     return [dataset_1.json['id'], dataset_2.json['id'], dataset_3.json['id']]
 
@@ -76,7 +75,7 @@ def fixture_create_results(fixture_create_datasets_for_benchmarks):
             id=fixture_create_datasets_for_benchmarks[2])  # test_dataset=
     )]
 
-    results[0].store()
+    CRUD.store(results[0])
 
     results.append(results[0])
 
@@ -88,7 +87,7 @@ def fixture_create_model_link():
     link = Link(
         hugging_face_url="https://huggingface.co/pucpr-br/postagger-bio-portuguese",)
 
-    link.store()
+    CRUD.store(link)
 
     return link
 
@@ -112,7 +111,7 @@ def test_model_store(fixture_create_authors, fixture_create_resource_stats, fixt
         link=link,
     )
 
-    response = model.store()
+    response = CRUD.store(model)
 
     assert response.status_code == 201
     assert response.json()['id'] == model.id
@@ -125,6 +124,6 @@ def test_model_store(fixture_create_authors, fixture_create_resource_stats, fixt
 def test_model_destroy():
     model = Model(id=1)
 
-    response = model.destroy()
+    response = CRUD.destroy(model)
 
     assert response.status_code == 204

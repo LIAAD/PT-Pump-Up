@@ -1,7 +1,8 @@
-from pt_pump_up_admin.dataset import Dataset
-from pt_pump_up_admin.link import Link
 import pytest
+from pt_pump_up_orms import Dataset
+from pt_pump_up_orms import Link
 from tests.lib.resources import fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks
+from pt_pump_up_admin import CRUD
 
 
 @pytest.fixture
@@ -12,7 +13,7 @@ def fixture_create_dataset_link():
                 website="http://143.107.183.175:21380/portlex/index.php/pt/projetos/propbankbr",
                 paper_url="https://www.researchgate.net/profile/Sandra-Aluisio/publication/267227963_Propbank-Br_a_Brazilian_treebank_annotated_with_semantic_role_labels/links/54d388e60cf2b0c6146daa5a/Propbank-Br-a-Brazilian-treebank-annotated-with-semantic-role-labels.pdf")
 
-    link.store()
+    CRUD.store(link)
 
     return link
 
@@ -27,7 +28,7 @@ def test_dataset_store(fixture_create_authors, fixture_create_resource_stats, fi
                       nlp_tasks=fixture_create_nlp_tasks,
                       link=fixture_create_dataset_link)
 
-    response = dataset.store()
+    response = CRUD.store(dataset)
 
     assert response.status_code == 201
     assert response.json()["id"] == dataset.id
@@ -58,11 +59,11 @@ def test_dataset_destroy(fixture_create_authors, fixture_create_resource_stats, 
                       nlp_tasks=fixture_create_nlp_tasks,
                       link=fixture_create_dataset_link)
 
-    response = dataset.store()
+    response = CRUD.store(dataset)
 
     assert response.status_code == 201
     assert response.json()["id"] is not None
 
-    response = dataset.destroy()
+    response = CRUD.destroy(dataset)
 
     assert response.status_code == 204

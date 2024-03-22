@@ -3,9 +3,9 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pt_pump_up_admin"
-version = "0.0.4"
-description = "Administrative tools to interact with PT-Pump-Up Platform"
+name = "pt_pump_up_orms"
+version = "0.0.8"
+description = "ORMs to interact with PT-Pump-Up Platform"
 readme = "README.md"
 authors = [
     {name = "Rúben Almeida", email = "ruben.f.almeida@inesctec.pt"},
@@ -17,20 +17,10 @@ authors = [
 requires-python = ">=3.10"
 
 dependencies = [
-    "requests>=2.31.0",
     "pytest>=8.0.2",
-    "environs>=10.3.0",
-    "pandas>=2.2.1",
-    "numpy>=1.26.4",
-    "tqdm>=4.66.2",
-    "mechanize>=0.4.9",
-    "huggingface-hub>=0.21.4",
-    "scikit-learn>=1.4.1",
-    "beautifulsoup4 >= 4.12.3",
-    "pt-pump-up-orms >= 0.0.8",
 ]
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["pt_pump_up_admin", "pt_pump_up_admin.*"]
+include = ["pt_pump_up_orms", "pt_pump_up_orms.*"]
 namespaces = false
