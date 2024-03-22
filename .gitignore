@@ -22,3 +22,4 @@ web/.blueprint
 web/.blueprint
 
 package-admin/.vscode/
+package-admin/tests/crawlers/data/papers_with_code_tasks.json
