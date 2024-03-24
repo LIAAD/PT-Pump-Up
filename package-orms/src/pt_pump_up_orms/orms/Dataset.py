@@ -1,7 +1,6 @@
 from pt_pump_up_orms import ORM
-from pt_pump_up_orms.orms import Link
-from pt_pump_up_orms.orms import ResourceStats
-
+from pt_pump_up_orms.orms import Link, ResourceStats, Author, NLPTask
+from requests import Response
 
 class Dataset(ORM):
     def __init__(self,
@@ -15,30 +14,42 @@ class Dataset(ORM):
                  authors: list = None,
                  nlp_tasks: list = None) -> None:
 
-        super().__init__("dataset",
-                         id=id,
-                         short_name=short_name,
-                         full_name=full_name if full_name else short_name,
-                         description=description if description else short_name,
-                         year=year,
-                         link=link.json if link else None,
-                         resource_stats=resource_stats.json if resource_stats else None,
-                         author_emails=[
-                             author.json['link']['email'] for author in authors] if authors else None,
-                         nlp_tasks_short_names=[nlp_task.json['short_name'] for nlp_task in nlp_tasks] if nlp_tasks else None)
-        self._link = link
+        super().__init__(id, "dataset")
 
-    @property
-    def link(self):
-        if self._link is None:
-            raise Exception("Link is not set")
+        self.short_name = short_name
+        self.full_name = full_name
+        self.description = description
+        self.year = year
+        self.link = link
+        self.resource_stats = resource_stats
+        self.authors = authors
+        self.nlp_tasks = nlp_tasks
 
-        return self._link
+    def serialize(self) -> dict:
+        return {
+            "id": self._id,
+            "short_name": self.short_name,
+            "full_name": self.full_name,
+            "description": self.description,
+            "year": self.year,
+            "link": self.link.serialize() if self.link else None,
+            "resource_stats": [resource_stat.serialize() for resource_stat in self.resource_stats] if self.resource_stats else None,
+            "authors": [author.serialize() for author in self.authors] if self.authors else None,
+            "nlp_tasks": [nlp_task.serialize() for nlp_task in self.nlp_tasks] if self.nlp_tasks else None
+        }
 
-    @link.setter
-    def link(self, link):
-        self._link = link
+    def deserialize(self, response: Response):
+        self._id = response.json().get("id")
+        self.short_name = response.json().get("short_name")
+        self.full_name = response.json().get("full_name")
+        self.description = response.json().get("description")
+        self.year = response.json().get("year")
+        self.link = Link().deserialize(response.json().get("link"))
+        self.resource_stats = [ResourceStats().deserialize(resource_stat) for resource_stat in response.json().get("resource_stats")]
+        self.authors = [Author().deserialize(author) for author in response.json().get("authors")]
+        self.nlp_tasks = [NLPTask().deserialize(nlp_task) for nlp_task in response.json().get("nlp_tasks")]
 
+    """
     # TODO: Remove the Need for .index()
     @property
     def id(self):
@@ -49,3 +60,4 @@ class Dataset(ORM):
                     break
 
         return self._id
+    """

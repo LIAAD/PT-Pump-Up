@@ -23,11 +23,9 @@ class CRUD:
     def store(orm: ORM):
         try:
             response = CRUD.client.submit(
-                Request(method="POST", url=orm.route, json=orm.json))
+                Request(method="POST", url=orm.route, json=orm.serialize()))
 
-            orm.id = response.json().get("id")
-            orm.json = response.json()
-
+            orm.deserialize(response)
         except HTTPException as e:
             traceback.print_exc()
             response = e.response
@@ -40,7 +38,7 @@ class CRUD:
         try:
             response = CRUD.client.submit(
                 Request(method="GET", url=f"{orm.route}/{orm.id}"))
-            orm.json = response.json()
+            orm.deserialize(response)
         except HTTPException as e:
             traceback.print_exc()
             response = e.response
@@ -53,6 +51,8 @@ class CRUD:
         try:
             response = CRUD.client.submit(
                 Request(method="PUT", url=f"{orm.route}/{orm.id}", json=orm.json))
+
+            orm.deserialize(response)
         except HTTPException as e:
             traceback.print_exc()
             response = e.response
@@ -64,8 +64,8 @@ class CRUD:
         try:
             response = CRUD.client.submit(
                 Request(method="DELETE", url=f"{orm.route}/{orm.id}"))
-            orm.json = dict()
             orm.id = None
+
         except HTTPException as e:
             response = e.response
             traceback.print_exc()

@@ -1,5 +1,6 @@
 from pt_pump_up_orms.ORM import ORM
 from pt_pump_up_orms.orms import Dataset
+from requests import Response
 
 
 class Result(ORM):
@@ -12,10 +13,30 @@ class Result(ORM):
                  test_dataset: Dataset = None,
                  ) -> None:
 
-        super().__init__("result",
-                         id=id,
-                         metric=metric,
-                         value=value,
-                         train_dataset_id=train_dataset.id if train_dataset else None,
-                         validation_dataset_id=validation_dataset.id if validation_dataset else None,
-                         test_dataset_id=test_dataset.id if test_dataset else None)
+        super().__init__(id, "result")
+
+        self.metric = metric
+        self.value = value
+        self.train_dataset = train_dataset
+        self.validation_dataset = validation_dataset
+        self.test_dataset = test_dataset
+
+    def serialize(self) -> dict:
+        return {
+            "id": self._id,
+            "metric": self.metric,
+            "value": self.value,
+            "train_dataset": self.train_dataset.serialize() if self.train_dataset else None,
+            "validation_dataset": self.validation_dataset.serialize() if self.validation_dataset else None,
+            "test_dataset": self.test_dataset.serialize() if self.test_dataset else None
+        }
+
+    def deserialize(self, response: Response):
+        self._id = response.json().get("id")
+        self.metric = response.json().get("metric")
+        self.value = response.json().get("value")
+        self.train_dataset = Dataset().deserialize(
+            response.json().get("train_dataset"))
+        self.validation_dataset = Dataset().deserialize(
+            response.json().get("validation_dataset"))
+        self.test_dataset = Dataset().deserialize(response.json().get("test_dataset"))

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pt_pump_up_orms"
-version = "0.0.8"
+version = "0.0.12"
 description = "ORMs to interact with PT-Pump-Up Platform"
 readme = "README.md"
 authors = [

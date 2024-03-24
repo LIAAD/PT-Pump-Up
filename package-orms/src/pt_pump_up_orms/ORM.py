@@ -1,27 +1,26 @@
-from abc import ABC
-
+from abc import ABC, abstractmethod
+from requests import Response
 
 class ORM(ABC):
-    def __init__(self, route, **kwargs) -> None:
+    def __init__(self, id, route) -> None:
         super().__init__()
 
-        self._id = None
-        self._json = dict()
+        self._id = id
         self._route = route.replace("/", "")
 
-        self.bootstrap(kwargs)
+    @abstractmethod
+    def serialize(self):
+        raise NotImplementedError
 
-    def bootstrap(self, kwargs):
-        for key, value in kwargs.items():
-            if key == "id":
-                self._id = value
-            elif value is not None:
-                self._json[key] = value
-
-    # Getters and Setters
+    @abstractmethod
+    def deserialize(self, response: Response):
+        raise NotImplementedError
 
     @property
     def id(self):
+        if self._id is None:
+            raise ValueError("ID is None")
+
         return self._id
 
     # Avoid numpy 64-bit integer that are not JSON serializable
@@ -31,20 +30,6 @@ class ORM(ABC):
             self._id = int(value)
         else:
             self._id = None
-
-    @property
-    def json(self):
-        if not self._json and self._id is not None:
-            print(f"JSON is empty, fetching from server with id{self._id}")
-            self.show()
-        elif not self._json and self._id is None:
-            raise ValueError(f"JSON is empty and id is None")
-
-        return self._json
-
-    @json.setter
-    def json(self, value):
-        self._json = value
 
     @property
     def route(self):

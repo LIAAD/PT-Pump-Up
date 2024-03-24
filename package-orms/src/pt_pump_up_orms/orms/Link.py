@@ -1,4 +1,5 @@
 from pt_pump_up_orms import ORM
+from requests import Response
 
 
 class Link(ORM):
@@ -11,29 +12,31 @@ class Link(ORM):
                  papers_with_code_url: str = None,
                  paper_url: str = None) -> None:
 
-        super().__init__("link",
-                         id=id,
-                         email=email,
-                         website=website,
-                         github_url=github_url,
-                         hugging_face_url=hugging_face_url,
-                         papers_with_code_url=papers_with_code_url,
-                         paper_url=paper_url)
+        super().__init__(id, "link")
 
-        self._email = email
-        self._website = website
-        self._github_url = github_url
-        self._hugging_face_url = hugging_face_url
-        self._papers_with_code_url = papers_with_code_url
-        self._paper_url = paper_url
+        self.email = email
+        self.website = website
+        self.github_url = github_url
+        self.hugging_face_url = hugging_face_url
+        self.papers_with_code_url = papers_with_code_url
+        self.paper_url = paper_url
 
-    @property
-    def papers_with_code_url(self):
-        if self._papers_with_code_url is None:
-            raise Exception("Papers with Code URL is not set")
+    def serialize(self) -> dict:
+        return {
+            "id": self._id,
+            "email": self.email,
+            "website": self.website,
+            "github_url": self.github_url,
+            "hugging_face_url": self.hugging_face_url,
+            "papers_with_code_url": self.papers_with_code_url,
+            "paper_url": self.paper_url
+        }
 
-        return self._papers_with_code_url
-
-    @papers_with_code_url.setter
-    def papers_with_code_url(self, papers_with_code_url):
-        self._papers_with_code_url = papers_with_code_url
+    def deserialize(self, response: Response):
+        self._id = response.json().get("id")
+        self.email = response.json().get("email")
+        self.website = response.json().get("website")
+        self.github_url = response.json().get("github_url")
+        self.hugging_face_url = response.json().get("hugging_face_url")
+        self.papers_with_code_url = response.json().get("papers_with_code_url")
+        self.paper_url = response.json().get("paper_url")        

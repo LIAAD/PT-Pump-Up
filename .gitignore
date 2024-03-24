@@ -23,3 +23,4 @@ web/.blueprint
 
 package-admin/.vscode/
 package-admin/tests/crawlers/data/papers_with_code_tasks.json
+package-orms/src/pt_pump_up_orms.egg-info/PKG-INFO
