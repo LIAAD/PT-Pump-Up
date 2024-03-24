@@ -30,6 +30,8 @@ dependencies = [
     "pt-pump-up-orms>=0.0.8",
     "flask>=3.0.2",
     "Flask-Cors>=4.0.0",
+    "datasets>=2.18.0",
+    "transformers>=4.39.1",
 ]
 
 [tool.setuptools.packages.find]
