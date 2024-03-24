@@ -12,12 +12,13 @@ models:
     short_name: string unique
     full_name: string nullable unique
     description: longtext nullable
-    standard_format: string
-
-    papers_with_code_ids: json
+    standard_format: string nullable
+        
+    papers_with_code_id: integer
 
     relationships:
       belongsToMany: Dataset, MachineLearningModel
+      belongsTo: Link
 
   Dataset:
     short_name: string unique

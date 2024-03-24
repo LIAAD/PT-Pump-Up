@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('short_name')->unique();
             $table->string('full_name')->nullable()->unique();
             $table->longText('description')->nullable();
-            $table->string('standard_format');
-            $table->json('papers_with_code_ids');
+            $table->string('standard_format')->nullable();
+            $table->integer('papers_with_code_id');
+            $table->foreignId('link_id');
             $table->timestamps();
         });
     }

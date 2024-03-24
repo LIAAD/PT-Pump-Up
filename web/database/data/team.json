@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Rúben Almeida",
+        "email": "ruben.f.almeida@inesctec.pt",
+        "linkedin": "https://www.linkedin.com/in/almeida-ruben/",
+        "github": "https://github.com/arubenruben",
+        "huggingface": "https://huggingface.co/arubenruben",
+        "role": "admin",
+        "photo": "ruben.png"
+    },
+    {
+        "name": "Sérgio Nunes",
+        "email": "sergio.nunes@inesctec.pt",
+        "role": "admin",
+        "photo": "sergio.jpg"
+    },
+    {
+        "name": "Alípio Jorge",
+        "email": "alipio.jorge@inesctec.pt",
+        "role": "admin",
+        "photo": "alipio.png"
+    },
+    {
+        "name": "Ricardo Campos",
+        "email": "ricardo.campos@inesctec.pt",
+        "role": "admin",
+        "photo": "ricardo.jpg"
+    }
+]

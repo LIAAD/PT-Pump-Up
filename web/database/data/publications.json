@@ -1,0 +1,8 @@
+[
+    {
+        "bibtex": "@article{de2023building,title={Building portuguese language resources for natural language processing tasks}, author={de Almeida, Rúben Filipe Seabra}, year={2023}, note={Master Thesis}}"
+    },
+    {
+        "bibtex": "@article{almeida2024indexing, title={Indexing Portuguese NLP Resources with PT-Pump-Up}, author={Almeida, Rúben and Campos, Ricardo and Jorge, Alípio and Nunes, Sérgio}, journal={arXiv preprint arXiv:2401.15400}, year={2024}}"
+    }
+]

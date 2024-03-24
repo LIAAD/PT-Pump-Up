@@ -1,0 +1,98 @@
+[
+    {
+        "short_name": "LID",
+        "full_name": "Language Identification",
+        "description": "Language identification is the task of determining the language of a text.",
+        "standard_format": "Text Classification",
+        "papers_with_code_id": 427,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/language-identification"
+    },
+    {
+        "short_name": "MT",
+        "full_name": "Machine Translation",
+        "description": "Machine translationis the task of translating a sentence in a source language to a different target language.Approaches for machine translation can range from rule-based to statistical to neural-based. More recently, encoder-decoder attention-based architectures like BERT have attained major improvements in machine translation.One of the most popular datasets used to benchmark machine translation systems is the WMT family of datasets. Some of the most commonly used evaluation metrics for machine translation systems include BLEU, METEOR, NIST, and others.( Image credit:Google seq2seq)",
+        "standard_format": "Translation",
+        "papers_with_code_id": 257,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/machine-translation"
+    },
+    {
+        "short_name": "NER",
+        "full_name": "Named Entity Recognition (NER)",
+        "description": "Named Entity Recognition (NER)is a task of Natural Language Processing (NLP) that involves identifying and classifying named entities in a text into predefined categories such as person names, organizations, locations, and others. The goal of NER is to extract structured information from unstructured text data and represent it in a machine-readable format. Approaches typically use BIO notation, which differentiates the beginning (B) and the inside (I) of entities. O is used for non-entity tokens.Example:MarkWatneyvisitedMarsB-PERI-PEROB-LOC( Image credit:Zalando)",
+        "standard_format": "Token Classification",
+        "papers_with_code_id": 8,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/named-entity-recognition-ner"
+    },
+    {
+        "short_name": "POS Tagging",
+        "full_name": "Part-Of-Speech Tagging",
+        "description": "Part-of-speech tagging (POS tagging) is the task of tagging a word in a text with its part of speech.\nA part of speech is a category of words with similar grammatical properties. Common English\nparts of speech are noun, verb, adjective, adverb, pronoun, preposition, conjunction, etc.Example:Vinken,61yearsoldNNP,CDNNSJJ",
+        "standard_format": "Token Classification",
+        "papers_with_code_id": 55,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/part-of-speech-tagging"
+    },
+    {
+        "short_name": "RE",
+        "full_name": "Relation Extraction",
+        "description": "Relation Extractionis the task of predicting attributes and relations for entities in a sentence. For example, given a sentence “Barack Obama was born in Honolulu, Hawaii.”, a relation classifier aims at predicting the relation of “bornInCity”. Relation Extraction is the key component for building relation knowledge graphs, and it is of crucial significance to natural language processing applications such as structured search, sentiment analysis, question answering, and summarization.Source:Deep Residual Learning for Weakly-Supervised Relation Extraction",
+        "standard_format": null,
+        "papers_with_code_id": 375,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/relation-extraction"
+    },
+    {
+        "short_name": "NLI",
+        "full_name": "Native Language Identification",
+        "description": "Native Language Identification (NLI) is the task of determining an author's native language (L1) based only on their writings in a second language (L2).",
+        "standard_format": "Text Classification",
+        "papers_with_code_id": 1818,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/native-language-identification"
+    },
+    {
+        "short_name": "AM",
+        "full_name": "Argument Mining",
+        "description": "Argument Miningis a field of corpus-based discourse analysis that involves the automatic identification of argumentative structures in text.Source:AMPERSAND: Argument Mining for PERSuAsive oNline Discussions",
+        "standard_format": null,
+        "papers_with_code_id": 79,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/argument-mining"
+    },
+    {
+        "short_name": "ATS",
+        "full_name": "Abstractive Text Summarization",
+        "description": "Abstractive Text Summarizationis the task of generating a short and concise summary that captures the salient ideas of the source text. The generated summaries potentially contain new phrases and sentences that may not appear in the source text.Source:Generative Adversarial Network for Abstractive Text SummarizationImage credit:Abstractive Text Summarization using Sequence-to-sequence RNNs and Beyond",
+        "standard_format": "Summarization",
+        "papers_with_code_id": 862,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/abstractive-text-summarization"
+    },
+    {
+        "short_name": "SRL",
+        "full_name": "Semantic Role Labeling",
+        "description": "Semantic role labeling aims to model the predicate-argument structure of a sentence\nand is often described as answering \"Who did what to whom\". BIO notation is typically\nused for semantic role labeling.Example:HousingstartsareexpectedtoquickenabitfromAugust’spaceB-ARG1I-ARG1OOOVB-ARG2I-ARG2B-ARG3I-ARG3I-ARG3",
+        "standard_format": "Token Classification",
+        "papers_with_code_id": 396,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/semantic-role-labeling"
+    },
+    {
+        "short_name": "TIE",
+        "full_name": "Temporal Information Extraction",
+        "description": "Temporal information extraction is the identification of chunks/tokens corresponding to temporal intervals, and the extraction and determination of the temporal relations between those. The entities extracted may be temporal expressions (timexes), eventualities (events), or auxiliary signals that support the interpretation of an entity or relation. Relations may be temporal links (tlinks), describing the order of events and times, or subordinate links (slinks) describing modality and other subordinative activity, or aspectual links (alinks) around the various influences aspectuality has on event structure. The markup scheme used for temporal information extraction is well-described in the ISO-TimeML standard, and also on www.timeml.org.",
+        "standard_format": null,
+        "papers_with_code_id": 371,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/temporal-information-extraction"
+    },
+    {
+        "short_name": "ETS",
+        "full_name": "Extractive Text Summarization",
+        "description": "Given a document, selecting a subset of the words or sentences which best represents a summary of the document.",
+        "standard_format": "Summarization",
+        "papers_with_code_id": 853,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/extractive-document-summarization"
+    },
+    {
+        "short_name": "QA",
+        "full_name": "Question Answering",
+        "description": "Question Answeringis the task of answering questions (typically reading comprehension questions), but abstaining when presented with a question that cannot be answered based on the provided context.Question answering can be segmented into domain-specific tasks like community question answering and knowledge-base question answering. Popular benchmark datasets for evaluation question answering systems includeSQuAD,HotPotQA,bAbI,TriviaQA,WikiQA, and many others. Models for question answering are typically evaluated on metrics like EM and F1. Some recent top performing models are T5 and XLNet.( Image credit:SQuAD)",
+        "standard_format": "Question Answering",
+        "papers_with_code_id": 9,
+        "papers_with_code_url": "https:\/\/paperswithcode.com\/task\/question-answering"
+    }
+]
