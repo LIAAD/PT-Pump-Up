@@ -1,5 +1,4 @@
-from pt_pump_up_orms.ORM import ORM
-from pt_pump_up_orms.orms import Dataset
+from pt_pump_up_orms import ORM
 from requests import Response
 
 
@@ -8,9 +7,9 @@ class Result(ORM):
                  id: int = None,
                  metric: str = None,
                  value: float = None,
-                 train_dataset: Dataset = None,
-                 validation_dataset: Dataset = None,
-                 test_dataset: Dataset = None,
+                 train_dataset=None,
+                 validation_dataset=None,
+                 test_dataset=None,
                  ) -> None:
 
         super().__init__(id, "result")
@@ -35,8 +34,9 @@ class Result(ORM):
         self._id = response.json().get("id")
         self.metric = response.json().get("metric")
         self.value = response.json().get("value")
-        self.train_dataset = Dataset().deserialize(
+        self.train_dataset = self.train_dataset.deserialize(
             response.json().get("train_dataset"))
-        self.validation_dataset = Dataset().deserialize(
+        self.validation_dataset = self.validation_dataset.deserialize(
             response.json().get("validation_dataset"))
-        self.test_dataset = Dataset().deserialize(response.json().get("test_dataset"))
+        self.test_dataset = self.test_dataset.deserialize(
+            response.json().get("test_dataset"))

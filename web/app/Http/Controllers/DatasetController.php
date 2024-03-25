@@ -49,40 +49,46 @@ class DatasetController extends Controller
         DB::beginTransaction();
 
         $validated = $request->validated();
-        
-        try {          
-            $link = Link::create($validated['link']);        
-            $validated['link_id'] = $link->id;
+        try{
 
-            $resource_stats = ResourceStats::create($validated['resource_stats']);
-            $validated['resource_stats_id'] = $resource_stats->id;
-            
-            $dataset = Dataset::create($validated);
+            $dataset = new Dataset([
+                'short_name' => $validated['short_name'],
+                'full_name' => $validated['full_name'],
+                'description' => $validated['description'],
+                'year' => $validated['year'],
+            ]);
 
-            StoreResourceTrait::create_authors($dataset, $validated['author_emails']);
-            StoreResourceTrait::create_nlp_tasks($dataset, $validated['nlp_tasks_short_names']);
-            
+            if ($request->has('link')) {
+                $link = Link::create($validated['link']);
+                $dataset->link()->associate($link);
+            }
+
+            if ($request->has('resource_stats')) {
+                $resource_stats = ResourceStats::create($validated['resource_stats']);
+                $dataset->resourceStats()->associate($resource_stats);
+            }
+
             $dataset->save();
+            
+            foreach ($validated['authors'] as $author) 
+                $dataset->authors()->attach(Author::findOrFail($author['id']));
+            
+            foreach ($validated['nlp_tasks'] as $nlp_task)
+                $dataset->nlpTasks()->attach(NlpTask::findOrFail($nlp_task['id']));
         
             DB::commit();
 
-            $dataset = Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])
-                            ->where('id', $dataset->id)
-                            ->first();
+            return response()->json(Dataset::with(['authors', 'link', 'resourceStats', 'nlpTasks'])->findOrFail($dataset->id), 201);
 
-            return response()->json($dataset, 201);
-
-        }
-        catch (\Throwable $th) {
-            DB::rollBack();
-            throw $th;
-        }
-        catch (\Exception $e) {
+        }catch(\Exception $e){
             DB::rollBack();
             throw $e;
-        }
+        }catch(\Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }         
 
-        abort(500, 'An error occurred while trying to store the dataset');
+        return response()->json($e, 500);
     }
 
     /**

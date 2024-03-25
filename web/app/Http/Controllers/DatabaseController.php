@@ -12,7 +12,7 @@ class DatabaseController extends Controller
     public function destroy(DestroyDatabaseRequest $request)
     {
         $request->validated();
-        Artisan::call('migrate:fresh --seed');
+        Artisan::call('migrate:fresh');
         return response()->json(['message' => 'Database erased and reseeded!']);
     }
 }

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from pt_pump_up_orms.orms import Dataset
+from pt_pump_up_orms import Dataset
 import requests
 from pt_pump_up_admin.integration import P
 from datasets import load_dataset

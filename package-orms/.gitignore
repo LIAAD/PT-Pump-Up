@@ -1,8 +1,3 @@
-publish.sh
-*.log
-
-older/*
-
 # Created by https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,visualstudiocode
 
@@ -196,7 +191,5 @@ pyrightconfig.json
 # Ignore all local history of files
 .history
 .ionide
-
-thrash/*
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode

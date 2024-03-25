@@ -2,6 +2,7 @@ import pytest
 from pt_pump_up_orms import Dataset
 from pt_pump_up_orms import Link
 from tests.lib.resources import fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks
+from tests.lib.utils import fixture_erase_database
 from pt_pump_up_admin import CRUD
 
 
@@ -18,7 +19,7 @@ def fixture_create_dataset_link():
     return link
 
 
-def test_dataset_store(fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks, fixture_create_dataset_link):
+def test_dataset_store(fixture_erase_database, fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks, fixture_create_dataset_link):
 
     dataset = Dataset(short_name="Propbank-BR",
                       description="Propbank-BR is a corpus of Brazilian Portuguese annotated with semantic roles.",

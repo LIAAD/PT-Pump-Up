@@ -9,7 +9,8 @@ class NLPTask(ORM):
                  full_name: str = None,
                  standard_format: str = None,
                  description: str = None,
-                 papers_with_code_ids: list = None) -> None:
+                 papers_with_code_id: int = None,
+                 link=None) -> None:
 
         super().__init__(id, "nlp-task")
 
@@ -17,7 +18,8 @@ class NLPTask(ORM):
         self.full_name = full_name
         self.standard_format = standard_format
         self.description = description
-        self.papers_with_code_ids = papers_with_code_ids
+        self.papers_with_code_id = papers_with_code_id
+        self.link = link
 
     def serialize(self) -> dict:
         return {
@@ -26,7 +28,8 @@ class NLPTask(ORM):
             "full_name": self.full_name,
             "standard_format": self.standard_format,
             "description": self.description,
-            "papers_with_code_ids": self.papers_with_code_ids
+            "papers_with_code_id": self.papers_with_code_id,
+            "link": self.link.serialize() if self.link else None
         }
 
     def deserialize(self, response: Response):
@@ -35,4 +38,5 @@ class NLPTask(ORM):
         self.full_name = response.json().get("full_name")
         self.standard_format = response.json().get("standard_format")
         self.description = response.json().get("description")
-        self.papers_with_code_ids = response.json().get("papers_with_code_ids")
+        self.papers_with_code_id = response.json().get("papers_with_code_id")
+        self.link = self.link.deserialize(response.json().get("link"))

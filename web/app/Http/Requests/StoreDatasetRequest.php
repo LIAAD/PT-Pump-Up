@@ -45,13 +45,16 @@ class StoreDatasetRequest extends FormRequest
                 'year' => ['required', 'integer'],
         
                 'link' => ['required', 'array'],
-                'resource_stats' => ['required', 'array'],          
+                'resource_stats' => ['required', 'array'],
                 
-                'author_emails' => ['required', 'nullable', 'array'],
-                'author_emails.*' => ['required', 'email', 'exists:links,email'],
+                'authors' => ['required', 'array'],
+                'authors.*.id' => ['required', 'integer', 'exists:authors,id'],
+                'authors.*.link' => ['required', 'array'],
+                'authors.*.link.email' => ['required', 'email', 'exists:links,email'],
 
-                'nlp_tasks_short_names' => ['required', 'array'],
-                'nlp_tasks_short_names.*' => ['required', 'string', 'exists:nlp_tasks,short_name'],
+                'nlp_tasks' => ['required', 'array'],
+                'nlp_tasks.*.id' => ['required', 'integer', 'exists:nlp_tasks,id'],
+                'nlp_tasks.*.short_name' => ['required', 'string', 'exists:nlp_tasks,short_name'],
             ],            
             $link_rules,
             $resource_stats_rules     

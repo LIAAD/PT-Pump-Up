@@ -1,5 +1,4 @@
 from pt_pump_up_orms import ORM
-from pt_pump_up_orms.orms import Link, ResourceStats, Author, NLPTask, Result
 from requests import Response
 
 
@@ -12,8 +11,8 @@ class Model(ORM):
                  year: int = None,
                  authors: list = None,
                  nlp_tasks: list = None,
-                 link: Link = None,
-                 resource_stats: ResourceStats = None,
+                 link=None,
+                 resource_stats=None,
                  results: list = None) -> None:
 
         super().__init__(id, 'machine-learning-model')
@@ -49,16 +48,16 @@ class Model(ORM):
         self.description = response.json().get("description")
         self.year = response.json().get("year")
 
-        self.authors = [Author().deserialize(author)
+        self.authors = [author.deserialize(author)
                         for author in response.json().get("authors")]
 
-        self.nlp_tasks = [NLPTask().deserialize(nlp_task)
+        self.nlp_tasks = [nlp_task.deserialize(nlp_task)
                           for nlp_task in response.json().get("nlp_tasks")]
 
-        self.link = Link().deserialize(response.json().get("link"))
+        self.link = self.link.deserialize(response.json().get("link"))
 
-        self.resource_stats = ResourceStats().deserialize(
+        self.resource_stats = self.resource_stats.deserialize(
             response.json().get("resource_stats"))
 
-        self.results = [Result().deserialize(result)
+        self.results = [result.deserialize(result)
                         for result in response.json().get("results")]

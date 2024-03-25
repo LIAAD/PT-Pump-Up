@@ -1,6 +1,5 @@
 from requests import Response
 from pt_pump_up_orms import ORM
-from pt_pump_up_orms.orms import Link
 
 
 class Author(ORM):
@@ -8,7 +7,7 @@ class Author(ORM):
                  id: int = None,
                  name: str = None,
                  institution: str = None,
-                 link: Link = None) -> None:
+                 link=None) -> None:
 
         super().__init__(id, "author")
 
@@ -28,4 +27,4 @@ class Author(ORM):
         self._id = response.json().get("id")
         self.name = response.json().get("name")
         self.institution = response.json().get("institution")
-        self.link = Link().deserialize(response.json().get("link"))
+        self.link = self.link.deserialize(response.json().get("link"))

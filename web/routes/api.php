@@ -10,6 +10,7 @@ use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\MachineLearningModelController;
 use App\Http\Controllers\NLPTaskController;
 use App\Http\Controllers\ResourceStatsController;
+use App\Http\Controllers\DatabaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +37,4 @@ Route::apiResource('dataset', DatasetController::class);
 Route::apiResource('machine-learning-model', MachineLearningModelController::class);
 Route::apiResource('nlp-task', NLPTaskController::class);
 Route::apiResource('resource-stats', ResourceStatsController::class);
-Route::apiResource('database', DatabaseController::class)->only('destroy');
+Route::delete('database', [DatabaseController::class, 'destroy'])->name('database.destroy');

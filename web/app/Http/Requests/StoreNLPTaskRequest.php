@@ -22,13 +22,14 @@ class StoreNLPTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'short_name' => ['required', 'string'],
-            'full_name' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-            'standard_format' => ['required', 'string'],
-            
-            'papers_with_code_ids' => ['required', 'array'],
-            'papers_with_code_ids.*' => ['integer'],
+            'short_name' => ['required', 'string']
+            #'short_name' => ['required', 'string'],
+            #'full_name' => ['nullable', 'string'],
+            #'description' => ['nullable', 'string'],
+            #'standard_format' => ['required', 'string'],
+            #'papers_with_code_id' => ['nullable', 'integer'],
+            #'link' => ['nullable', 'array'],
+            #'link.papers_with_code' => ['nullable', 'string'],
         ];
     }
 }
