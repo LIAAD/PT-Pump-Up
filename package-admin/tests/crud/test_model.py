@@ -7,18 +7,20 @@ from pt_pump_up_orms import Result
 from pt_pump_up_orms import Author
 from pt_pump_up_orms import Dataset
 from tests.lib.resources import fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks
+from tests.lib.utils import fixture_erase_database
 from pt_pump_up_admin import CRUD
 
 
 @pytest.fixture
 def fixture_create_datasets_for_benchmarks():
     link = Link(website="https://www.kaggle.com/c/nlp-getting-started/data",
-                email="ruben.f.almeida@inesctec.pt")
+                email="ruben.f.almeida1@inesctec.pt")
+
     author = Author(name="John Doe",
                     institution="University of California", link=link)
 
-    nlp_tasks = [NLPTask(short_name="nlp_task_1", papers_with_code_ids=[
-                         1, 2, 3, 4, 5], standard_format="BIO-Tagging")]
+    nlp_tasks = [NLPTask(short_name="nlp_task_1", papers_with_code_id=2, standard_format="BIO-Tagging",
+                         link=Link(papers_with_code_url="https://paperswithcode.com/task/nlp_task_1"))]
     CRUD.store(author)
     CRUD.store(nlp_tasks[0])
 
@@ -58,7 +60,7 @@ def fixture_create_datasets_for_benchmarks():
     for dataset in [dataset_1, dataset_2, dataset_3]:
         CRUD.store(dataset)
 
-    return [dataset_1.json['id'], dataset_2.json['id'], dataset_3.json['id']]
+    return [dataset_1, dataset_2, dataset_3]
 
 
 @pytest.fixture
@@ -67,17 +69,12 @@ def fixture_create_results(fixture_create_datasets_for_benchmarks):
     results = [Result(
         metric="F1",
         value=0.9,
-        train_dataset=Dataset(
-            id=fixture_create_datasets_for_benchmarks[0]),  # train_dataset=,
-        validation_dataset=Dataset(
-            id=fixture_create_datasets_for_benchmarks[1]),  # validation_dataset=,
-        test_dataset=Dataset(
-            id=fixture_create_datasets_for_benchmarks[2])  # test_dataset=
+        # train_dataset=,
+        train_dataset=fixture_create_datasets_for_benchmarks[0],
+        # validation_dataset=,
+        validation_dataset=fixture_create_datasets_for_benchmarks[1],
+        test_dataset=fixture_create_datasets_for_benchmarks[2]  # test_dataset=
     )]
-
-    CRUD.store(results[0])
-
-    results.append(results[0])
 
     return results
 
@@ -92,7 +89,7 @@ def fixture_create_model_link():
     return link
 
 
-def test_model_store(fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks, fixture_create_model_link, fixture_create_results):
+def test_model_store(fixture_erase_database, fixture_create_authors, fixture_create_resource_stats, fixture_create_nlp_tasks, fixture_create_model_link, fixture_create_results):
 
     authors = fixture_create_authors
     resource_stats = fixture_create_resource_stats

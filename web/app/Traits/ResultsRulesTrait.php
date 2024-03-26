@@ -14,9 +14,14 @@ trait ResultsRulesTrait
         return [
             'metric' => ['required', 'string'],
             'value' => ['required', 'numeric'],
-            'train_dataset_id' => ['required', 'integer', 'exists:datasets,id'],
-            'validation_dataset_id' => ['nullable', 'integer', 'exists:datasets,id'],
-            'test_dataset_id' => ['nullable', 'integer', 'exists:datasets,id'],
+            
+            'train_dataset'=> ['required', 'array'],
+            'validation_dataset'=> ['nullable', 'array'],
+            'test_dataset'=> ['required', 'array'],
+            
+            'train_dataset.id' => ['required', 'integer', 'exists:datasets,id'],
+            'validation_dataset.id' => ['required', 'integer', 'exists:datasets,id'],
+            'test_dataset.id' => ['required', 'integer', 'exists:datasets,id'],
         ];
     }
 }

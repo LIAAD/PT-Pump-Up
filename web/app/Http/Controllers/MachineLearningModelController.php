@@ -53,29 +53,53 @@ class MachineLearningModelController extends Controller
         $validated = $request->validated();
 
         try {
-            $link = Link::create($validated['link']);
-            $validated['link_id'] = $link->id;
-
-            $resource_stats = ResourceStats::create($validated['resource_stats']);
-            $validated['resource_stats_id'] = $resource_stats->id;
-
-            $machineLearningModel = MachineLearningModel::create($validated);
             
-            foreach($validated['results'] as $key => $result)
-                $machineLearningModel->results()->save(new Result($result));
-        
-            StoreResourceTrait::create_authors($machineLearningModel, $validated['author_emails']);
-            StoreResourceTrait::create_nlp_tasks($machineLearningModel, $validated['nlp_tasks_short_names']);
+            $link = Link::create($validated['link']);            
+            $resource_stats = ResourceStats::create($validated['resource_stats']);
+            
+            $machineLearningModel = MachineLearningModel::create([
+                'short_name' => $validated['short_name'],
+                'full_name' => $validated['full_name'],
+                'description' => $validated['description'],
+                'year' => $validated['year'],
+                'link_id' => $link->id,
+                'resource_stats_id' => $resource_stats->id,                         
+            ]);
 
+            
+            foreach($validated['results'] as $result){
+                
+                $new_result = new Result([
+                    'metric' => $result['metric'],
+                    'value' => $result['value'],                    
+                    'train_dataset_id' => $result['train_dataset']['id'],
+                    'test_dataset_id' => $result['test_dataset']['id'],
+                    'validation_dataset_id' => $result['validation_dataset']['id'] ?? null,
+                    'machine_learning_model_id' => $machineLearningModel->id
+                ]);
+                                
+                $new_result->save();
+            }
+                        
+            
+            foreach ($validated['authors'] as $value){
+                $author = Author::join('links', 'authors.link_id', '=', 'links.id')
+                    ->where('email', $value['link']['email'])
+                    ->firstOrFail();
+
+                $machineLearningModel->authors()->attach($author);
+            }              
+            
+            foreach ($validated['nlp_tasks'] as $value){
+                $nlp_task = NlpTask::where('short_name', $value['short_name'])->firstOrFail();
+                $machineLearningModel->nlpTasks()->attach($nlp_task);
+            }
+                        
             $machineLearningModel->save();            
             
             DB::commit();
             
-            $machineLearningModel = MachineLearningModel::with(['authors', 'link', 'resourceStats', 'nlpTasks'])
-                            ->where('id', $machineLearningModel->id)
-                            ->first();
-
-            return response()->json($machineLearningModel, 201);
+            return response()->json(MachineLearningModel::with(['authors', 'link', 'resourceStats', 'nlpTasks', 'results'])->findOrfail($machineLearningModel->id), 201);
 
         } catch (\Throwable $th) {
             DB::rollBack();

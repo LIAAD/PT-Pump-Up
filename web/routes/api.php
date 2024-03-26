@@ -11,6 +11,7 @@ use App\Http\Controllers\MachineLearningModelController;
 use App\Http\Controllers\NLPTaskController;
 use App\Http\Controllers\ResourceStatsController;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\ResultController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +32,11 @@ Route::get('/helloworld', function () {
     return response()->json(['message' => 'Hello World!']);
 });
 
+Route::delete('database', [DatabaseController::class, 'destroy'])->name('database.destroy');
+
 Route::apiResource('author', AuthorController::class);
 Route::apiResource('link', LinkController::class);
 Route::apiResource('dataset', DatasetController::class);
 Route::apiResource('machine-learning-model', MachineLearningModelController::class);
 Route::apiResource('nlp-task', NLPTaskController::class);
 Route::apiResource('resource-stats', ResourceStatsController::class);
-Route::delete('database', [DatabaseController::class, 'destroy'])->name('database.destroy');
