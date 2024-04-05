@@ -1,34 +1,31 @@
-import evaluate
-from transformers import DataCollatorForTokenClassification, AutoModelForTokenClassification
 from pt_pump_up.benchmarking.training_strategies import TrainingStrategy
+from transformers import AutoModelForTokenClassification, DataCollatorForTokenClassification
 from pt_pump_up.benchmarking.training_strategies.utils import align_labels_with_tokens
 import numpy as np
 
 
-class TokenClassificationStrategy(TrainingStrategy):
-    def __init__(self, model_name, task, label_names, label_all_tokens: bool = False) -> None:
-        super().__init__(model_name, label_names, "f1")
-
+class SemanticRoleLabellingStrategy(TrainingStrategy):
+    def __init__(self, model_name, label_names) -> None:
+        super().__init__(model_name, label_names, metric_for_best_model="f1")
         self.model = AutoModelForTokenClassification.from_pretrained(
             model_name, id2label=self.id2label, label2id=self.label2id)
-
         self.collator = DataCollatorForTokenClassification(
             tokenizer=self.tokenizer)
-        self.metric = evaluate.load("seqeval")
-        self.task = task
-        self.label_all_tokens = label_all_tokens
 
-    def prepare_data(self, examples):
-        tokenized_inputs = self.tokenizer(
-            examples["tokens"], truncation=True, is_split_into_words=True)
+    def prepare_data(self, examples):  
+        # examples["verb"] is a string, so we need to convert it to a list
+        examples["verb"] = [[verb] for verb in examples["verb"]]
 
-        all_labels = examples[f"{self.task.lower()}_tags"]
+        tokenized_inputs = self.tokenizer(examples["tokens"], examples["verb"], truncation=True, is_split_into_words=True)
+
+        all_labels = examples["frames"]
 
         new_labels = []
 
         for i, labels in enumerate(all_labels):
             word_ids = tokenized_inputs.word_ids(i)
-            new_labels.append(align_labels_with_tokens(labels, word_ids))
+            type_ids = tokenized_inputs[i].type_ids
+            new_labels.append(align_labels_with_tokens(labels, word_ids, type_ids))
 
         tokenized_inputs["labels"] = new_labels
 

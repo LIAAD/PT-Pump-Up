@@ -1,7 +1,7 @@
 import os
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 from pt_pump_up import PTPumpUpClient
-from pt_pump_up.benchmarking.training_strategies import TokenClassificationStrategy, TextClassificationStrategy
+from pt_pump_up.benchmarking.training_strategies import TokenClassificationStrategy, TextClassificationStrategy, SemanticRoleLabellingStrategy
 from pt_pump_up.benchmarking.callbacks import EvalLossCallback
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -19,7 +19,11 @@ class TrainerFactory:
         if nlp_task is None:
             raise Exception("NLP Task not found")
 
-        if nlp_task['standard_format'] == 'Token Classification':
+        # TODO: Note the 'short_name' is not the same as the 'standard_format'
+        if nlp_task['short_name'] == 'SRL':
+            strategy = SemanticRoleLabellingStrategy(model_name=model_name, label_names=train_dataset.features['frames'].feature.names)
+
+        elif nlp_task['standard_format'] == 'Token Classification':
             strategy = TokenClassificationStrategy(
                 model_name, nlp_task['short_name'].lower(), train_dataset.features[f"{nlp_task['short_name'].lower()}_tags"].feature.names)
 

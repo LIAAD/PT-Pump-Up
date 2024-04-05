@@ -3,7 +3,7 @@ from pt_pump_up.datasets.propbank_br import parser
 
 
 def test_parser():
-    dataset_dict = parser()
+    dataset_dict, _ = parser()
 
     assert dataset_dict['train'][0]['tokens'] == [
         'Brasília',
@@ -40,6 +40,12 @@ def test_parser():
         'Fernando_Henrique_Cardoso',
         '.',
     ]
+
+    for split in ['train', 'test']:
+        for example in dataset_dict[split]:
+            for i in range(len(example['srl_frames'])):
+                assert len(example['tokens']) == len(example['srl_frames'][i]['frames'])
+
 
     assert dataset_dict['train'][0]['srl_frames'] == [
         {
