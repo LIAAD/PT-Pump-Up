@@ -20,7 +20,10 @@ class TokenClassificationStrategy(TrainingStrategy):
 
     def prepare_data(self, examples):
         tokenized_inputs = self.tokenizer(
-            examples["tokens"], truncation=True, is_split_into_words=True)
+            examples["tokens"],
+            truncation=True,
+            is_split_into_words=True,
+            max_length=self.model.config.max_position_embeddings)
 
         all_labels = examples[f"{self.task.lower()}_tags"]
 
