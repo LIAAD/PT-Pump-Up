@@ -3,15 +3,23 @@ from pt_pump_up.benchmarking.training_strategies import TrainingStrategy
 from transformers import AutoModelForTokenClassification, DataCollatorForTokenClassification
 from pt_pump_up.benchmarking.training_strategies.utils import align_labels_with_tokens
 import numpy as np
+from transformers.pipelines import PIPELINE_REGISTRY
+from pt_pump_up.benchmarking.pipelines.srl import SRLPipeline
+from transformers import AutoModelForTokenClassification
+from transformers import pipeline
+from huggingface_hub import Repository
 
 
 class SemanticRoleLabellingStrategy(TrainingStrategy):
     def __init__(self, model_name, label_names) -> None:
         super().__init__(model_name, label_names, metric_for_best_model="f1")
+
         self.model = AutoModelForTokenClassification.from_pretrained(
-            model_name, id2label=self.id2label, label2id=self.label2id)
+            model_name, id2label=self.id2label, label2id=self.label2id, num_labels=len(self.label_names))
+
         self.collator = DataCollatorForTokenClassification(
             tokenizer=self.tokenizer)
+
         self.metric = evaluate.load("seqeval")
 
     def prepare_data(self, examples):
@@ -26,19 +34,8 @@ class SemanticRoleLabellingStrategy(TrainingStrategy):
             max_length=self.model.config.max_position_embeddings
         )
 
-        all_labels = examples["frames"]
-
-        new_labels = []
-
-        for i, labels in enumerate(all_labels):
-            word_ids = tokenized_inputs.word_ids(i)
-            type_ids = tokenized_inputs[i].type_ids
-            new_labels.append(align_labels_with_tokens(
-                labels, word_ids, type_ids))
-
-        tokenized_inputs["labels"] = new_labels
-
-        return tokenized_inputs
+        return align_labels_with_tokens(
+            tokenized_inputs, examples["frames"])
 
     def compute_metrics(self, eval_pred):
         logits, labels = eval_pred
@@ -63,3 +60,18 @@ class SemanticRoleLabellingStrategy(TrainingStrategy):
             "f1": all_metrics["overall_f1"],
             "accuracy": all_metrics["overall_accuracy"],
         }
+
+    @staticmethod
+    def create_pipeline(model_name, hf_repo, model):
+        PIPELINE_REGISTRY.register_pipeline(
+            "srl",
+            pipeline_class=SRLPipeline,
+            pt_model=AutoModelForTokenClassification
+        )
+        pipe = pipeline("srl", model=model, tokenizer=model_name)
+
+        repo = Repository(f"srl-pipeline-{model_name}", clone_from=hf_repo)
+
+        pipe.save_pretrained(f"srl-pipeline-{model_name}")
+
+        repo.push_to_hub()
