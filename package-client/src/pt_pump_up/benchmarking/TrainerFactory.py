@@ -1,7 +1,7 @@
 import os
 from transformers import Trainer, TrainingArguments, EarlyStoppingCallback
 from pt_pump_up import PTPumpUpClient
-from pt_pump_up.benchmarking.training_strategies import TokenClassificationStrategy, TextClassificationStrategy, SemanticRoleLabellingStrategy
+from pt_pump_up.benchmarking.training_strategies import TokenClassificationStrategy, TextClassificationStrategy, SemanticRoleLabellingStrategy, QuestionAnsweringStrategy
 from pt_pump_up.benchmarking.callbacks import EvalLossCallback
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -12,16 +12,22 @@ class TrainerFactory:
     def create(nlp_task: str, repository_name: str, model_name: str, lr: float, max_epochs: int, train_dataset, eval_dataset=None):
         strategy = None
         nlp_tasks = PTPumpUpClient().all_nlp_tasks()
+        
+        # TODO: Another hotfix to support QA
+        if nlp_task == "Question Answering":
+            nlp_task = {"standard_format": "Question Answering",
+                        "short_name": "QA"}
+        else:
+            nlp_task = nlp_tasks[nlp_tasks['short_name'] == nlp_task].to_dict('records')[
+                0]
 
-        nlp_task = nlp_tasks[nlp_tasks['short_name'] == nlp_task].to_dict('records')[
-            0]
-
-        if nlp_task is None:
-            raise Exception("NLP Task not found")
+            if nlp_task is None:
+                raise Exception("NLP Task not found")
 
         # TODO: Note the 'short_name' is not the same as the 'standard_format'
         if nlp_task['short_name'] == 'SRL':
-            strategy = SemanticRoleLabellingStrategy(model_name=model_name, label_names=train_dataset.features['frames'].feature.names)
+            strategy = SemanticRoleLabellingStrategy(
+                model_name=model_name, label_names=train_dataset.features['frames'].feature.names)
 
         elif nlp_task['standard_format'] == 'Token Classification':
             strategy = TokenClassificationStrategy(
@@ -34,7 +40,7 @@ class TrainerFactory:
                 model_name, ['PT-PT', 'PT-BR'])
 
         elif nlp_task['standard_format'] == 'Question Answering':
-            raise Exception("Not implemented")
+            strategy = QuestionAnsweringStrategy(model_name)
         elif nlp_task['standard_format'] == 'Summarization':
             raise Exception("Not implemented")
         elif nlp_task['standard_format'] == 'Translation':

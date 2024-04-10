@@ -13,11 +13,12 @@ class TrainingStrategy(ABC):
         self._label_names = label_names
         self._metric_for_best_model = metric_for_best_model
 
-        self.id2label = {i: label for i, label in enumerate(label_names)}
-        self.label2id = {v: k for k, v in self.id2label.items()}
+        if label_names is not None:
+            self.id2label = {i: label for i, label in enumerate(label_names)}
+            self.label2id = {v: k for k, v in self.id2label.items()}
 
     @abstractmethod
-    def prepare_data(self, examples):
+    def prepare_data(self, examples, **kwargs):
         raise NotImplementedError
 
     @abstractmethod
@@ -79,9 +80,6 @@ class TrainingStrategy(ABC):
 
     @property
     def metric_for_best_model(self):
-        if self._metric_for_best_model is None:
-            raise Exception("Metric for best model not set")
-
         return self._metric_for_best_model
 
     @metric_for_best_model.setter

@@ -6,8 +6,8 @@ import numpy as np
 
 
 class TokenClassificationStrategy(TrainingStrategy):
-    def __init__(self, model_name, task, label_names, label_all_tokens: bool = False) -> None:
-        super().__init__(model_name, label_names, "f1")
+    def __init__(self, model_name, task, label_names, label_all_tokens: bool = False, metric_for_best_model="f1") -> None:
+        super().__init__(model_name, label_names, metric_for_best_model=metric_for_best_model)
 
         self.model = AutoModelForTokenClassification.from_pretrained(
             model_name, id2label=self.id2label, label2id=self.label2id)

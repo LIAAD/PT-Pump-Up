@@ -11,8 +11,8 @@ from huggingface_hub import Repository
 
 
 class SemanticRoleLabellingStrategy(TrainingStrategy):
-    def __init__(self, model_name, label_names) -> None:
-        super().__init__(model_name, label_names, metric_for_best_model="f1")
+    def __init__(self, model_name, label_names, metric_for_best_model="f1") -> None:
+        super().__init__(model_name, label_names, metric_for_best_model=metric_for_best_model)
 
         self.model = AutoModelForTokenClassification.from_pretrained(
             model_name, id2label=self.id2label, label2id=self.label2id, num_labels=len(self.label_names))
@@ -22,7 +22,7 @@ class SemanticRoleLabellingStrategy(TrainingStrategy):
 
         self.metric = evaluate.load("seqeval")
 
-    def prepare_data(self, examples):
+    def prepare_data(self, examples, **kwargs):
         # examples["verb"] is a string, so we need to convert it to a list
         examples["verb"] = [[verb] for verb in examples["verb"]]
 
@@ -75,7 +75,7 @@ class SemanticRoleLabellingStrategy(TrainingStrategy):
         repo = Repository(f"srl-pipeline-{model_name}", clone_from=hf_repo)
 
         repo.git_pull(lfs=True)
-        
+
         pipe.save_pretrained(f"srl-pipeline-{model_name}")
 
         repo.push_to_hub(auto_lfs_prune=True)

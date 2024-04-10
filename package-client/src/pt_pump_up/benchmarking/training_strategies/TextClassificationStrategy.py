@@ -5,8 +5,8 @@ import numpy as np
 
 
 class TextClassificationStrategy(TrainingStrategy):
-    def __init__(self, model_name, label_names) -> None:
-        super().__init__(model_name, label_names, metric_for_best_model="f1")
+    def __init__(self, model_name, label_names, metric_for_best_model="f1") -> None:
+        super().__init__(model_name, label_names, metric_for_best_model=metric_for_best_model)
 
         self.model = AutoModelForSequenceClassification.from_pretrained(
             model_name, id2label=self.id2label, label2id=self.label2id)
@@ -18,7 +18,7 @@ class TextClassificationStrategy(TrainingStrategy):
         self.precision = evaluate.load("precision")
         self.recall = evaluate.load("recall")
 
-    def prepare_data(self, examples):
+    def prepare_data(self, examples, **kwargs):
         return self.tokenizer(examples["text"],
                               truncation=True,
                               padding="longest",
