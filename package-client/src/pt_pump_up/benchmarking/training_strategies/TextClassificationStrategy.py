@@ -21,7 +21,9 @@ class TextClassificationStrategy(TrainingStrategy):
     def prepare_data(self, examples):
         return self.tokenizer(examples["text"],
                               truncation=True,
-                              max_length=self.model.config.max_position_embeddings)
+                              padding="longest",
+                              max_length=self.model.config.max_position_embeddings,
+                              return_tensors="pt")
 
     def compute_metrics(self, eval_pred):
         predictions, labels = eval_pred

@@ -31,7 +31,9 @@ class SemanticRoleLabellingStrategy(TrainingStrategy):
             examples["verb"],
             truncation=True,
             is_split_into_words=True,
-            max_length=self.model.config.max_position_embeddings
+            padding="longest",
+            max_length=self.model.config.max_position_embeddings,
+            return_tensors="pt"
         )
 
         return align_labels_with_tokens(
@@ -72,6 +74,8 @@ class SemanticRoleLabellingStrategy(TrainingStrategy):
 
         repo = Repository(f"srl-pipeline-{model_name}", clone_from=hf_repo)
 
+        repo.git_pull(lfs=True)
+        
         pipe.save_pretrained(f"srl-pipeline-{model_name}")
 
-        repo.push_to_hub()
+        repo.push_to_hub(auto_lfs_prune=True)

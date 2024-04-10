@@ -23,7 +23,9 @@ class TokenClassificationStrategy(TrainingStrategy):
             examples["tokens"],
             truncation=True,
             is_split_into_words=True,
-            max_length=self.model.config.max_position_embeddings)
+            padding="longest",
+            max_length=self.model.config.max_position_embeddings,
+            return_tensors="pt")
 
         all_labels = examples[f"{self.task.lower()}_tags"]
 
