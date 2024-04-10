@@ -21,7 +21,7 @@ class QuestionAnsweringStrategy(TrainingStrategy):
             truncation="only_second",
             stride=stride,
             return_offsets_mapping=True,
-            padding="longest",
+            padding="max_length",
             max_length=self.model.config.max_position_embeddings,
         )
 
