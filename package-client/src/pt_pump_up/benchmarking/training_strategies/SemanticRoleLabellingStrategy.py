@@ -64,18 +64,16 @@ class SemanticRoleLabellingStrategy(TrainingStrategy):
         }
 
     @staticmethod
-    def create_pipeline(model_name, hf_repo, model):
+    def create_pipeline(hf_repo, model, tokenizer):
         PIPELINE_REGISTRY.register_pipeline(
             "srl",
             pipeline_class=SRLPipeline,
             pt_model=AutoModelForTokenClassification
         )
-        pipe = pipeline("srl", model=model, tokenizer=model_name)
+        pipe = pipeline("srl", model=model, tokenizer=tokenizer)
 
-        repo = Repository(f"srl-pipeline-{model_name}", clone_from=hf_repo)
+        repo = Repository(hf_repo, clone_from=hf_repo)
 
-        repo.git_pull(lfs=True)
-
-        pipe.save_pretrained(f"srl-pipeline-{model_name}")
+        pipe.save_pretrained(hf_repo)
 
         repo.push_to_hub(auto_lfs_prune=True)

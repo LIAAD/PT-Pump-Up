@@ -12,7 +12,7 @@ class TrainerFactory:
     def create(nlp_task: str, repository_name: str, model_name: str, lr: float, max_epochs: int, train_dataset, eval_dataset=None):
         strategy = None
         nlp_tasks = PTPumpUpClient().all_nlp_tasks()
-        
+
         # TODO: Another hotfix to support QA
         if nlp_task == "Question Answering":
             nlp_task = {"standard_format": "Question Answering",
@@ -64,6 +64,7 @@ class TrainerFactory:
             metric_for_best_model=strategy.metric_for_best_model,
             hub_model_id=repository_name,
             group_by_length=True,
+            predict_with_generate=True,
             save_total_limit=1,
             bf16=True,
             push_to_hub=True,

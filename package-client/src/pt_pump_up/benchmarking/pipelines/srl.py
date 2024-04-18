@@ -38,17 +38,7 @@ class SRLPipeline(Pipeline):
                     current_word = word_id
                     label = -100 if word_id is None else labels[word_id]
                     new_labels.append(label)
-                elif word_id is None:
-                    # Special token
-                    new_labels.append(-100)
                 else:
-                    """
-                    # Same word as previous token
-                    label = labels[word_id]
-                    # If the label is B-XXX we change it to I-XXX
-                    if label % 2 == 1:
-                        label += 1
-                    """
                     new_labels.append(-100)
 
             results.append(new_labels)
@@ -121,8 +111,10 @@ class SRLPipeline(Pipeline):
                 if label != -100:
                     true_predictions.append(self.label_names[prediction])
 
+            doc = self.nlp(self.text.strip())
+
             outputs.append({
-                "tokens": self.text.split(),
+                "tokens": [token.text for token in doc],
                 "predictions": true_predictions,
                 "verb": self.verbs[i]
             })
